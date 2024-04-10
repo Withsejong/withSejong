@@ -9,7 +9,7 @@ import com.withsejong.start.LoginStartPage
 
 
 class LostPasswordPage : AppCompatActivity() {
-    lateinit var binding: ActivityLostPasswordPageBinding
+    private lateinit var binding: ActivityLostPasswordPageBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,13 +23,6 @@ class LostPasswordPage : AppCompatActivity() {
             finish()
 
         }
-    }
-
-
-    override fun onStart() {
-        super.onStart()
-
-
     }
 
 }

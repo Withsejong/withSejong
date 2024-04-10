@@ -20,18 +20,9 @@ class AccountInPage : AppCompatActivity() {
         setContentView(binding.root)
 
         binding.btnNext.setOnClickListener {
-            val intent = Intent(this@AccountInPage, LoginStartPage::class.java)
+            val intent = Intent(this, LoginStartPage::class.java)
             startActivity(intent)
             finish()
-
         }
     }
-
-
-    override fun onStart() {
-        super.onStart()
-
-
-    }
-
 }

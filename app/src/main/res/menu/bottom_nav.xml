@@ -6,7 +6,7 @@
 
     <item
         android:title="홈"
-        android:id="@+id/exercise"
+        android:id="@+id/home"
         android:icon="@drawable/homeiconwhiteversion"/>
     <item
         android:title="지도"

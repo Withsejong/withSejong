@@ -26,10 +26,6 @@ class AccountPage : AppCompatActivity() {
     }
 
 
-    override fun onStart() {
-        super.onStart()
 
-
-    }
 
 }
