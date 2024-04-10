@@ -16,11 +16,6 @@ class AccountPage : AppCompatActivity() {
 
         binding = ActivityAccountPageBinding.inflate(layoutInflater)
         setContentView(binding.root)
-    }
-
-
-    override fun onStart() {
-        super.onStart()
 
         binding.btnAuth.setOnClickListener {
             val intent = Intent(this@AccountPage, AccountInPage::class.java)
@@ -28,6 +23,13 @@ class AccountPage : AppCompatActivity() {
             finish()
 
         }
+    }
+
+
+    override fun onStart() {
+        super.onStart()
+
+
     }
 
 }

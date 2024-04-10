@@ -23,6 +23,15 @@ class LoginStartPage : AppCompatActivity() {
 
         Log.d(TAG,"onCreate함수")
 
+        binding.btnStart.setOnClickListener {
+            val intent = Intent(this@LoginStartPage,LoginPage::class.java)
+
+            Log.d(TAG, "버튼 클릭됨")
+            startActivity(intent)
+            finish()
+
+        }
+
     }
 
 
@@ -32,14 +41,7 @@ class LoginStartPage : AppCompatActivity() {
 
 
 
-        binding.btnStart.setOnClickListener {
-            val intent = Intent(this@LoginStartPage,LoginPage::class.java)
 
-            Log.d(TAG, "버튼 클릭됨")
-            startActivity(intent)
-            finish()
-
-        }
 
 
 

@@ -1,17 +1,10 @@
 package com.withsejong
 
 import android.os.Bundle
+import android.widget.EditText
 import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.appcompat.widget.AppCompatButton
 import com.withsejong.databinding.MainActivityBinding
-import com.withsejong.ui.theme.WithSejongTheme
 
 class MainActivity : ComponentActivity() {
 
@@ -20,8 +13,13 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+
+
         binding=MainActivityBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+
+        }
     }
 
 
@@ -29,4 +27,4 @@ class MainActivity : ComponentActivity() {
 
 
 
-}
+

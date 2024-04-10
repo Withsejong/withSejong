@@ -22,14 +22,6 @@ class LoginChoicePage : AppCompatActivity() {
         setContentView(binding.root)
 
 
-    }
-
-
-
-
-    override fun onStart() {
-        super.onStart()
-
         binding.btnLogin.setOnClickListener {
             val intent = Intent(this@LoginChoicePage, LoginPage::class.java)
             startActivity(intent)
@@ -43,6 +35,16 @@ class LoginChoicePage : AppCompatActivity() {
             finish()
 
         }
+
+    }
+
+
+
+
+    override fun onStart() {
+        super.onStart()
+
+
 
 
 

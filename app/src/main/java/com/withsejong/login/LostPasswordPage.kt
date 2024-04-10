@@ -16,11 +16,6 @@ class LostPasswordPage : AppCompatActivity() {
 
         binding = ActivityLostPasswordPageBinding.inflate(layoutInflater)
         setContentView(binding.root)
-    }
-
-
-    override fun onStart() {
-        super.onStart()
 
         binding.btnNext.setOnClickListener {
             val intent = Intent(this@LostPasswordPage, LoginPage::class.java)
@@ -28,6 +23,13 @@ class LostPasswordPage : AppCompatActivity() {
             finish()
 
         }
+    }
+
+
+    override fun onStart() {
+        super.onStart()
+
+
     }
 
 }
