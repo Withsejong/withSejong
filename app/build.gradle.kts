@@ -1,7 +1,21 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
+
+    //FCM을 위한 코드
+    id("com.google.gms.google-services")
+
+
+
 }
+allprojects {
+    repositories {
+        google()
+        mavenCentral()
+        maven(url = "https://jitpack.io")
+    }
+}
+
 
 android {
     namespace = "com.withsejong"
@@ -65,6 +79,14 @@ dependencies {
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.11.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
+
+    //외부 라이브러리 (블러효과)
+    implementation ("com.github.mmin18:realtimeblurview:1.2.1")
+
+    //FCM
+    implementation(platform("com.google.firebase:firebase-bom:32.8.1"))
+    implementation("com.google.firebase:firebase-analytics")
+
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
