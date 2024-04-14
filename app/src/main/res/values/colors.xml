@@ -9,5 +9,7 @@
     <color name="white">#FFFFFFFF</color>
 <!--    컬러들 지정-->
     <color name="mainColor">#B93234</color>
-    <color name="bottomNavNoAnimation">#46515B</color>
+    <color name="bottomNavNoAnimation">#fff</color>
+
+
 </resources>

@@ -7,19 +7,23 @@
     <item
         android:title="홈"
         android:id="@+id/home"
-        android:icon="@drawable/homeiconwhiteversion"/>
+        android:icon="@drawable/icon_home"/>
     <item
-        android:title="지도"
-        android:id="@+id/map"
-        android:icon="@drawable/mapicon"/>
+        android:title="검색"
+        android:id="@+id/search"
+        android:icon="@drawable/icon_search"/>
+    <item
+        android:title="글쓰기"
+        android:id="@+id/post"
+        android:icon="@drawable/icon_post"/>
     <item
         android:title="채팅"
         android:id="@+id/chat"
-        android:icon="@drawable/chaticon"/>
+        android:icon="@drawable/icon_chat"/>
     <item
-        android:title="나의 기린"
+        android:title="마이페이지"
         android:id="@+id/mypage"
-        android:icon="@drawable/mypageicon"/>
+        android:icon="@drawable/icon_mypage"/>
 
 
 </menu>
