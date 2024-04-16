@@ -4,15 +4,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".login.LoginPage"
-    >
+    tools:context=".login.MakeNicknamePage">
 
     <TextView
         android:id="@+id/tv_title_subname"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+
         android:layout_marginLeft="50dp"
         android:layout_marginTop="130dp"
+
+
         android:text="세종인 끼리\n간편한 중고책 거래"
         android:textColor="#000000"
         android:textSize="20sp"
@@ -46,7 +48,7 @@
         android:textColor="#fff"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        tools:layout_editor_absoluteX="30dp" />
+       />
 
     <ImageView
         android:id="@+id/iv_sejong_icon"
@@ -57,7 +59,7 @@
         app:srcCompat="@drawable/sejong_icon" />
 
     <EditText
-        android:id="@+id/et_student_id_input"
+        android:id="@+id/et_nickname_input"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="50dp"
@@ -66,33 +68,24 @@
         android:ems="10"
         android:inputType="text"
         android:padding="10dp"
-        app:layout_constraintBottom_toTopOf="@+id/et_student_password_input"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <EditText
-        android:id="@+id/et_student_password_input"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="50dp"
-        android:layout_marginBottom="50dp"
-        android:background="@drawable/radius_redcolor_line"
-        android:ems="10"
-        android:inputType="textPassword"
-        android:padding="10dp"
         app:layout_constraintBottom_toTopOf="@+id/btn_next"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_account_ok"
+        />
     <TextView
-        android:id="@+id/tv_id_text"
+        android:id="@+id/tv_duplicated_nickname_error_indicator"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="이미 등록된 닉네임이에요!"
+        app:layout_constraintTop_toBottomOf="@id/et_nickname_input"
+        app:layout_constraintStart_toStartOf="@id/et_nickname_input"
         android:layout_marginStart="10dp"
-        android:layout_marginBottom="10dp"
-        android:text="아이디"
-        app:layout_constraintBottom_toTopOf="@+id/et_student_id_input"
-        app:layout_constraintStart_toStartOf="@+id/et_student_id_input" />
+        android:layout_marginTop="10dp"
+        android:textColor="#f00"
+        android:visibility="gone"
+        />
+
 
     <TextView
         android:id="@+id/tv_password_text"
@@ -100,30 +93,20 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:layout_marginBottom="10dp"
-        android:text="비밀번호"
-        app:layout_constraintBottom_toTopOf="@+id/et_student_password_input"
-        app:layout_constraintStart_toStartOf="@+id/et_student_password_input" />
+        android:text="닉네임"
+        app:layout_constraintBottom_toTopOf="@+id/et_nickname_input"
+        app:layout_constraintStart_toStartOf="@+id/et_nickname_input"
+        />
 
     <TextView
         android:id="@+id/tv_account_ok"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
-        android:text="안녕하세요, 세종끼리 입니다.\n간편하고 편리한 책거래를 시작해 보아요 :)"
-        app:layout_constraintBottom_toTopOf="@+id/tv_id_text"
-        app:layout_constraintStart_toStartOf="@+id/tv_id_text" />
-
-    <Button
-        android:id="@+id/btn_lost_password"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@android:color/transparent"
-        android:backgroundTint="@android:color/transparent"
-        android:text="@string/underline_text_lost_password"
-        app:layout_constraintEnd_toEndOf="@+id/btn_next"
-        app:layout_constraintStart_toStartOf="@+id/btn_next"
-        app:layout_constraintTop_toBottomOf="@+id/btn_next"
-        />
+        android:text="세종인 인증이 완료되었어요!\n세종끼리에서 사용할 닉네임을 입력해 주세요 :)"
+        app:layout_constraintBottom_toTopOf="@+id/et_nickname_input"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_title_name" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

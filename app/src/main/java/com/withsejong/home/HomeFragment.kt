@@ -15,14 +15,12 @@ class HomeFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
-
         binding = FragmentHomeBinding.inflate(layoutInflater,container,false)
         return binding.root
     }
 
     override fun onStart() {
         super.onStart()
-
         //더미데이터 생성
         //TODO 더미데이터 테스트 코드이므로 추후에 통신을 통해 리스트에 저장하는 것 구현할 것!
 

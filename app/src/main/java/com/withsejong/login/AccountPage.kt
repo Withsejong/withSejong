@@ -17,15 +17,10 @@ class AccountPage : AppCompatActivity() {
         binding = ActivityAccountPageBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.btnAuth.setOnClickListener {
+        binding.btnAuth.setOnClickListener {//세종인 인증 버튼 클릭시
             val intent = Intent(this@AccountPage, AccountInPage::class.java)
             startActivity(intent)
             finish()
-
         }
     }
-
-
-
-
 }

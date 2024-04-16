@@ -2,6 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -11,37 +15,51 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.WithSejong"
+        android:usesCleartextTraffic="true"
         tools:targetApi="31">
 
-<!--        Acticity.login  정의부-->
+        <!--        Acticity.login  정의부-->
 
-        <activity android:name=".login.MainPage"
-            android:exported="false"/>
+        <activity
+            android:name=".login.MainPage"
+            android:exported="false" />
 
-        <activity android:name=".login.AccountPage"
-            android:exported="false"/>
+        <activity
+            android:name=".login.AccountPage"
+            android:exported="false" />
 
-        <activity android:name=".login.LoginPage"
-            android:exported="false"/>
+        <activity
+            android:name=".login.LoginPage"
+            android:exported="false" />
 
-        <activity android:name=".login.AccountInPage"
-            android:exported="false"/>
+        <activity
+            android:name=".login.AccountInPage"
+            android:exported="false" />
 
-        <activity android:name=".login.LostPasswordPage"
-            android:exported="false"/>
+        <activity
+            android:name=".login.LostPasswordPage"
+            android:exported="false" />
 
         <!--         다른 Acticity-->
-        <activity android:name=".start.LoginStartPage"
-            android:exported="false"/>
-
-        <activity android:name=".start.LoginChoicePage"
-            android:exported="false"/>
-
-<!--        첫 화면으로 보여 줄 Acticity-->
-
+        <activity
+            android:name=".start.LoginStartPage"
+            android:exported="false" />
 
         <activity
             android:name=".MainActivity"
+            android:exported="false" />
+        <activity
+            android:name=".login.MakePasswordPage"
+            android:exported="false" />
+        <activity
+            android:name=".login.MakeNicknamePage"
+            android:exported="false" />
+
+        <!--        첫 화면으로 보여 줄 Acticity-->
+
+
+        <activity
+            android:name=".start.LoginChoicePage"
             android:exported="true"
             android:label="@string/app_name"
 

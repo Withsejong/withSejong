@@ -8,10 +8,10 @@
         android:title="홈"
         android:id="@+id/home"
         android:icon="@drawable/icon_home"/>
-    <item
-        android:title="검색"
-        android:id="@+id/search"
-        android:icon="@drawable/icon_search"/>
+<!--    <item-->
+<!--        android:title="검색"-->
+<!--        android:id="@+id/search"-->
+<!--        android:icon="@drawable/icon_search"/>-->
     <item
         android:title="글쓰기"
         android:id="@+id/post"

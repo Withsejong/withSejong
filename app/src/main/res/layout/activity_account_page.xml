@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".start.LoginChoicePage">
+    tools:context=".login.AccountPage">
 
     <TextView
         android:id="@+id/tv_title_subname"
@@ -46,7 +46,7 @@
 
         android:backgroundTint="#FE0000"
         android:padding="20dp"
-        android:text="세종대 인증"
+        android:text="세종인 인증"
         android:textColor="#fff"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"

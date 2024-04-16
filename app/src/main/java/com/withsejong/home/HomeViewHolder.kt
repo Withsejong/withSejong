@@ -12,6 +12,5 @@ class HomeViewHolder(val binding:ItemPostBinding) : RecyclerView.ViewHolder(bind
     val price = binding.tvBookprice
     val uploadTime = binding.tvUploadtime
     val img = binding.ivBookimg
-
     //TODO 추가 위젯에 대한 변수 정의할 것
 }

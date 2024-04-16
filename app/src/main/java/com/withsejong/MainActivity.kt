@@ -15,6 +15,9 @@ class MainActivity : AppCompatActivity() {
         binding=MainActivityBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+
+
+
         //더미데이터 생성
         //TODO 더미데이터 테스트 코드이므로 추후에 통신을 통해 리스트에 저장하는 것 구현할 것!
 
@@ -37,22 +40,24 @@ class MainActivity : AppCompatActivity() {
 
 
         val homeFragment = HomeFragment()
-        val searchFragment = SearchFragment()
+        //val searchFragment = SearchFragment()
         val postFragment = PostFragment()
         val mypageFragment = MypageFragment()
         val chatFragment = ChatFragment()
+
+        supportFragmentManager.beginTransaction().add(R.id.fcv_all_fragment,homeFragment).commit()
+
         //bottomnavigation 각 메뉴별로 클릭했을 때 fragment가 바뀌는 기능
         binding.botnavMenu.setOnItemSelectedListener {
             when(it.itemId){
                 R.id.home->supportFragmentManager.beginTransaction().replace(R.id.fcv_all_fragment,homeFragment).commit()
-                R.id.search -> supportFragmentManager.beginTransaction().replace(R.id.fcv_all_fragment,searchFragment).commit()
+                //R.id.search -> supportFragmentManager.beginTransaction().replace(R.id.fcv_all_fragment,searchFragment).commit()
                 R.id.post -> supportFragmentManager.beginTransaction().replace(R.id.fcv_all_fragment,postFragment).commit()
                 R.id.chat -> supportFragmentManager.beginTransaction().replace(R.id.fcv_all_fragment,chatFragment).commit()
                 R.id.mypage->supportFragmentManager.beginTransaction().replace(R.id.fcv_all_fragment,mypageFragment).commit()
             }
         true
         }
-
     }
 }
 

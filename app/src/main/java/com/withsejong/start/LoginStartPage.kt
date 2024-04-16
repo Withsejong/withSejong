@@ -21,6 +21,14 @@ class LoginStartPage : AppCompatActivity() {
 
         setContentView(binding.root)
 
+        val saveId = intent.getStringExtra("id")
+        val savePassword = intent.getStringExtra("password")
+        val saveNickname = intent.getStringExtra("nickname")
+
+        binding.tvWelcomeNameText.text=
+            """환영합니다 ${saveNickname}님
+            세종인끼리와 간편한 책거래를 시작해 보아요 :)""".trimMargin()
+
         Log.d(TAG,"onCreate함수")
 
         binding.btnStart.setOnClickListener {
