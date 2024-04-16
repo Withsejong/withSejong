@@ -6,7 +6,7 @@ import retrofit2.http.Body
 import retrofit2.http.POST
 
 interface Api {
-    @POST("/user/signup")
+    @POST("/signup")
     fun signup(
         @Body jsonParams : JsonElement
     ): Call<UserSignupResponse>
@@ -18,7 +18,7 @@ interface Api {
 
     ): Call<SejongAuthResponse>
 
-    @POST("/user/login")
+    @POST("/login")
     fun login(
         @Body jsonParams: JsonElement
     ): Call<LoginResponse>
