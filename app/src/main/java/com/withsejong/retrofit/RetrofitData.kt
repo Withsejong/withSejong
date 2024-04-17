@@ -4,13 +4,9 @@ import com.google.gson.JsonObject
 import retrofit2.http.Body
 
 data class UserSignupResponse(
-    val name: String? =null,
-    val studentId: String? = null,
+    val name: String,
+    val studentId: String,
 
-)
-data class SejongAuthRequest(
-    val id:String,
-    val password: String
 )
 data class SejongAuthResponse(
     val msg:String,

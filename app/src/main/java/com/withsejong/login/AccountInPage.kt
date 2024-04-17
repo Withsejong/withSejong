@@ -47,6 +47,7 @@ class AccountInPage : AppCompatActivity() {
                             if(response.body()?.result?.is_auth.toBoolean()){
                                 intent.putExtra("id",binding.etStudentIdInput.text.toString())
                                 intent.putExtra("name",response.body()?.result?.body?.name.toString())
+                                intent.putExtra("major",response.body()?.result?.body?.major.toString())
                                 Log.d("AccountInPage_TAG",response.body()?.result?.body?.name.toString())
                                 startActivity(intent)
                                 finish()

@@ -29,6 +29,7 @@ class MakeNicknamePage:AppCompatActivity() {
         val saveId = intent.getStringExtra("id")
         val saveName = intent.getStringExtra("name")
         val savePassword = intent.getStringExtra("password")
+        val saveMajor = intent.getStringExtra("major")
         val intent = Intent(this, LoginStartPage::class.java)
 
 
@@ -36,24 +37,16 @@ class MakeNicknamePage:AppCompatActivity() {
         jsonObject.put("name",saveName)
         jsonObject.put("studentId",saveId)
         jsonObject.put("password",savePassword)
-
-
-
-
-
-
-
-
-
+        jsonObject.put("major",saveMajor)
 
 
         binding.btnNext.setOnClickListener {
             //TODO 닉네임이 중복되는 경우 에러띄워주는 tv visible
             //TODO 조건문으로 분기하여 중복되면 textview visible, 중복되지 않으면 화면전환
             //binding.tvDuplicatedNicknameErrorIndicator
-            Log.d("MakeNicknamePage", "btnNext 클릭감지")
+            Log.d("MakeNicknamePage_TAG", "btnNext 클릭감지")
             jsonObject.put("nickname",binding.etNicknameInput.text.toString())
-            Log.d("MakeNicknamePage",jsonObject.toString())
+            Log.d("MakeNicknamePage_TAG",jsonObject.toString())
 
             RetrofitClient.instance.signup(JsonParser.parseString(jsonObject.toString())).
             enqueue(object: Callback<UserSignupResponse> {

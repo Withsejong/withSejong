@@ -20,6 +20,7 @@ class MakePasswordPage:AppCompatActivity() {
 
         val saveId = intent.getStringExtra("id")
         val saveName = intent.getStringExtra("name")
+        val saveMajor = intent.getStringExtra("major")
         binding.tvId.text=saveId
         val intent = Intent(this,MakeNicknamePage::class.java)
         binding.btnNext.setOnClickListener {
@@ -31,6 +32,8 @@ class MakePasswordPage:AppCompatActivity() {
 
             intent.putExtra("id",saveId)
             intent.putExtra("name",saveName)
+            intent.putExtra("major",saveMajor)
+
             intent.putExtra("password",binding.etNewPasswordOkInput.text.toString())
             startActivity(intent)
             finish()
