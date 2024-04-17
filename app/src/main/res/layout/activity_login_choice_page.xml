@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -21,7 +22,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
-        android:fontFamily="@font/seolleimcool"
 
         android:text="세종인 끼리 중고책 거래"
         android:textColor="#000000"
@@ -38,7 +38,6 @@
         android:layout_height="wrap_content"
 
         android:layout_marginBottom="30dp"
-        android:fontFamily="@font/seolleimcool"
         android:text="세종끼리"
         android:textColor="#000000"
         android:textSize="40sp"
@@ -56,7 +55,6 @@
         android:layout_marginBottom="100dp"
         android:background="@drawable/radius"
         android:backgroundTint="#46515B"
-        android:fontFamily="@font/seolleimcool"
         android:padding="20dp"
         android:text="회원가입"
         android:textColor="#fff"
@@ -72,7 +70,6 @@
         android:layout_marginBottom="30dp"
         android:background="@drawable/radius"
         android:backgroundTint="#FE0000"
-        android:fontFamily="@font/seolleimcool"
         android:padding="20dp"
         android:text="로그인"
         android:textColor="#fff"

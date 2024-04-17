@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
-
-
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
@@ -19,10 +17,6 @@
         tools:targetApi="31">
 
         <!--        Acticity.login  정의부-->
-
-        <activity
-            android:name=".login.MainPage"
-            android:exported="false" />
 
         <activity
             android:name=".login.AccountPage"
@@ -57,14 +51,11 @@
 
         <!--        첫 화면으로 보여 줄 Acticity-->
 
-
+<!--android:theme="@style/Theme.AppCompat.Light.NoActionBar">-->
         <activity
             android:name=".start.LoginChoicePage"
             android:exported="true"
-            android:label="@string/app_name"
-
-
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

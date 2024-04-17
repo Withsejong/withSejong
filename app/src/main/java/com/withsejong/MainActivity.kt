@@ -1,10 +1,13 @@
 package com.withsejong
 
+import android.graphics.Typeface
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.res.ResourcesCompat
 import com.withsejong.databinding.MainActivityBinding
 import com.withsejong.home.HomeFragment
 import com.withsejong.home.PostData
+import com.withsejong.mypage.MypageMainFragment
 
 class MainActivity : AppCompatActivity() {
 
@@ -42,8 +45,10 @@ class MainActivity : AppCompatActivity() {
         val homeFragment = HomeFragment()
         //val searchFragment = SearchFragment()
         val postFragment = PostFragment()
-        val mypageFragment = MypageFragment()
+        val mypageMainFragment = MypageMainFragment()
         val chatFragment = ChatFragment()
+
+        val typeface:Typeface ?= ResourcesCompat.getFont(this,R.font.seolleimcool)
 
         supportFragmentManager.beginTransaction().add(R.id.fcv_all_fragment,homeFragment).commit()
 
@@ -54,7 +59,7 @@ class MainActivity : AppCompatActivity() {
                 //R.id.search -> supportFragmentManager.beginTransaction().replace(R.id.fcv_all_fragment,searchFragment).commit()
                 R.id.post -> supportFragmentManager.beginTransaction().replace(R.id.fcv_all_fragment,postFragment).commit()
                 R.id.chat -> supportFragmentManager.beginTransaction().replace(R.id.fcv_all_fragment,chatFragment).commit()
-                R.id.mypage->supportFragmentManager.beginTransaction().replace(R.id.fcv_all_fragment,mypageFragment).commit()
+                R.id.mypage->supportFragmentManager.beginTransaction().replace(R.id.fcv_all_fragment,mypageMainFragment).commit()
             }
         true
         }

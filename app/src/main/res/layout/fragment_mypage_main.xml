@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".mypage.MypageMainFragment">
+
+
+    <ImageView
+
+        android:id="@+id/iv_profile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:layout_marginVertical="30dp"
+
+
+        android:layout_marginStart="30dp"
+        android:src="@drawable/profile_basic_icon"
+
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+
+        />
+
+    <TextView
+        android:id="@+id/tv_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="30dp"
+        android:text="세종인1234"
+        android:textColor="#000"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="@id/iv_profile"
+        app:layout_constraintStart_toEndOf="@id/iv_profile"
+        app:layout_constraintTop_toTopOf="@id/iv_profile"
+
+        />
+    <!--    구분선-->
+    <View
+        android:id="@+id/v_divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="20dp"
+        android:background="#EDEDED"
+        app:layout_constraintTop_toBottomOf="@+id/iv_profile"
+
+        />
+
+    <TextView
+        android:id="@+id/tv_my_deal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="30dp"
+        android:text="나의 거래"
+        android:layout_marginVertical="30dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/v_divider"
+
+
+        />
+   <androidx.constraintlayout.widget.ConstraintLayout
+       android:id="@+id/clo_interesting_list"
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:layout_marginVertical="10dp"
+       android:paddingVertical="10dp"
+       app:layout_constraintStart_toStartOf="parent"
+       app:layout_constraintEnd_toEndOf="parent"
+       app:layout_constraintTop_toBottomOf="@+id/tv_my_deal"
+       android:clickable="true"
+       android:focusable="true"
+       >
+       <ImageView
+           android:id="@+id/iv_icon_heart"
+           android:layout_width="0dp"
+           android:layout_height="30dp"
+           app:layout_constraintDimensionRatio="1:1"
+           android:src="@drawable/icon_heart"
+           android:layout_marginHorizontal="30dp"
+           app:layout_constraintStart_toStartOf="parent"
+           app:layout_constraintTop_toTopOf="parent"/>
+       <TextView
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:text="관심목록"
+           app:layout_constraintStart_toEndOf="@id/iv_icon_heart"
+           app:layout_constraintTop_toTopOf="@id/iv_icon_heart"
+           app:layout_constraintBottom_toBottomOf="@id/iv_icon_heart"
+           android:layout_marginStart="70dp"
+           android:textSize="25sp"
+           android:textColor="#000"/>
+   </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/clo_sell_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="30dp"
+        android:paddingVertical="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/clo_interesting_list"
+        >
+        <ImageView
+            android:id="@+id/iv_icon_sell"
+            android:layout_width="0dp"
+            android:layout_height="30dp"
+            app:layout_constraintDimensionRatio="1:1"
+            android:src="@drawable/icon_sell"
+            android:layout_marginHorizontal="30dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="판매내역"
+            app:layout_constraintStart_toEndOf="@id/iv_icon_sell"
+            app:layout_constraintTop_toTopOf="@id/iv_icon_sell"
+            app:layout_constraintBottom_toBottomOf="@id/iv_icon_sell"
+            android:layout_marginStart="70dp"
+            android:textSize="25sp"
+            android:textColor="#000"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/clo_buy_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="30dp"
+        android:paddingVertical="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/clo_sell_list"
+        >
+        <ImageView
+            android:id="@+id/iv_icon_buy"
+            android:layout_width="0dp"
+            android:layout_height="30dp"
+            app:layout_constraintDimensionRatio="1:1"
+            android:src="@drawable/icon_buy"
+            android:layout_marginHorizontal="30dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="구매내역"
+            app:layout_constraintStart_toEndOf="@id/iv_icon_buy"
+            app:layout_constraintTop_toTopOf="@id/iv_icon_buy"
+            app:layout_constraintBottom_toBottomOf="@id/iv_icon_buy"
+            android:layout_marginStart="70dp"
+            android:textSize="25sp"
+            android:textColor="#000"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/tv_etc_setting"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="30dp"
+        android:text="기타 설정"
+        android:layout_marginVertical="50dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/clo_buy_list"
+
+
+        />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/clo_my_information"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="30dp"
+        android:paddingVertical="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_etc_setting"
+        >
+        <ImageView
+            android:id="@+id/iv_icon_my_information"
+            android:layout_width="0dp"
+            android:layout_height="30dp"
+            app:layout_constraintDimensionRatio="1:1"
+            android:src="@drawable/icon_mypage2"
+            android:layout_marginHorizontal="30dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="나의 정보"
+            app:layout_constraintStart_toEndOf="@id/iv_icon_my_information"
+            app:layout_constraintTop_toTopOf="@id/iv_icon_my_information"
+            app:layout_constraintBottom_toBottomOf="@id/iv_icon_my_information"
+            android:layout_marginStart="70dp"
+            android:textSize="25sp"
+            android:textColor="#000"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/clo_setting"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="30dp"
+        android:paddingVertical="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/clo_my_information"
+        >
+        <ImageView
+            android:id="@+id/iv_setting"
+            android:layout_width="0dp"
+            android:layout_height="30dp"
+            app:layout_constraintDimensionRatio="1:1"
+            android:src="@drawable/icon_setting"
+            android:layout_marginHorizontal="30dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="환경설정"
+            app:layout_constraintStart_toEndOf="@id/iv_setting"
+            app:layout_constraintTop_toTopOf="@id/iv_setting"
+            app:layout_constraintBottom_toBottomOf="@id/iv_setting"
+            android:layout_marginStart="70dp"
+            android:textSize="25sp"
+            android:textColor="#000"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/clo_faq"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="30dp"
+        android:paddingVertical="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/clo_setting"
+        >
+        <ImageView
+            android:id="@+id/iv_icon_faq"
+            android:layout_width="0dp"
+            android:layout_height="30dp"
+            app:layout_constraintDimensionRatio="1:1"
+            android:src="@drawable/icon_faq"
+            android:layout_marginHorizontal="30dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="자주 묻는 질문"
+            app:layout_constraintStart_toEndOf="@id/iv_icon_faq"
+            app:layout_constraintTop_toTopOf="@id/iv_icon_faq"
+            app:layout_constraintBottom_toBottomOf="@id/iv_icon_faq"
+            android:layout_marginStart="70dp"
+            android:textSize="25sp"
+            android:textColor="#000"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

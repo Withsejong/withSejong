@@ -67,19 +67,12 @@ class MakeNicknamePage:AppCompatActivity() {
                     }
                     Log.d("MakeNicknamePage_TAG",response.code().toString())
                 }
-
                 override fun onFailure(call: Call<UserSignupResponse>, t: Throwable) {
                     Log.d("MakeNicknamePage_TAG", call.toString())
                     Log.d("MakeNicknamePage_TAG",t.toString())
-
                     Log.d("MakeNicknamePage","완전실패")
                 }
-
             })
-
-
-
         }
-
     }
 }

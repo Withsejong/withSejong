@@ -7,7 +7,6 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.gson.JsonParser
 import com.withsejong.MainActivity
-import com.withsejong.R
 import com.withsejong.databinding.ActivityLoginPageBinding
 import com.withsejong.retrofit.LoginResponse
 import com.withsejong.retrofit.RetrofitClient
@@ -15,7 +14,6 @@ import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import retrofit2.Retrofit
 
 class LoginPage : AppCompatActivity() {
     lateinit var binding: ActivityLoginPageBinding
@@ -43,7 +41,17 @@ class LoginPage : AppCompatActivity() {
                         response: Response<LoginResponse>
                     ) {
                         if(response.isSuccessful){
-                            //TODO 쉐프에 토큰들 넣는 코드 추가할 것
+                            val tokenSharedPreferences = getSharedPreferences("token", MODE_PRIVATE)
+                            val editor = tokenSharedPreferences.edit()
+                            editor.putString("grantType", response.body()?.grantType.toString())
+                            editor.putString("accessToken", response.body()?.accessToken.toString())
+                            editor.putString("refreshToken", response.body()?.refreshToken.toString())
+                            editor.apply()
+
+                            Log.d("LoginPage_TAG", tokenSharedPreferences.getString("refreshToken","Error").toString())
+
+
+
                             startActivity(intentNext)
                             finish()
                         }

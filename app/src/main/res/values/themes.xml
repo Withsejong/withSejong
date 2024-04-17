@@ -2,8 +2,9 @@
 <resources>
 
     <style name="Theme.WithSejong" parent="Theme.AppCompat.Light.NoActionBar">
-
-    <item name="android:fontFamily">@font/seolleimcool</item>
+        <item name="android:fontFamily">@font/seolleimcool</item>
     </style>
+<!--    바텀네비게이션 폰트 용-->
+
 
 </resources>

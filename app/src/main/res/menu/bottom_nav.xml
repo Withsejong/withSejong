@@ -7,7 +7,9 @@
     <item
         android:title="홈"
         android:id="@+id/home"
-        android:icon="@drawable/icon_home"/>
+        android:icon="@drawable/icon_home"
+
+        />
 <!--    <item-->
 <!--        android:title="검색"-->
 <!--        android:id="@+id/search"-->
