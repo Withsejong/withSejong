@@ -71,6 +71,17 @@
         app:layout_constraintBottom_toTopOf="@+id/et_student_password_input"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+    <TextView
+        android:id="@+id/tv_duplicated_id_error_indicator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/et_student_id_input"
+        android:text="* 이미 가입된 계정입니다."
+        app:layout_constraintEnd_toEndOf="@id/et_student_id_input"
+        android:textColor="#FF0000"
+        android:visibility="invisible"
+        />
+
 
     <EditText
         android:id="@+id/et_student_password_input"

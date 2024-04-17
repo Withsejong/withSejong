@@ -5,7 +5,9 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.withsejong.databinding.ItemPostBinding
-fun Int.addCommas(): String {
+
+
+fun Int.addCommas(): String {//10000을 10,000으로 바꿔주는 함수
     return "%,d".format(this)
 }
 class HomeAdapter(val postData:ArrayList<PostData>):RecyclerView.Adapter<RecyclerView.ViewHolder>() {

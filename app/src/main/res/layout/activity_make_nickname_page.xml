@@ -83,7 +83,7 @@
         android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
         android:textColor="#f00"
-        android:visibility="gone"
+        android:visibility="invisible"
         />
 
 
