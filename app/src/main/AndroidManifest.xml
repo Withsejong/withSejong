@@ -46,14 +46,14 @@
             android:name=".login.MakePasswordPage"
             android:exported="false" />
         <activity
-            android:name=".login.MakeNicknamePage"
+            android:name=".start.LoginChoicePage"
             android:exported="false" />
 
         <!--        첫 화면으로 보여 줄 Acticity-->
 
 <!--android:theme="@style/Theme.AppCompat.Light.NoActionBar">-->
         <activity
-            android:name=".start.LoginChoicePage"
+            android:name=".login.MakeNicknamePage"
             android:exported="true"
             >
             <intent-filter>
