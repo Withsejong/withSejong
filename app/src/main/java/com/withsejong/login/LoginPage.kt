@@ -25,7 +25,7 @@ import retrofit2.Response
         binding = ActivityLoginPageBinding.inflate(layoutInflater)
         setContentView(binding.root)
         //TODO 아이디를 숫자만 입력받게끔 변경
-        val intentLost = Intent(this@LoginPage, LostPasswordPage::class.java)
+        val intentLost = Intent(this@LoginPage, AccountPage::class.java)
         val intentNext = Intent(this@LoginPage, MainActivity::class.java)
         binding.btnLostPassword.setOnClickListener {
             startActivity(intentLost)
