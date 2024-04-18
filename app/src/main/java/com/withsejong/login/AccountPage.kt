@@ -17,8 +17,11 @@ class AccountPage : AppCompatActivity() {
         binding = ActivityAccountPageBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+
+        val isSignup = intent.getStringExtra("isSignup").toString()
         binding.btnAuth.setOnClickListener {//세종인 인증 버튼 클릭시
             val intent = Intent(this@AccountPage, AccountInPage::class.java)
+            intent.putExtra("isSignup",isSignup)
             startActivity(intent)
             finish()
         }

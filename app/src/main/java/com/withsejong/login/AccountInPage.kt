@@ -27,13 +27,22 @@ class AccountInPage : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityAccountInPageBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        val isSignup = intent.getStringExtra("isSignup").toString()
         val intent = Intent(this, MakePasswordPage::class.java)
+        val intentChangeForgotPassword = Intent(this,LostPasswordPage::class.java)
+
         binding.btnNext.setOnClickListener {
             if (binding.etStudentIdInput.text.isNullOrEmpty() || binding.etStudentPasswordInput.text.isNullOrEmpty()) {
                 Toast.makeText(this, "학번 또는 비밀번호를 입력 해주세요!", Toast.LENGTH_SHORT).show()
             } else {
                 //학번 중복체크 후 학정시 id, 비번이 맞는지 체크
-                checkisDuplicatedID(intent)
+
+                if(isSignup=="1"){//회원가입 페이지에서 세종auth인증 페이지로 온 경우
+                    checkisDuplicatedID(intent)
+                }
+                else{//비번을 잊으셨나요? 페이지에서 세종auth인증 페이지로 온 경우
+                    checkvalidID(intentChangeForgotPassword)
+                }
             }
         }
     }
@@ -49,30 +58,21 @@ class AccountInPage : AppCompatActivity() {
                     if (response.isSuccessful) {
                         isDuplicatedId = 0
                         checkvalidID(intent)
-
                     }
                     else{
                         binding.tvDuplicatedIdErrorIndicator.visibility = View.VISIBLE
                     }
                 }
-
                 override fun onFailure(call: Call<Boolean>, t: Throwable) {
-
                 }
-
             })
     }
 
     private fun checkvalidID(intent: Intent){
-
             val jsonObject = JSONObject()
             jsonObject.put("id", binding.etStudentIdInput.text.toString())
             jsonObject.put("pw", binding.etStudentPasswordInput.text.toString())
             Log.d("AccountInPage_json", jsonObject.toString())
-
-
-
-
 
             RetrofitClient.onlySejongAuth.checkSejong(JsonParser.parseString(jsonObject.toString()))
                 .enqueue(object : Callback<SejongAuthResponse> {
@@ -80,7 +80,6 @@ class AccountInPage : AppCompatActivity() {
                         call: Call<SejongAuthResponse>,
                         response: Response<SejongAuthResponse>
                     ) {
-
                         if (response.isSuccessful) {
                             Log.d("AccountInPage", response.body().toString())
                             if (response.body()?.result?.is_auth.toBoolean()) {
@@ -113,11 +112,9 @@ class AccountInPage : AppCompatActivity() {
                             Log.d("AccountInpage", "실패")
                         }
                     }
-
                     override fun onFailure(call: Call<SejongAuthResponse>, t: Throwable) {
                         Log.d("AccountInPage", "onFailure")
                     }
                 })
-
     }
 }

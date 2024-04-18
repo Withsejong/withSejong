@@ -26,6 +26,7 @@ class LoginChoicePage : AppCompatActivity() {
 
         }
         binding.btnSignup.setOnClickListener {
+            intentSignup.putExtra("isSignup","1")
             startActivity(intentSignup)
             finish()
 
