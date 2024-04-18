@@ -2,11 +2,14 @@ package com.withsejong.login
 
 import android.content.Intent
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.gson.JsonParser
 import com.withsejong.MainActivity
+import com.withsejong.R
 import com.withsejong.databinding.ActivityLoginPageBinding
 import com.withsejong.retrofit.LoginResponse
 import com.withsejong.retrofit.RetrofitClient
@@ -29,6 +32,60 @@ import retrofit2.Response
             finish()
         }
         //입력 감지
+
+        var idInputCheck:Int = 0
+        var pwInputCheck:Int = 0
+        binding.etStudentIdInput.addTextChangedListener(object : TextWatcher{
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                if(binding.etStudentIdInput.text.length>0){
+                    idInputCheck=1
+                    if(idInputCheck+pwInputCheck==2){
+                        binding.btnNext.setBackgroundResource(R.drawable.design_next_btn_input)
+                    }
+                }
+                else{
+                    idInputCheck=0
+                    binding.btnNext.setBackgroundResource(R.drawable.design_next_btn_noinput)
+                }
+                Log.d("LoginPage_TAG", (idInputCheck+pwInputCheck).toString())
+
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+
+            }
+
+        })
+
+        binding.etStudentPasswordInput.addTextChangedListener(object:TextWatcher{
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                if(binding.etStudentPasswordInput.text.length>0){
+                    pwInputCheck=1
+                    if(idInputCheck+pwInputCheck==2){
+                        binding.btnNext.setBackgroundResource(R.drawable.design_next_btn_input)
+                    }
+                }
+                else{
+                    pwInputCheck=0
+                    binding.btnNext.setBackgroundResource(R.drawable.design_next_btn_noinput)
+                }
+                Log.d("LoginPage_TAG", (idInputCheck+pwInputCheck).toString())
+
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+
+            }
+
+        })
 
 
 
