@@ -33,11 +33,11 @@ class AccountInPage : AppCompatActivity() {
                 Toast.makeText(this, "학번 또는 비밀번호를 입력 해주세요!", Toast.LENGTH_SHORT).show()
             } else {
                 //학번 중복체크 후 학정시 id, 비번이 맞는지 체크
-                checkisDuplicatedID()
+                checkisDuplicatedID(intent)
             }
         }
     }
-    private fun checkisDuplicatedID(){
+    private fun checkisDuplicatedID(intent: Intent){
         //학번 중복 체크
         var isDuplicatedId: Int = 1
         Log.d("AccountInPage_TAG", binding.etStudentIdInput.text.toString())
@@ -48,7 +48,7 @@ class AccountInPage : AppCompatActivity() {
                     Log.d("AccountInPage_TAG", response.toString())
                     if (response.isSuccessful) {
                         isDuplicatedId = 0
-                        checkvalidID()
+                        checkvalidID(intent)
 
                     }
                     else{
@@ -63,7 +63,7 @@ class AccountInPage : AppCompatActivity() {
             })
     }
 
-    private fun checkvalidID(){
+    private fun checkvalidID(intent: Intent){
 
             val jsonObject = JSONObject()
             jsonObject.put("id", binding.etStudentIdInput.text.toString())

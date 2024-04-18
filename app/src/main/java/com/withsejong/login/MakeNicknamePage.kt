@@ -44,7 +44,7 @@ class MakeNicknamePage:AppCompatActivity() {
 
             //닉네임 중복검사 후 계정 생성
 
-            isDuplicatedNickname(saveName,saveId,savePassword,saveMajor)
+            isDuplicatedNickname(saveName,saveId,savePassword,saveMajor,intent)
 
 
 
@@ -53,7 +53,7 @@ class MakeNicknamePage:AppCompatActivity() {
 
 
 
-private fun isDuplicatedNickname(saveName:String?, saveId:String?, savePassword:String?, saveMajor:String?){
+private fun isDuplicatedNickname(saveName:String?, saveId:String?, savePassword:String?, saveMajor:String?,intent: Intent){
     RetrofitClient.instance.isDuplicatedNickname(binding.etNicknameInput.text.toString()).enqueue(object : Callback<Boolean>{
         override fun onResponse(call: Call<Boolean>, response: Response<Boolean>) {
             if(response.isSuccessful){
@@ -63,7 +63,7 @@ private fun isDuplicatedNickname(saveName:String?, saveId:String?, savePassword:
                 jsonObject.put("password",savePassword)
                 jsonObject.put("major",saveMajor)
                 jsonObject.put("nickname",binding.etNicknameInput.text.toString())
-                createAccount(saveId,savePassword,jsonObject)
+                createAccount(saveId,savePassword,jsonObject,intent)
             }
             else{
                 binding.tvDuplicatedNicknameErrorIndicator.visibility = View.VISIBLE
@@ -76,7 +76,7 @@ private fun isDuplicatedNickname(saveName:String?, saveId:String?, savePassword:
 
     })
 }
-    private fun createAccount(saveId: String?, savePassword: String?,jsonObject:JSONObject){
+    private fun createAccount(saveId: String?, savePassword: String?,jsonObject:JSONObject,intent: Intent){
         RetrofitClient.instance.signup(JsonParser.parseString(jsonObject.toString())).
         enqueue(object: Callback<UserSignupResponse> {
             override fun onResponse(

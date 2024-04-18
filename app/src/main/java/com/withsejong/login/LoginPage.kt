@@ -15,7 +15,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class LoginPage : AppCompatActivity() {
+        class LoginPage : AppCompatActivity() {
     lateinit var binding: ActivityLoginPageBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
