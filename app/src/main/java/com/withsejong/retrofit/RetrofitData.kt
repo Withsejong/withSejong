@@ -26,7 +26,15 @@ data class SejongAuthResponseResultBodyJson(
 )
 
 data class LoginResponse(
+    val studentId: String,
+    val nickname: String,
+    val major: String,
+    val authToken : LoginResponseAuthToken
+
+
+)
+data class LoginResponseAuthToken(
     val grantType: String,
     val accessToken: String,
-    val refreshToken: String
+    val refreshToken: String,
 )
