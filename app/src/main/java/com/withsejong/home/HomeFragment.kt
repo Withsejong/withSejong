@@ -91,12 +91,25 @@ class HomeFragment : Fragment() {
         binding.rcvSellList.adapter=homeAdapter
         binding.rcvSellList.layoutManager = LinearLayoutManager(requireContext(),LinearLayoutManager.VERTICAL,false)
         //어댑터의 요소들 클릭했을 경우
+
         homeAdapter.setItemClickListener(object:HomeAdapter.OnitemClickListener{
             override fun onClick(v: View, position: Int) {
                 Toast.makeText(requireContext(),mockData[position].name,Toast.LENGTH_SHORT).show()
             }
 
         })
+
+        //카테고리에 들어갈 리스트 작성
+        val categoryList = arrayListOf<String>(
+            "전체",
+            "전공",
+            "교양",
+            "균필",
+            "공필",
+            "기타"
+        )
+        binding.rcvCategory.adapter=CategoryAdapter(categoryList)
+        binding.rcvCategory.layoutManager=LinearLayoutManager(requireContext(),LinearLayoutManager.HORIZONTAL,false)
 
 
     }
