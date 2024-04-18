@@ -28,6 +28,10 @@ import retrofit2.Response
             startActivity(intentLost)
             finish()
         }
+        //입력 감지
+
+
+
         binding.btnNext.setOnClickListener {
 
             val jsonObject=JSONObject()
@@ -41,12 +45,24 @@ import retrofit2.Response
                         response: Response<LoginResponse>
                     ) {
                         if(response.isSuccessful){
-                            val tokenSharedPreferences = getSharedPreferences("token", MODE_PRIVATE)
-                            val editor = tokenSharedPreferences.edit()
-                            editor.putString("grantType", response.body()?.grantType.toString())
-                            editor.putString("accessToken", response.body()?.accessToken.toString())
-                            editor.putString("refreshToken", response.body()?.refreshToken.toString())
-                            editor.apply()
+                            val tokenSharedPreferences = getSharedPreferences("token",
+                                MODE_PRIVATE)
+                            val userInfoSharedPreferences = getSharedPreferences("userInfo",
+                                MODE_PRIVATE)
+                            val tokenEditor = tokenSharedPreferences.edit()
+                            val userInfoEditor = userInfoSharedPreferences.edit()
+
+                            //토큰들 쉐프에 저장
+                            tokenEditor.putString("grantType", response.body()?.authToken?.grantType.toString())
+                            tokenEditor.putString("accessToken", response.body()?.authToken?.accessToken.toString())
+                            tokenEditor.putString("refreshToken", response.body()?.authToken?.refreshToken.toString())
+                            tokenEditor.apply()
+
+                            //학생정보들 쉐프에 저장
+                            userInfoEditor.putString("studentId",response.body()?.studentId)
+                            userInfoEditor.putString("nickname", response.body()?.nickname)
+                            userInfoEditor.putString("major",response.body()?.major)
+                            userInfoEditor.apply()
 
                             Log.d("LoginPage_TAG", tokenSharedPreferences.getString("refreshToken","Error").toString())
                             startActivity(intentNext)
