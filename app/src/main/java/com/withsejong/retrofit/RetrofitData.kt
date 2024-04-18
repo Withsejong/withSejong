@@ -38,3 +38,7 @@ data class LoginResponseAuthToken(
     val accessToken: String,
     val refreshToken: String,
 )
+data class changeForgotPassword(
+    val studentId: String,
+    val nickname: String
+)
