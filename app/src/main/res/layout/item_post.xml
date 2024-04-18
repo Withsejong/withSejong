@@ -8,12 +8,22 @@
         android:id="@+id/clo"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#fff"
+        android:background="@drawable/design_item_post"
         android:padding="20dp"
 
         android:layout_margin="10dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
+        <ImageButton
+            android:id="@+id/ibtn_post_detail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/icon_post_detail"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:background="#0000"
+            app:layout_constraintTop_toTopOf="parent"
+            android:padding="10dp"
+            />
 
         <ImageView
             android:id="@+id/iv_bookimg"
