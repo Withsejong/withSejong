@@ -51,23 +51,28 @@
 
         <ImageView
             android:id="@+id/iv_notify_icon"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginEnd="30dp"
-            android:src="@drawable/icon_bell"
-            app:layout_constraintBottom_toBottomOf="@id/tv_title"
+            android:layout_marginEnd="10dp"
+            android:src="@drawable/icon_notification_new"
+            app:layout_constraintBottom_toTopOf="@id/tl_category"
+            app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginVertical="10dp" />
 
-        <ImageView
-            android:id="@+id/iv_search_icon"
-            android:layout_width="wrap_content"
+        <ImageButton
+            android:id="@+id/ibtn_search_icon"
+            android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginEnd="30dp"
+            app:layout_constraintDimensionRatio="1:1"
+            android:layout_marginVertical="10dp"
+            android:layout_marginEnd="20dp"
             android:src="@drawable/icon_search"
-            app:layout_constraintBottom_toBottomOf="@id/tv_title"
+            app:layout_constraintBottom_toTopOf="@id/tl_category"
             app:layout_constraintEnd_toStartOf="@id/iv_notify_icon"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            />
 
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tl_category"

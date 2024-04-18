@@ -21,8 +21,6 @@ class LostPasswordPage : AppCompatActivity() {
             val intent = Intent(this@LostPasswordPage, LoginPage::class.java)
             startActivity(intent)
             finish()
-
         }
     }
-
 }

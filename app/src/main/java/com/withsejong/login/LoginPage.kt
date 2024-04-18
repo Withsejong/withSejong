@@ -49,9 +49,6 @@ import retrofit2.Response
                             editor.apply()
 
                             Log.d("LoginPage_TAG", tokenSharedPreferences.getString("refreshToken","Error").toString())
-
-
-
                             startActivity(intentNext)
                             finish()
                         }
