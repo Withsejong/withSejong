@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.withsejong.R
 import com.withsejong.databinding.FragmentHomeBinding
@@ -19,8 +20,9 @@ class HomeFragment : Fragment() {
         return binding.root
     }
 
-    override fun onStart() {
-        super.onStart()
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
         //더미데이터 생성
         //TODO 더미데이터 테스트 코드이므로 추후에 통신을 통해 리스트에 저장하는 것 구현할 것!
 
@@ -88,8 +90,17 @@ class HomeFragment : Fragment() {
         val homeAdapter = HomeAdapter(mockData)
         binding.rcvSellList.adapter=homeAdapter
         binding.rcvSellList.layoutManager = LinearLayoutManager(requireContext(),LinearLayoutManager.VERTICAL,false)
+        //어댑터의 요소들 클릭했을 경우
+        homeAdapter.setItemClickListener(object:HomeAdapter.OnitemClickListener{
+            override fun onClick(v: View, position: Int) {
+                Toast.makeText(requireContext(),mockData[position].name,Toast.LENGTH_SHORT).show()
+            }
+
+        })
+
 
     }
+
 
 
 }
