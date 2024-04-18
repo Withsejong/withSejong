@@ -70,6 +70,7 @@
         android:id="@+id/tv_welcome_name_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/pretendardregular"
         android:text="환영합니다 ___님\n세종인끼리와 간편한 책거래를 시작해 보아요 :)"
         android:layout_marginBottom="10dp"
 
