@@ -23,7 +23,7 @@
             android:exported="false" />
 
         <activity
-            android:name=".login.LoginPage"
+            android:name=".login.MakeNicknamePage"
             android:exported="false" />
 
         <activity
@@ -53,7 +53,7 @@
 
 <!--android:theme="@style/Theme.AppCompat.Light.NoActionBar">-->
         <activity
-            android:name=".login.MakeNicknamePage"
+            android:name=".login.LoginPage"
             android:exported="true"
             >
             <intent-filter>
