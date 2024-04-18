@@ -2,11 +2,14 @@ package com.withsejong.login
 
 import android.content.Intent
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.gson.JsonParser
+import com.withsejong.R
 import com.withsejong.databinding.ActivityMakeNicknamePageBinding
 import com.withsejong.retrofit.RetrofitClient
 import com.withsejong.retrofit.UserSignupResponse
@@ -34,7 +37,27 @@ class MakeNicknamePage:AppCompatActivity() {
 
 
 
+        binding.etNicknameInput.addTextChangedListener(object : TextWatcher{
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
 
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                if(binding.etNicknameInput.text.length>0){
+                    binding.btnNext.setBackgroundResource(R.drawable.design_next_btn_input)
+
+                }
+                else{
+                    binding.btnNext.setBackgroundResource(R.drawable.design_next_btn_noinput)
+                }
+
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+
+            }
+
+        })
 
 
         binding.btnNext.setOnClickListener {
