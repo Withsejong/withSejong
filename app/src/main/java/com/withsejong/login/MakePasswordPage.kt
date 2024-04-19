@@ -19,6 +19,7 @@ class MakePasswordPage:AppCompatActivity() {
         setContentView(binding.root)
 
         val saveId = intent.getStringExtra("id")
+        Log.d("MakePasswordPage_TAG",saveId.toString())
         val saveName = intent.getStringExtra("name")
         val saveMajor = intent.getStringExtra("major")
         binding.tvId.text=saveId
