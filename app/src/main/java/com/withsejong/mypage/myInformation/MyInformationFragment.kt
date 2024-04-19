@@ -13,7 +13,6 @@ import com.withsejong.databinding.FragmentMyInformationBinding
 import com.withsejong.retrofit.RetrofitClient
 import com.withsejong.retrofit.deleteAccountResponse
 import com.withsejong.start.LoginChoicePage
-import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -33,10 +32,26 @@ class MyInformationFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val userInfoSharedPreferences = requireContext().getSharedPreferences("userInfo",Context.MODE_PRIVATE)
         val tokenSharedPreferences = requireContext().getSharedPreferences("token",Context.MODE_PRIVATE)
-        binding.tvNicknameIndicator.text = "${userInfoSharedPreferences.getString("nickname","Error")}님"
+        val saveNickname = userInfoSharedPreferences.getString("nickname","Error")
+        val saveMajor = userInfoSharedPreferences.getString("major","Error")
 
+        //닉네임과 소속 학과 sharedpreference에 저장 된 것으로 설정
+        binding.tvNicknameIndicator.text = "${saveNickname}님"
+        binding.etNicknameIndicator.setText("$saveNickname")
+        binding.etMajorIndicator.setText("${saveMajor}")
+
+        //edittext를 editable하지 않게 변경
+        binding.etNicknameIndicator.isEnabled = false
+        binding.etMajorIndicator.isEnabled = false
         //회원탈퇴
         val intent = Intent(requireContext(),LoginChoicePage::class.java)
+
+        //editmode fragment 정의
+        val myInformationEditmodeFragment = MyInformationEditmodeFragment()
+        binding.ibtnEditmode.setOnClickListener {
+            val fragmentManager = parentFragmentManager.beginTransaction()
+            fragmentManager.replace(R.id.fcv_all_fragment,myInformationEditmodeFragment).commit()
+        }
 
         binding.btnDeleteId.setOnClickListener {
 
