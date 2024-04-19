@@ -48,5 +48,58 @@
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+    <!--
+     <View
+         android:id="@+id/v_title_divider"
+         android:layout_width="match_parent"
+         android:layout_height="2dp"
+
+         app:layout_constraintTop_toBottomOf="@id/clo_fragment_title"
+         app:layout_constraintStart_toStartOf="parent"
+         app:layout_constraintEnd_toEndOf="parent"
+         android:background="#EDEDED"
+
+         />
+
+     <TextView
+         android:id="@+id/tv_qna"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:text="Q&amp;A"
+         app:layout_constraintTop_toBottomOf="@id/v_title_divider"
+         app:layout_constraintStart_toStartOf="parent"
+         app:layout_constraintEnd_toEndOf="parent"
+         app:layout_constraintHorizontal_bias=".2518796992481203"
+         android:layout_marginTop="20dp"
+         app:layout_constraintBottom_toTopOf="@id/v_qna_divider"
+
+         />
+         -->
+    <View
+        android:id="@+id/v_qna_divider"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginHorizontal="5dp"
+        app:layout_constraintTop_toBottomOf="@id/clo_fragment_title"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:background="#EDEDED"
+
+
+        />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rcv_noticy_list"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@id/v_qna_divider"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:listitem="@layout/item_faq"
+        />
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
