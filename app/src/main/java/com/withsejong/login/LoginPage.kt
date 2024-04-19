@@ -87,8 +87,6 @@ class LoginPage : AppCompatActivity() {
 
         })
 
-
-
         binding.btnNext.setOnClickListener {
 
             val jsonObject=JSONObject()
