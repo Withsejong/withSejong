@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:paddingTop="20dp"
+    >
+
+
+    <ImageView
+        android:id="@+id/tv_icon_notice"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:src="@drawable/icon_notice"
+        app:layout_constraintDimensionRatio="1:1"
+        android:layout_marginStart="30dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        />
+
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="세종인 인증이란?"
+        app:layout_constraintStart_toEndOf="@id/tv_icon_notice"
+        app:layout_constraintTop_toTopOf="parent"
+        android:fontFamily="@font/pretendardmedium"
+        android:textSize="15sp"
+        android:layout_marginStart="25dp"
+        />
+    <TextView
+        android:id="@+id/tv_context"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/tv_title"
+        android:text="세종끼리를 더욱 안전하게 이용할 수 있도록 가입을 원하는 사용자..."
+        app:layout_constraintStart_toStartOf="@id/tv_title"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="15dp"
+        android:inputType="textMultiLine"
+        android:fontFamily="@font/pretendardregular"
+        android:textSize="11sp"
+        android:layout_marginTop="10dp"
+        />
+    <View
+        android:id="@+id/v_divider"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="20dp"
+
+        app:layout_constraintTop_toBottomOf="@id/tv_context"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:background="#EDEDED"
+
+        />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
