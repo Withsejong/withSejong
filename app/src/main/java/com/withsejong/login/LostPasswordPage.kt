@@ -47,7 +47,7 @@ class LostPasswordPage : AppCompatActivity() {
                     }
 
                     override fun onFailure(call: Call<changeForgotPassword>, t: Throwable) {
-                        TODO("Not yet implemented")
+                        //TODO("Not yet implemented")
                     }
 
                 })
