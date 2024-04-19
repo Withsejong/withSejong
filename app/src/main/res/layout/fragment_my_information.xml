@@ -26,16 +26,16 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageView
-            android:id="@+id/iv_icon_profile"
+        <ImageButton
+            android:id="@+id/ibtn_editmode"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginEnd="15dp"
+            android:background="#0000"
+            android:padding="5dp"
             android:src="@drawable/icon_editmode"
             app:layout_constraintBottom_toBottomOf="@id/tv_my_information_title"
             app:layout_constraintDimensionRatio="1:1"
-
-
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/tv_my_information_title" />
 
@@ -85,9 +85,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
+        android:fontFamily="@font/pretendardmedium"
         android:text="세종인 2342님"
         android:textColor="#000"
-        android:fontFamily="@font/pretendardmedium"
         android:textSize="15sp"
         app:layout_constraintEnd_toEndOf="@id/iv_my_information_img"
         app:layout_constraintStart_toStartOf="@id/iv_my_information_img"
@@ -98,40 +98,108 @@
         android:id="@+id/tv_school"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="학교"
-        app:layout_constraintTop_toBottomOf="@id/tv_nickname_indicator"
         android:layout_marginStart="30dp"
-        app:layout_constraintStart_toStartOf="parent"
         android:layout_marginTop="50dp"
-        />
+        android:text="학교"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_nickname_indicator" />
 
     <TextView
         android:id="@+id/tv_school_indicator"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/design_school_indicator"
+        android:paddingVertical="5dp"
+        android:paddingStart="10dp"
         android:text="세종대학교"
         android:textSize="15sp"
-        app:layout_constraintTop_toBottomOf="@id/tv_school"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginHorizontal="20dp"
-        android:paddingStart="10dp"
-        android:layout_marginTop="10dp"
-        android:paddingVertical="5dp"
-        android:background="@drawable/design_school_indicator"
-        />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_school" />
 
 
     <TextView
         android:id="@+id/tv_nickname"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="닉네임"
-        app:layout_constraintTop_toBottomOf="@id/tv_school_indicator"
         android:layout_marginStart="30dp"
-        app:layout_constraintStart_toStartOf="parent"
         android:layout_marginTop="30dp"
+        android:text="닉네임"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_school_indicator" />
+
+
+    <EditText
+        android:id="@+id/et_nickname_indicator"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="10dp"
+        android:background="#0000"
+        android:paddingVertical="10dp"
+        android:paddingStart="10dp"
+        android:text="세종인"
+        android:textColor="#000"
+        android:textSize="15sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_nickname"
+
         />
+
+    <View
+        android:id="@+id/v_nickname_divider"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_marginHorizontal="20dp"
+        android:background="#EDEDED"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/et_nickname_indicator" />
+    <!--
+    -->
+
+    <TextView
+        android:id="@+id/tv_major"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="30dp"
+        android:text="소속 학과"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/v_nickname_divider" />
+
+
+    <EditText
+        android:id="@+id/et_major_indicator"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="10dp"
+        android:background="#0000"
+        android:paddingVertical="10dp"
+        android:paddingStart="10dp"
+        android:text="지능기전공학부"
+        android:textColor="#000"
+        android:textSize="15sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_major"
+
+        />
+
+    <View
+        android:id="@+id/v_major_divider"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_marginHorizontal="20dp"
+        android:background="#EDEDED"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/et_major_indicator" />
+
 
     <!--    회원탈퇴 먼저 넣음-->
 
@@ -139,9 +207,10 @@
         android:id="@+id/btn_delete_id"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="20dp"
+        android:layout_margin="10dp"
         android:background="#0000"
         android:text="회원탈퇴"
+        android:textSize="10sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -149,28 +218,10 @@
         android:id="@+id/btn_logout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="20dp"
+        android:layout_margin="10dp"
         android:background="#0000"
         android:text="로그아웃"
+        android:textSize="10sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
-
-    <EditText
-        android:id="@+id/et_nickname_indicator"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="세종인"
-        android:paddingBottom="10dp"
-        app:layout_constraintTop_toBottomOf="@id/tv_nickname"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginHorizontal="20dp"
-        android:paddingStart="10dp"
-        android:textSize="15sp"
-        android:layout_marginTop="10dp"
-        android:paddingVertical="5dp"
-
-        />
-
-
 </androidx.constraintlayout.widget.ConstraintLayout>
