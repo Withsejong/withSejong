@@ -52,4 +52,15 @@ interface Api {
         @Query("studentId") studentId:String
     ):Call<deleteAccountResponse>
 
+    @PUT("/user/update")
+    fun updateUserInfo(
+        @Header("Authorization") accessToken : String,
+        @Body jsonParams : JsonElement
+    ):Call<updateUserInfoResponse>
+
+    @GET("/user/faq")
+    fun loadFaq(
+        @Header("Authorization") accessToken : String
+    ):Call<ArrayList<loadFaqResponse>>
+
 }
