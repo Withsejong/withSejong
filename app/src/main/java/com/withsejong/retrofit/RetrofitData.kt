@@ -42,3 +42,13 @@ data class changeForgotPassword(
     val studentId: String,
     val nickname: String
 )
+
+data class deleteAccountResponse(
+    val studentId: String,
+    val name:String
+)
+
+data class checkStudentIdResponse(
+    val isSigned:Boolean,
+    val isDeleted:Boolean
+)
