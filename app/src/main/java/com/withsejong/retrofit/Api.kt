@@ -3,7 +3,9 @@ package com.withsejong.retrofit
 import com.google.gson.JsonElement
 import retrofit2.Call
 import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.GET
+import retrofit2.http.Header
 import retrofit2.http.POST
 import retrofit2.http.PUT
 import retrofit2.http.Path
@@ -28,20 +30,26 @@ interface Api {
     ): Call<LoginResponse>
 
     //http://43.201.66.172:8080/http://12.12.12.12:8080/checkNickname?nickname=misterjerry
-    @GET("/checkNickname")
+    @GET("/check-nickname")
     fun isDuplicatedNickname(
         @Query("nickname") nickname:String
     ):Call<Boolean>
 
-    @GET("/checkStudentId")
-    fun IsDuplicatedID(
+    @GET("/check-student-id")
+    fun isDuplicatedID(
         @Query("studentId") id:String
-    ):Call<Boolean>
+    ):Call<checkStudentIdResponse>
 
-    @PUT("/change-password")
+    @PUT("/change-forget-password")
     fun changeForgotPassword(
         //@Path("password") password:String,
         @Body jsonParams: JsonElement
     ):Call<changeForgotPassword>
+
+    @DELETE("/user/delete")
+    fun deleteAccount(
+        @Header("Authorization") accessToken : String,
+        @Query("studentId") studentId:String
+    ):Call<deleteAccountResponse>
 
 }
