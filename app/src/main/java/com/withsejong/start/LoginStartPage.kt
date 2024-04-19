@@ -33,26 +33,10 @@ class LoginStartPage : AppCompatActivity() {
 
         binding.btnStart.setOnClickListener {
             val intent = Intent(this@LoginStartPage,LoginPage::class.java)
-
             Log.d(TAG, "버튼 클릭됨")
             startActivity(intent)
             finish()
-
         }
-
-    }
-
-
-    override fun onStart() {
-        super.onStart()
-        Log.d(TAG,"onStart함수")
-
-
-
-
-
-
-
 
     }
 }
