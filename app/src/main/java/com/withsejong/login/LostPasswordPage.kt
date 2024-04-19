@@ -25,6 +25,11 @@ class LostPasswordPage : AppCompatActivity() {
         setContentView(binding.root)
 
         val saveId = intent.getStringExtra("id")
+        binding.tvAccountOk.text = """${saveId}님, 세종인 인증이 완료되었습니다.
+            |새롭게 사용할 비밀번호를 입력해 주세요 :D""".trimMargin()
+
+
+
         val intent = Intent(this@LostPasswordPage, LoginPage::class.java)
 
 
