@@ -52,3 +52,13 @@ data class checkStudentIdResponse(
     val isSigned:Boolean,
     val isDeleted:Boolean
 )
+
+data class updateUserInfoResponse(
+    val studentId: String,
+    val nickname: String,
+    val major: String
+)
+data class loadFaqResponse(
+    val title:String,
+    val context : String
+)
