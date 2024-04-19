@@ -117,7 +117,7 @@ private fun isDuplicatedNickname(saveName:String?, saveId:String?, savePassword:
                 else{
                     Toast.makeText(this@MakeNicknamePage,"계정생성실패",Toast.LENGTH_SHORT).show()
                 }
-                Log.d("MakeNicknamePage_TAG",response.code().toString())
+                Log.d("MakeNicknamePage_TAG",response.body().toString())
             }
             override fun onFailure(call: Call<UserSignupResponse>, t: Throwable) {
                 Log.d("MakeNicknamePage_TAG", call.toString())
