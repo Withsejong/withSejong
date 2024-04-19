@@ -26,23 +26,11 @@ class LoginChoicePage : AppCompatActivity() {
 
         }
         binding.btnSignup.setOnClickListener {
-            intentSignup.putExtra("isSignup","1")
+            intentSignup.putExtra("isSignup", "1")
             startActivity(intentSignup)
             finish()
 
         }
-
-    }
-
-
-
-
-    override fun onStart() {
-        super.onStart()
-
-
-
-
 
     }
 }
