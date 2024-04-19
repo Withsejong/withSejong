@@ -13,6 +13,7 @@ import com.withsejong.databinding.ActivityAccountPageBinding
 import com.withsejong.databinding.ActivityLoginChoicePageBinding
 import com.withsejong.retrofit.RetrofitClient
 import com.withsejong.retrofit.SejongAuthResponse
+import com.withsejong.retrofit.checkStudentIdResponse
 import com.withsejong.start.LoginStartPage
 import org.json.JSONObject
 import retrofit2.Call
@@ -30,7 +31,6 @@ class AccountInPage : AppCompatActivity() {
         val isSignup = intent.getStringExtra("isSignup").toString()
         val intent = Intent(this, MakePasswordPage::class.java)
         val intentChangeForgotPassword = Intent(this,LostPasswordPage::class.java)
-
         binding.btnNext.setOnClickListener {
             if (binding.etStudentIdInput.text.isNullOrEmpty() || binding.etStudentPasswordInput.text.isNullOrEmpty()) {
                 Toast.makeText(this, "학번 또는 비밀번호를 입력 해주세요!", Toast.LENGTH_SHORT).show()
@@ -49,30 +49,51 @@ class AccountInPage : AppCompatActivity() {
     private fun checkisDuplicatedID(intent: Intent){
         //학번 중복 체크
         var isDuplicatedId: Int = 1
-        Log.d("AccountInPage_TAG", binding.etStudentIdInput.text.toString())
-        RetrofitClient.instance.IsDuplicatedID(binding.etStudentIdInput.text.toString())
-            .enqueue(object : Callback<Boolean> {
-                override fun onResponse(call: Call<Boolean>, response: Response<Boolean>) {
 
-                    Log.d("AccountInPage_TAG", response.toString())
-                    if (response.isSuccessful) {
+        Log.d("AccountInPage_TAG", binding.etStudentIdInput.text.toString())
+        intent.putExtra("id",binding.etStudentIdInput.text.toString())
+        RetrofitClient.instance.isDuplicatedID(binding.etStudentIdInput.text.toString())
+            .enqueue(object :Callback<checkStudentIdResponse>{
+                override fun onResponse(
+                    call: Call<checkStudentIdResponse>,
+                    response: Response<checkStudentIdResponse>
+                ) {
+                    if(response.isSuccessful){
+
                         isDuplicatedId = 0
-                        checkvalidID(intent)
+                        Log.d("AccountInPage_TAG", response.toString())
+                        //이미 가입된 계정인 경우
+                        if(response.body()?.isSigned == true){
+                            //ㄹㅇ로 가입된 계정인 경우
+                            if(response.body()?.isDeleted==false){
+                                binding.tvDuplicatedIdErrorIndicator.visibility = View.VISIBLE
+                            }//탈퇴한 계정인경우
+                            else{
+                                //TODO 탈퇴한 계정 재 생성하는 api 요청
+                            }
+                        }
+                        else{
+                            checkvalidID(intent)
+                        }
                     }
                     else{
-                        binding.tvDuplicatedIdErrorIndicator.visibility = View.VISIBLE
                     }
                 }
-                override fun onFailure(call: Call<Boolean>, t: Throwable) {
+
+                override fun onFailure(call: Call<checkStudentIdResponse>, t: Throwable) {
                 }
+
             })
+
+
+
     }
 
     private fun checkvalidID(intent: Intent){
             val jsonObject = JSONObject()
             jsonObject.put("id", binding.etStudentIdInput.text.toString())
             jsonObject.put("pw", binding.etStudentPasswordInput.text.toString())
-            Log.d("AccountInPage_json", jsonObject.toString())
+            Log.d("AccountInPage_TAG", jsonObject.toString())
 
             RetrofitClient.onlySejongAuth.checkSejong(JsonParser.parseString(jsonObject.toString()))
                 .enqueue(object : Callback<SejongAuthResponse> {
@@ -81,7 +102,7 @@ class AccountInPage : AppCompatActivity() {
                         response: Response<SejongAuthResponse>
                     ) {
                         if (response.isSuccessful) {
-                            Log.d("AccountInPage", response.body().toString())
+                            Log.d("AccountInPage_TAG", response.body().toString())
                             if (response.body()?.result?.is_auth.toBoolean()) {
                                 intent.putExtra(
                                     "id",
@@ -109,11 +130,11 @@ class AccountInPage : AppCompatActivity() {
                                 ).show()
                             }
                         } else {
-                            Log.d("AccountInpage", "실패")
+                            Log.d("AccountInPage_TAG", "실패")
                         }
                     }
                     override fun onFailure(call: Call<SejongAuthResponse>, t: Throwable) {
-                        Log.d("AccountInPage", "onFailure")
+                        Log.d("AccountInPage_TAG", "onFailure")
                     }
                 })
     }
