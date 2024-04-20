@@ -1,18 +1,22 @@
 package com.withsejong.mypage.myInformation
 
 import android.content.Context.MODE_PRIVATE
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import com.google.gson.JsonParser
 import com.withsejong.R
 import com.withsejong.databinding.FragmentMyInformationEditmodeBinding
+import com.withsejong.retrofit.LogoutResponse
 import com.withsejong.retrofit.RetrofitClient
 import com.withsejong.retrofit.UpdateUserInfoResponse
+import com.withsejong.start.LoginChoicePage
 import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
@@ -104,6 +108,25 @@ class MyInformationEditmodeFragment : Fragment() {
                 })
 
 
+        }
+        val intentLogout = Intent(requireActivity(), LoginChoicePage::class.java)
+        binding.btnLogout.setOnClickListener {
+            val saveId = userInfoSharedPreferences.getString("studentId","error").toString()
+            val accessToken = tokenSharedPreferences.getString("accessToken","error").toString()
+            RetrofitClient.instance.logout(accessToken = "Bearer $accessToken",studentId = saveId).enqueue(object : Callback<LogoutResponse>{
+                override fun onResponse(call: Call<LogoutResponse>, response: Response<LogoutResponse>) {
+                    Log.d("MyInformationEditmodeFragment_TAG",response.toString())
+                    if(response.isSuccessful){
+                        //Snackbar.make(requireView(),"로그아웃이 정상적으로 처리되었습니다.",Snackbar.LENGTH_SHORT).show()
+                        Toast.makeText(requireContext(),"로그아웃이 정상적으로 처리되었습니다.", Toast.LENGTH_SHORT).show()
+                        startActivity(intentLogout)
+                    }
+                }
+                override fun onFailure(call: Call<LogoutResponse>, t: Throwable) {
+                    Log.d("MyInformationEditmodeFragment_TAG",t.toString())
+                }
+
+            })
         }
 
     }
