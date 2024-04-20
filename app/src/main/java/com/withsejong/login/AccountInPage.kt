@@ -7,19 +7,14 @@ import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.gson.JsonParser
-import com.withsejong.R
 import com.withsejong.databinding.ActivityAccountInPageBinding
-import com.withsejong.databinding.ActivityAccountPageBinding
-import com.withsejong.databinding.ActivityLoginChoicePageBinding
 import com.withsejong.retrofit.RetrofitClient
 import com.withsejong.retrofit.SejongAuthResponse
-import com.withsejong.retrofit.checkStudentIdResponse
-import com.withsejong.start.LoginStartPage
+import com.withsejong.retrofit.CheckStudentIdResponse
 import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import retrofit2.Retrofit
 
 
 class AccountInPage : AppCompatActivity() {
@@ -53,10 +48,10 @@ class AccountInPage : AppCompatActivity() {
         Log.d("AccountInPage_TAG", binding.etStudentIdInput.text.toString())
         intent.putExtra("id",binding.etStudentIdInput.text.toString())
         RetrofitClient.instance.isDuplicatedID(binding.etStudentIdInput.text.toString())
-            .enqueue(object :Callback<checkStudentIdResponse>{
+            .enqueue(object :Callback<CheckStudentIdResponse>{
                 override fun onResponse(
-                    call: Call<checkStudentIdResponse>,
-                    response: Response<checkStudentIdResponse>
+                    call: Call<CheckStudentIdResponse>,
+                    response: Response<CheckStudentIdResponse>
                 ) {
                     if(response.isSuccessful){
 
@@ -80,7 +75,7 @@ class AccountInPage : AppCompatActivity() {
                     }
                 }
 
-                override fun onFailure(call: Call<checkStudentIdResponse>, t: Throwable) {
+                override fun onFailure(call: Call<CheckStudentIdResponse>, t: Throwable) {
                 }
 
             })
