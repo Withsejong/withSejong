@@ -8,7 +8,6 @@ import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.POST
 import retrofit2.http.PUT
-import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface Api {
@@ -38,29 +37,43 @@ interface Api {
     @GET("/check-student-id")
     fun isDuplicatedID(
         @Query("studentId") id:String
-    ):Call<checkStudentIdResponse>
+    ):Call<CheckStudentIdResponse>
 
     @PUT("/change-forget-password")
     fun changeForgotPassword(
         //@Path("password") password:String,
         @Body jsonParams: JsonElement
-    ):Call<changeForgotPassword>
+    ):Call<ChangeForgotPassword>
 
     @DELETE("/user/delete")
     fun deleteAccount(
         @Header("Authorization") accessToken : String,
         @Query("studentId") studentId:String
-    ):Call<deleteAccountResponse>
+    ):Call<DeleteAccountResponse>
 
     @PUT("/user/update")
     fun updateUserInfo(
         @Header("Authorization") accessToken : String,
         @Body jsonParams : JsonElement
-    ):Call<updateUserInfoResponse>
+    ):Call<UpdateUserInfoResponse>
 
     @GET("/user/faq")
     fun loadFaq(
         @Header("Authorization") accessToken : String
-    ):Call<ArrayList<loadFaqResponse>>
+    ):Call<ArrayList<LoadFaqResponse>>
+
+
+    @POST("/refresh")
+    fun refreshToken(
+        @Header("Authorization") accessToken : String,
+        @Body jsonParams: JsonElement
+    ):Call<RefreshTokenResponse>
+
+    @GET("/user/logout")
+    fun logout(
+        @Header("Authorization") accessToken : String,
+        @Query("studentId") studentId: String
+    ):Call<LogoutResponse>
+
 
 }
