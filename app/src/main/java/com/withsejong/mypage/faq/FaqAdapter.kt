@@ -4,9 +4,9 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.withsejong.databinding.ItemFaqBinding
-import com.withsejong.retrofit.loadFaqResponse
+import com.withsejong.retrofit.LoadFaqResponse
 
-class FaqAdapter(val faqlist:ArrayList<loadFaqResponse>?): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class FaqAdapter(val faqlist:ArrayList<LoadFaqResponse>?): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val binding = ItemFaqBinding.inflate(LayoutInflater.from(parent.context),parent,false)
         return FaqViewHolder(binding)
