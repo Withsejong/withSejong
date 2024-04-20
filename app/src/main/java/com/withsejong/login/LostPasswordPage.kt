@@ -7,8 +7,7 @@ import com.google.gson.JsonParser
 
 import com.withsejong.databinding.ActivityLostPasswordPageBinding
 import com.withsejong.retrofit.RetrofitClient
-import com.withsejong.retrofit.changeForgotPassword
-import com.withsejong.start.LoginStartPage
+import com.withsejong.retrofit.ChangeForgotPassword
 import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
@@ -40,10 +39,10 @@ class LostPasswordPage : AppCompatActivity() {
                 jsonObject.put("studentId",saveId)
                 jsonObject.put("password",binding.etNewPasswordOkInput.text)
                 RetrofitClient.instance.changeForgotPassword(JsonParser.parseString(jsonObject.toString())).
-                enqueue(object : Callback<changeForgotPassword>{
+                enqueue(object : Callback<ChangeForgotPassword>{
                     override fun onResponse(
-                        call: Call<changeForgotPassword>,
-                        response: Response<changeForgotPassword>
+                        call: Call<ChangeForgotPassword>,
+                        response: Response<ChangeForgotPassword>
                     ) {
                         if(response.isSuccessful){
                             startActivity(intent)
@@ -51,7 +50,7 @@ class LostPasswordPage : AppCompatActivity() {
                         }
                     }
 
-                    override fun onFailure(call: Call<changeForgotPassword>, t: Throwable) {
+                    override fun onFailure(call: Call<ChangeForgotPassword>, t: Throwable) {
                         //TODO("Not yet implemented")
                     }
 
