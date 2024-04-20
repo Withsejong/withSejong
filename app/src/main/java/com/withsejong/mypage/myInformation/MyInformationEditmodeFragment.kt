@@ -7,11 +7,12 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import com.google.gson.JsonParser
 import com.withsejong.R
 import com.withsejong.databinding.FragmentMyInformationEditmodeBinding
 import com.withsejong.retrofit.RetrofitClient
-import com.withsejong.retrofit.updateUserInfoResponse
+import com.withsejong.retrofit.UpdateUserInfoResponse
 import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
@@ -52,6 +53,18 @@ class MyInformationEditmodeFragment : Fragment() {
             val fragmentManager = parentFragmentManager.beginTransaction()
             fragmentManager.replace(R.id.fcv_all_fragment,myInformationFragment).commit()
         }
+        //휴대폰 뒤로가기를 누른 경우 이전 fragment로 돌아가는 행동 정의
+        val backActionCallback = object : OnBackPressedCallback(true){
+            override fun handleOnBackPressed() {
+                val fragmentManager = parentFragmentManager.beginTransaction()
+                fragmentManager.replace(R.id.fcv_all_fragment,myInformationFragment).commit()
+            }
+
+        }
+
+        requireActivity().onBackPressedDispatcher.addCallback(requireActivity(),backActionCallback)
+
+
         binding.tvSave.setOnClickListener {
             val updateInformation = userInfoSharedPreferences.edit()
             if(binding.etNicknameIndicator.text.length>0){
@@ -70,10 +83,10 @@ class MyInformationEditmodeFragment : Fragment() {
             RetrofitClient.instance.updateUserInfo(
                 accessToken = "Bearer ${tokenSharedPreferences.getString("accessToken","error")}"
                 ,JsonParser.parseString(jsonObject.toString()))
-                .enqueue(object :  Callback<updateUserInfoResponse> {
+                .enqueue(object :  Callback<UpdateUserInfoResponse> {
                     override fun onResponse(
-                        call: Call<updateUserInfoResponse>,
-                        response: Response<updateUserInfoResponse>
+                        call: Call<UpdateUserInfoResponse>,
+                        response: Response<UpdateUserInfoResponse>
                     ) {
                         if(response.isSuccessful){
                             val fragmentManager = parentFragmentManager.beginTransaction()
@@ -84,7 +97,7 @@ class MyInformationEditmodeFragment : Fragment() {
                         }
                     }
 
-                    override fun onFailure(call: Call<updateUserInfoResponse>, t: Throwable) {
+                    override fun onFailure(call: Call<UpdateUserInfoResponse>, t: Throwable) {
                         Log.d("MyInformationEditmodeFragment_TAG", t.toString())
                     }
 
