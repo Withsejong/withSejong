@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import com.withsejong.R
 import com.withsejong.databinding.FragmentInterestingListBinding
 import com.withsejong.mypage.MypageMainFragment
@@ -19,11 +20,21 @@ class InterestingListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val myPageMainFragment = MypageMainFragment()
+        val mypageMainFragment = MypageMainFragment()
         binding.ibtnBack.setOnClickListener {
             val fragmentManager = parentFragmentManager.beginTransaction()
-            fragmentManager.replace(R.id.fcv_all_fragment,myPageMainFragment).commit()
+            fragmentManager.replace(R.id.fcv_all_fragment,mypageMainFragment).commit()
         }
+        //휴대폰 뒤로가기를 누른 경우 이전 fragment로 돌아가는 행동 정의
+        val backActionCallback = object : OnBackPressedCallback(true){
+            override fun handleOnBackPressed() {
+                val fragmentManager = parentFragmentManager.beginTransaction()
+                fragmentManager.replace(R.id.fcv_all_fragment,mypageMainFragment).commit()
+            }
+
+        }
+
+        requireActivity().onBackPressedDispatcher.addCallback(requireActivity(),backActionCallback)
     }
 
     //TODO 나중에 관심목록에 들어가는 것들을 리사이클러뷰로 구현할 것
