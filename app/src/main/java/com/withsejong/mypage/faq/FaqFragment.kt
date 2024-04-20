@@ -7,15 +7,19 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.gson.JsonParser
 import com.withsejong.R
 import com.withsejong.databinding.FragmentFaqBinding
+import com.withsejong.mypage.MypageMainFragment
 import com.withsejong.retrofit.RetrofitClient
-import com.withsejong.retrofit.loadFaqResponse
+import com.withsejong.retrofit.LoadFaqResponse
+import com.withsejong.retrofit.RefreshTokenResponse
+import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import retrofit2.Retrofit
 
 class FaqFragment : Fragment() {
 
@@ -30,23 +34,71 @@ class FaqFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val tokenSharedPreferences = requireContext().getSharedPreferences("token",
+
+        val userInfoSharedPreferences = requireContext().getSharedPreferences("userInfo",
             Context.MODE_PRIVATE
         )
+        val tokenSharedPreferences = requireContext().getSharedPreferences("token",Context.MODE_PRIVATE)
+        val saveID = userInfoSharedPreferences.getString("studentId", "Error")
+        val saveAccessToken = tokenSharedPreferences.getString("accessToken","Error")
 
-        RetrofitClient.instance.loadFaq(accessToken = "Bearer ${tokenSharedPreferences.getString("accessToken","error")}").enqueue(object : Callback<ArrayList<loadFaqResponse>>{
+
+
+
+        //상단 뒤로가기 버튼 동작 정의
+        val mypageMainFragment = MypageMainFragment()
+
+
+
+        binding.ibtnBack.setOnClickListener {
+            val fragmentManager = parentFragmentManager.beginTransaction()
+            fragmentManager.replace(R.id.fcv_all_fragment,mypageMainFragment).commit()
+        }
+        //휴대폰 뒤로가기를 누른 경우 이전 fragment로 돌아가는 행동 정의
+        val backActionCallback = object : OnBackPressedCallback(true){
+            override fun handleOnBackPressed() {
+                val fragmentManager = parentFragmentManager.beginTransaction()
+                fragmentManager.replace(R.id.fcv_all_fragment,mypageMainFragment).commit()
+            }
+
+        }
+
+        requireActivity().onBackPressedDispatcher.addCallback(requireActivity(),backActionCallback)
+
+
+        RetrofitClient.instance.loadFaq(accessToken = "Bearer ${tokenSharedPreferences.getString("accessToken","error")}").enqueue(object : Callback<ArrayList<LoadFaqResponse>>{
             override fun onResponse(
-                call: Call<ArrayList<loadFaqResponse>>,
-                response: Response<ArrayList<loadFaqResponse>>
+                call: Call<ArrayList<LoadFaqResponse>>,
+                response: Response<ArrayList<LoadFaqResponse>>
             ) {
-                if(response.isSuccessful){//FAQ를 잘 받아 온 경우
+                if(response.code().toString()=="403"){
+                    //TODO 토큰 리프레시 하는 api 연결
+                    val jsonObject = JSONObject()
+                    jsonObject.put("studentId", saveID)
+                    jsonObject.put("accessToken", saveAccessToken)
 
+                    RetrofitClient.instance.refreshToken(accessToken = "Bearer $saveAccessToken",JsonParser.parseString(jsonObject.toString()))
+                        .enqueue(object :Callback<RefreshTokenResponse> {
+                        override fun onResponse(call: Call<RefreshTokenResponse>, response: Response<RefreshTokenResponse>) {
+                            //if(response.isSuccessful){
+                                val newAccessToken = response.body().toString()
+                                Log.d("FaqFragment_TAG_", newAccessToken)
+                            //}
+                        }
+
+                        override fun onFailure(call: Call<RefreshTokenResponse>, t: Throwable) {
+                            Log.d("FaqFragment_TAG", t.toString())
+                        }
+
+                    })
+                }
+
+                else if(response.isSuccessful){//FAQ를 잘 받아 온 경우
                     Log.d("FaqFragment_TAG", response.toString())
-                    val responseList : ArrayList<loadFaqResponse>? = response.body()
+                    val responseList : ArrayList<LoadFaqResponse>? = response.body()
 
                     binding.rcvNoticyList.adapter = FaqAdapter(responseList)
                     binding.rcvNoticyList.layoutManager = LinearLayoutManager(requireContext(),LinearLayoutManager.VERTICAL,false)
-
                 }
                 else{
                     Log.d("FaqFragment_TAG", response.toString())
@@ -54,7 +106,7 @@ class FaqFragment : Fragment() {
                 }
             }
 
-            override fun onFailure(call: Call<ArrayList<loadFaqResponse>>, t: Throwable) {
+            override fun onFailure(call: Call<ArrayList<LoadFaqResponse>>, t: Throwable) {
                 Log.d("FaqFragment_TAG", t.toString())
             }
 
