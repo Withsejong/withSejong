@@ -1,8 +1,5 @@
 package com.withsejong.retrofit
 
-import com.google.gson.JsonObject
-import retrofit2.http.Body
-
 data class UserSignupResponse(
     val name: String,
     val studentId: String,
@@ -38,27 +35,38 @@ data class LoginResponseAuthToken(
     val accessToken: String,
     val refreshToken: String,
 )
-data class changeForgotPassword(
+data class ChangeForgotPassword(
     val studentId: String,
     val nickname: String
 )
 
-data class deleteAccountResponse(
+data class DeleteAccountResponse(
     val studentId: String,
     val name:String
 )
 
-data class checkStudentIdResponse(
+data class CheckStudentIdResponse(
     val isSigned:Boolean,
     val isDeleted:Boolean
 )
 
-data class updateUserInfoResponse(
+data class UpdateUserInfoResponse(
     val studentId: String,
     val nickname: String,
     val major: String
 )
-data class loadFaqResponse(
+data class LoadFaqResponse(
     val title:String,
     val context : String
 )
+
+data class RefreshTokenResponse(
+    val refreshToken: String
+)
+data class LogoutResponse(
+    val studentId: String,
+    val name: String,
+    val nickname: String,
+    val major: String
+)
+
