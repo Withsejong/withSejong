@@ -75,5 +75,10 @@ interface Api {
         @Query("studentId") studentId: String
     ):Call<LogoutResponse>
 
+    @GET("/find-nickname")
+    fun findNickname(
+        @Query("studentId") studentId: String
+    ):Call<String>
+
 
 }
