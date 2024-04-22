@@ -82,7 +82,7 @@ class MyInformationFragment : Fragment() {
             val accessToken = tokenSharedPreferences.getString("accessToken",null)
             val saveId = userInfoSharedPreferences.getString("studentId",null)
 
-            RetrofitClient.instance.deleteAccount(accessToken.toString(),saveId.toString()).enqueue(object : Callback<DeleteAccountResponse>{
+            RetrofitClient.instance.deleteAccount(accessToken = "Bearer $accessToken",saveId.toString()).enqueue(object : Callback<DeleteAccountResponse>{
 
                 override fun onResponse(
                     call: Call<DeleteAccountResponse>,
@@ -92,6 +92,8 @@ class MyInformationFragment : Fragment() {
 
                     if(response.isSuccessful){
                         startActivity(intent)
+
+
                     }
                 }
                 override fun onFailure(call: Call<DeleteAccountResponse>, t: Throwable) {
