@@ -61,6 +61,8 @@ data class LoadFaqResponse(
 )
 
 data class RefreshTokenResponse(
+    val grantType: String,
+    val accessToken: String,
     val refreshToken: String
 )
 data class LogoutResponse(
