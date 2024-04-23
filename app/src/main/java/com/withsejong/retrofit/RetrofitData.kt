@@ -46,8 +46,8 @@ data class DeleteAccountResponse(
 )
 
 data class CheckStudentIdResponse(
-    val isSigned:Boolean,
-    val isDeleted:Boolean
+    val isSigned:Boolean?,
+    val isDeleted:Boolean?
 )
 
 data class UpdateUserInfoResponse(
