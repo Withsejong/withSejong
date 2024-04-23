@@ -27,8 +27,9 @@
             android:name=".login.MakeNicknamePage"
             android:exported="false" />
 
+
         <activity
-            android:name=".login.AccountInPage"
+            android:name=".login.AccountInPageSync"
             android:exported="false" />
 
         <activity
