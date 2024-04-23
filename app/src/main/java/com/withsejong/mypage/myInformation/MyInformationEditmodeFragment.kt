@@ -181,11 +181,6 @@ class MyInformationEditmodeFragment : Fragment() {
                         accessToken = tokenSharedPreferences.getString("accessToken", "Error").toString()
 
                         retryLogout(accessToken,saveId,intentLogout)
-
-
-
-
-
                     }
                 }
                 override fun onFailure(call: Call<LogoutResponse>, t: Throwable) {
@@ -194,9 +189,6 @@ class MyInformationEditmodeFragment : Fragment() {
             })
         }
     }
-
-
-
     private fun refreshToken(saveId:String){
         val tokenSharedPreferences = requireContext().getSharedPreferences("token",Context.MODE_PRIVATE)
         val accessToken = tokenSharedPreferences.getString("accessToken", "Error").toString()
