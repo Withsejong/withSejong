@@ -13,7 +13,7 @@ import retrofit2.http.Query
 interface Api {
     @POST("/signup")
     fun signup(
-        @Body jsonParams : JsonElement
+        @Body jsonParams: JsonElement
     ): Call<UserSignupResponse>
 
 
@@ -31,54 +31,54 @@ interface Api {
     //http://43.201.66.172:8080/http://12.12.12.12:8080/checkNickname?nickname=misterjerry
     @GET("/check-nickname")
     fun isDuplicatedNickname(
-        @Query("nickname") nickname:String
-    ):Call<Boolean>
+        @Query("nickname") nickname: String
+    ): Call<Boolean>
 
     @GET("/check-student-id")
     fun isDuplicatedID(
-        @Query("studentId") id:String
-    ):Call<CheckStudentIdResponse>
+        @Query("studentId") id: String
+    ): Call<CheckStudentIdResponse>
 
     @PUT("/change-forget-password")
     fun changeForgotPassword(
         //@Path("password") password:String,
         @Body jsonParams: JsonElement
-    ):Call<ChangeForgotPassword>
+    ): Call<ChangeForgotPassword>
 
     @DELETE("/user/delete")
     fun deleteAccount(
-        @Header("Authorization") accessToken : String,
-        @Query("studentId") studentId:String
-    ):Call<DeleteAccountResponse>
+        @Header("Authorization") accessToken: String,
+        @Query("studentId") studentId: String
+    ): Call<DeleteAccountResponse>
 
     @PUT("/user/update")
     fun updateUserInfo(
-        @Header("Authorization") accessToken : String,
-        @Body jsonParams : JsonElement
-    ):Call<UpdateUserInfoResponse>
+        @Header("Authorization") accessToken: String,
+        @Body jsonParams: JsonElement
+    ): Call<UpdateUserInfoResponse>
 
     @GET("/user/faq")
     fun loadFaq(
-        @Header("Authorization") accessToken : String
-    ):Call<ArrayList<LoadFaqResponse>>
+        @Header("Authorization") accessToken: String
+    ): Call<ArrayList<LoadFaqResponse>>
 
 
     @POST("/refresh")
     fun refreshToken(
-        @Header("Authorization") accessToken : String,
+        @Header("Authorization") accessToken: String,
         @Body jsonParams: JsonElement
-    ):Call<RefreshTokenResponse>
+    ): Call<RefreshTokenResponse>
 
     @GET("/user/logout")
     fun logout(
-        @Header("Authorization") accessToken : String,
+        @Header("Authorization") accessToken: String,
         @Query("studentId") studentId: String
-    ):Call<LogoutResponse>
+    ): Call<LogoutResponse>
 
     @GET("/find-nickname")
     fun findNickname(
         @Query("studentId") studentId: String
-    ):Call<String>
+    ): Call<String>
 
 
 }
