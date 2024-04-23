@@ -34,13 +34,13 @@ class FaqFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         val userInfoSharedPreferences = requireContext().getSharedPreferences("userInfo",
             Context.MODE_PRIVATE
         )
         val tokenSharedPreferences = requireContext().getSharedPreferences("token",Context.MODE_PRIVATE)
         val saveID = userInfoSharedPreferences.getString("studentId", "Error")
         val saveAccessToken = tokenSharedPreferences.getString("accessToken","Error")
+        val saveRefreshToken = tokenSharedPreferences.getString("refreshToken", "Error")
 
 
 
@@ -76,14 +76,24 @@ class FaqFragment : Fragment() {
                     val jsonObject = JSONObject()
                     jsonObject.put("studentId", saveID)
                     jsonObject.put("accessToken", saveAccessToken)
+                    jsonObject.put("refreshToken", saveRefreshToken)
 
                     RetrofitClient.instance.refreshToken(accessToken = "Bearer $saveAccessToken",JsonParser.parseString(jsonObject.toString()))
                         .enqueue(object :Callback<RefreshTokenResponse> {
                         override fun onResponse(call: Call<RefreshTokenResponse>, response: Response<RefreshTokenResponse>) {
-                            //if(response.isSuccessful){
-                                val newAccessToken = response.body().toString()
-                                Log.d("FaqFragment_TAG_", newAccessToken)
-                            //}
+                            if(response.isSuccessful){
+                                Log.d("FaqFragment_TAG,갱신 전", saveAccessToken.toString())
+                                val accessToken = response.body()?.accessToken
+                                val refreshToken = response.body()?.refreshToken
+                                val tokenSharedPreferencesEditor = requireContext().getSharedPreferences("token",Context.MODE_PRIVATE).edit()
+                                tokenSharedPreferencesEditor.putString("accessToken",accessToken)
+                                tokenSharedPreferencesEditor.putString("refreshToken", refreshToken)
+                                tokenSharedPreferencesEditor.apply()
+                                Log.d("FaqFragment_TAG,갱신 후", accessToken.toString())
+
+                                //TODO 공지사항 다시 받는 코드 추가
+                                reloadFaq(accessToken.toString())
+                            }
                         }
 
                         override fun onFailure(call: Call<RefreshTokenResponse>, t: Throwable) {
@@ -99,6 +109,7 @@ class FaqFragment : Fragment() {
 
                     binding.rcvNoticyList.adapter = FaqAdapter(responseList)
                     binding.rcvNoticyList.layoutManager = LinearLayoutManager(requireContext(),LinearLayoutManager.VERTICAL,false)
+
                 }
                 else{
                     Log.d("FaqFragment_TAG", response.toString())
@@ -114,4 +125,24 @@ class FaqFragment : Fragment() {
 
 
     }
+
+
+
+    private fun reloadFaq(accessToken:String){
+        RetrofitClient.instance.loadFaq(accessToken = "Bearer $accessToken").enqueue(object :Callback <ArrayList<LoadFaqResponse>>{
+            override fun onResponse(
+                call: Call<ArrayList<LoadFaqResponse>>,
+                response: Response<ArrayList<LoadFaqResponse>>
+            ) {
+                Log.d("FaqFragment_TAG_reloadFaq", response.toString())
+                val responseList : ArrayList<LoadFaqResponse>? = response.body()
+                binding.rcvNoticyList.adapter = FaqAdapter(responseList)
+                binding.rcvNoticyList.layoutManager = LinearLayoutManager(requireContext(),LinearLayoutManager.VERTICAL,false)
+            }
+            override fun onFailure(call: Call<ArrayList<LoadFaqResponse>>, t: Throwable) {
+                Log.d("FaqFragment_TAG", t.toString())
+            }
+        })
+    }
+
 }
