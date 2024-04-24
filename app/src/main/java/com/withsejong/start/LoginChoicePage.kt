@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
@@ -59,6 +60,23 @@ class LoginChoicePage : AppCompatActivity() {
             finish()
 
         }
+
+        //뒤로 가기 2번 눌러서 앱 종료 로직 추가
+
+        var backPressedTime = 0L
+        val onBackPressed = object : OnBackPressedCallback(true){
+            override fun handleOnBackPressed() {
+                if(System.currentTimeMillis() - backPressedTime<=2000){
+                    finish() //앱 종료
+                }
+                else{
+                    backPressedTime=System.currentTimeMillis()
+                    Toast.makeText(this@LoginChoicePage, "한번 더 누르면 종료합니다.",Toast.LENGTH_SHORT).show()
+                }
+            }
+
+        }
+        onBackPressedDispatcher.addCallback(this@LoginChoicePage,onBackPressed)
 
     }
 }
