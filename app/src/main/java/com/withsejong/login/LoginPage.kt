@@ -6,13 +6,16 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import com.google.gson.JsonParser
 import com.withsejong.MainActivity
 import com.withsejong.R
 import com.withsejong.databinding.ActivityLoginPageBinding
+import com.withsejong.mypage.MypageMainFragment
 import com.withsejong.retrofit.LoginResponse
 import com.withsejong.retrofit.RetrofitClient
+import com.withsejong.start.LoginChoicePage
 import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
@@ -31,6 +34,21 @@ class LoginPage : AppCompatActivity() {
             startActivity(intentLost)
             finish()
         }
+        //뒤로가기 시 loginchice페이지로 이동
+        val loginChoicePage = LoginChoicePage()
+
+        //휴대폰 뒤로가기를 누른 경우 이전 fragment로 돌아가는 행동 정의
+        val backActionCallback = object : OnBackPressedCallback(true){
+            override fun handleOnBackPressed() {
+                val intent = Intent(this@LoginPage,loginChoicePage::class.java)
+
+                startActivity(intent)
+                finish()
+            }
+        }
+        this@LoginPage.onBackPressedDispatcher.addCallback(this@LoginPage,backActionCallback)
+
+
         //입력 감지
 
         var idInputCheck:Int = 0
