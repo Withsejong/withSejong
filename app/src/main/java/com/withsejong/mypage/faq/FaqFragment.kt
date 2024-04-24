@@ -24,6 +24,8 @@ import retrofit2.Response
 class FaqFragment : Fragment() {
 
     private lateinit var binding:FragmentFaqBinding
+    private val TAG = "FaqFragment"
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         binding = FragmentFaqBinding.inflate(layoutInflater,container,false)
@@ -37,6 +39,7 @@ class FaqFragment : Fragment() {
         val userInfoSharedPreferences = requireContext().getSharedPreferences("userInfo",
             Context.MODE_PRIVATE
         )
+
         val tokenSharedPreferences = requireContext().getSharedPreferences("token",Context.MODE_PRIVATE)
         val saveID = userInfoSharedPreferences.getString("studentId", "Error")
         val saveAccessToken = tokenSharedPreferences.getString("accessToken","Error")
@@ -60,12 +63,12 @@ class FaqFragment : Fragment() {
                 val fragmentManager = parentFragmentManager.beginTransaction()
                 fragmentManager.replace(R.id.fcv_all_fragment,mypageMainFragment).commit()
             }
-
         }
-
         requireActivity().onBackPressedDispatcher.addCallback(requireActivity(),backActionCallback)
 
 
+
+        //TODO 비동기 통신으로 해도 잘 작동하는데 걍 바꾸지 말까?
         RetrofitClient.instance.loadFaq(accessToken = "Bearer ${tokenSharedPreferences.getString("accessToken","error")}").enqueue(object : Callback<ArrayList<LoadFaqResponse>>{
             override fun onResponse(
                 call: Call<ArrayList<LoadFaqResponse>>,
