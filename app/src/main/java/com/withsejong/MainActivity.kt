@@ -25,11 +25,7 @@ class MainActivity : AppCompatActivity() {
         //TODO 더미데이터 테스트 코드이므로 추후에 통신을 통해 리스트에 저장하는 것 구현할 것!
 
         val mockData = ArrayList<PostData>()
-        mockData.add(PostData("코딩강화 파이썬",
-            arrayListOf("#지기전","소융대"),
-            7,
-            10000)
-        )
+
         mockData.add(PostData("소프트웨어 개념사전",
             arrayListOf("#컴공","#소융대","#소웨","#전정통"),
             5,
@@ -40,7 +36,11 @@ class MainActivity : AppCompatActivity() {
             5,
             20000)
         )
-
+        mockData.add(PostData("코딩강화 파이썬",
+            arrayListOf("#지기전","#소융대1"),
+            7,
+            10000)
+        )
 
         val homeFragment = HomeFragment()
         //val searchFragment = SearchFragment()
