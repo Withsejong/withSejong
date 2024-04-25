@@ -24,7 +24,7 @@ import retrofit2.Response
 class FaqFragment : Fragment() {
 
     private lateinit var binding:FragmentFaqBinding
-    private val TAG = "FaqFragment"
+    private val TAG = "FaqFragment_TAG"
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
@@ -74,6 +74,8 @@ class FaqFragment : Fragment() {
                 call: Call<ArrayList<LoadFaqResponse>>,
                 response: Response<ArrayList<LoadFaqResponse>>
             ) {
+
+                Log.d(TAG, response.toString())
                 if(response.code().toString()=="403"){
                     //TODO 토큰 리프레시 하는 api 연결
                     val jsonObject = JSONObject()
