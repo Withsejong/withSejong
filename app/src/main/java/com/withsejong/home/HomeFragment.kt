@@ -7,8 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.withsejong.R
 import com.withsejong.databinding.FragmentHomeBinding
+import com.withsejong.home.market.AnotherPostDetailFragment
 
 class HomeFragment : Fragment() {
     private lateinit var binding:FragmentHomeBinding
@@ -77,10 +77,20 @@ class HomeFragment : Fragment() {
         binding.rcvSellList.adapter=homeAdapter
         binding.rcvSellList.layoutManager = LinearLayoutManager(requireContext(),LinearLayoutManager.VERTICAL,false)
         //어댑터의 요소들 클릭했을 경우
-
-        homeAdapter.setItemClickListener(object:HomeAdapter.OnitemClickListener{
+        homeAdapter.setItemClickListener(object:HomeAdapter.OnItemClickListener{
             override fun onClick(v: View, position: Int) {
                 Toast.makeText(requireContext(),mockData[position].name,Toast.LENGTH_SHORT).show()
+            }
+
+        })
+
+        //점3개 클릭했을 때
+        val anotherPostDetailFragment = AnotherPostDetailFragment()
+
+        //어댑터의 점3개를 클릭했을 겨우
+        homeAdapter.setItemDetailClickListener(object :HomeAdapter.OnItemDetailClickListener{
+            override fun onClick(v: View, position: Int) {
+                anotherPostDetailFragment.show(parentFragmentManager,anotherPostDetailFragment.tag)
             }
 
         })
