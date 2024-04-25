@@ -18,6 +18,17 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
 
+<!--        fcm  서비스를 위한 서비스 정의-->
+        <service
+            android:name=".fcm.FcmService"
+            android:exported="true"
+            >
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
+            </intent-filter>
+        </service>
+
+
         <!--        Acticity.login  정의부-->
 
         <activity
@@ -65,5 +76,7 @@
             </intent-filter>
         </activity>
     </application>
+
+
 
 </manifest>
