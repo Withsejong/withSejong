@@ -37,22 +37,29 @@
 
         <TextView
             android:id="@+id/tv_bookname"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
-            android:layout_marginTop="5dp"
             android:fontFamily="@font/pretendardsemibold"
             android:text="컴퓨터 네트워크"
+            android:maxLines="3"
             android:textSize="25sp"
+            android:singleLine="false"
+            app:layout_constraintBottom_toBottomOf="parent"
+
+            app:layout_constraintEnd_toStartOf="@+id/ibtn_post_detail"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintVertical_bias="0"
             app:layout_constraintStart_toEndOf="@id/iv_bookimg"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/tv_booktag"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:layout_marginStart="25dp"
             android:text="#지기전"
+            android:gravity="center"
             android:textSize="10sp"
             app:layout_constraintBottom_toTopOf="@id/tv_bookprice"
             app:layout_constraintStart_toEndOf="@id/iv_bookimg"
@@ -61,10 +68,10 @@
         <TextView
             android:id="@+id/tv_divider"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:layout_marginStart="10dp"
             android:text=" | "
-
+            android:gravity="center"
             android:textSize="10sp"
             app:layout_constraintBottom_toTopOf="@id/tv_bookprice"
             app:layout_constraintStart_toEndOf="@id/tv_booktag"
@@ -73,10 +80,10 @@
         <TextView
             android:id="@+id/tv_uploadtime"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:layout_marginStart="10dp"
             android:text="5분 전"
-
+            android:gravity="center"
             android:textSize="10sp"
             app:layout_constraintBottom_toTopOf="@id/tv_bookprice"
             app:layout_constraintStart_toEndOf="@id/tv_divider"
