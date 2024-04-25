@@ -28,7 +28,7 @@ class HomeFragment : Fragment() {
 
         val mockData = ArrayList<PostData>()
         mockData.add(PostData("코딩강화 파이썬",
-            arrayListOf("#지기전","소융대"),
+            arrayListOf("#지기전","#소융대"),
             7,
             10000)
         )
@@ -43,7 +43,7 @@ class HomeFragment : Fragment() {
             20000)
         )
         mockData.add(PostData("코딩강화 파이썬",
-            arrayListOf("#지기전","소융대"),
+            arrayListOf("#지기전","#소융대"),
             7,
             10000)
         )
@@ -58,7 +58,7 @@ class HomeFragment : Fragment() {
             20000)
         )
         mockData.add(PostData("코딩강화 파이썬",
-            arrayListOf("#지기전","소융대"),
+            arrayListOf("#지기전","#소융대"),
             7,
             10000)
         )
@@ -72,21 +72,7 @@ class HomeFragment : Fragment() {
             5,
             20000)
         )
-        mockData.add(PostData("코딩강화 파이썬",
-            arrayListOf("#지기전","소융대"),
-            7,
-            10000)
-        )
-        mockData.add(PostData("소프트웨어 개념사전",
-            arrayListOf("#컴공","#소융대","#소웨","#전정통"),
-            5,
-            20000)
-        )
-        mockData.add(PostData("돼지책 파이썬",
-            arrayListOf("#컴공","#소융대","#소웨","#전정통"),
-            5,
-            20000)
-        )
+
         val homeAdapter = HomeAdapter(mockData)
         binding.rcvSellList.adapter=homeAdapter
         binding.rcvSellList.layoutManager = LinearLayoutManager(requireContext(),LinearLayoutManager.VERTICAL,false)
