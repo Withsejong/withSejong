@@ -35,6 +35,16 @@ class HomeAdapter(val postData:ArrayList<PostData>):RecyclerView.Adapter<Recycle
             holder.price.text = "${postData[position].price.addCommas()}원"
             holder.uploadTime.text = "${postData[position].postTime}분 전"
 
+
+            for(i:Int in 0 until postData[position].tag.size) {
+                if (i == 0) {
+                    holder.booktag.text = postData[position].tag[0]
+                } else {
+                    holder.booktag.text =
+                        "${holder.booktag.text}" + " " + postData[position].tag[i].toString()
+                }
+            }
+
             //클릭 리스너를 달기 위한 코드
             holder.itemView.setOnClickListener{
                 itemClickListener.onClick(it,position)
