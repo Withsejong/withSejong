@@ -10,7 +10,7 @@
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
-        android:icon="@drawable/icon_app"
+        android:icon="@drawable/icon_app_rec"
         android:label="@string/app_name"
         android:roundIcon="@drawable/icon_app"
         android:supportsRtl="true"
@@ -18,41 +18,33 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
 
-<!--        fcm  서비스를 위한 서비스 정의-->
+        <!-- fcm  서비스를 위한 서비스 정의 -->
         <service
             android:name=".fcm.FcmService"
-            android:exported="true"
-            >
+            android:exported="true">
             <intent-filter>
-                <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
             </intent-filter>
-        </service>
+            <meta-data
+                android:name="com.google.firebase.messaging.default_notification_icon"
+                android:resource="@drawable/icon_app"/>
 
-
-        <!--        Acticity.login  정의부-->
-
+        </service> <!-- Acticity.login  정의부 -->
         <activity
             android:name=".login.AccountPage"
             android:exported="false" />
-
         <activity
             android:name=".login.MakeNicknamePage"
             android:exported="false" />
-
-
         <activity
             android:name=".login.AccountInPageSync"
             android:exported="false" />
-
         <activity
             android:name=".login.LostPasswordPage"
-            android:exported="false" />
-
-        <!--         다른 Acticity-->
+            android:exported="false" /> <!-- 다른 Acticity -->
         <activity
             android:name=".start.LoginStartPage"
             android:exported="false" />
-
         <activity
             android:name=".MainActivity"
             android:exported="false" />
@@ -61,11 +53,8 @@
             android:exported="false" />
         <activity
             android:name=".login.LoginPage"
-            android:exported="false" />
-
-        <!--        첫 화면으로 보여 줄 Acticity-->
-
-        <!--android:theme="@style/Theme.AppCompat.Light.NoActionBar">-->
+            android:exported="false" /> <!-- 첫 화면으로 보여 줄 Acticity -->
+        <!-- android:theme="@style/Theme.AppCompat.Light.NoActionBar"> -->
         <activity
             android:name=".start.LoginChoicePage"
             android:exported="true">
@@ -76,7 +65,5 @@
             </intent-filter>
         </activity>
     </application>
-
-
 
 </manifest>
