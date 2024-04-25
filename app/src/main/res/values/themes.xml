@@ -5,7 +5,12 @@
         <item name="android:fontFamily">@font/seolleimcool</item>
         <item name="android:textColor"> #000 </item>
     </style>
-<!--    바텀네비게이션 폰트 용-->
+
+    <style name="AppBottomSheetDialogTheme"
+        parent="Theme.Design.Light.BottomSheetDialog">
+        <item name="bottomSheetStyle">@drawable/design_another_post_detail_clo</item>
+    </style>
+
 
 
 </resources>
