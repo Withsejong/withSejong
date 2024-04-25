@@ -4,19 +4,17 @@ import android.util.Log
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 
-class FcmService:FirebaseMessagingService() {
+class FcmService : FirebaseMessagingService() {
+    private val TAG = "FcmService"
 
-    //메시지를 수신할 때 호출
-    override fun onMessageReceived(message: RemoteMessage) {
-        super.onMessageReceived(message)
-
-
+    override fun onNewToken(token: String){
+        super.onNewToken(token)
+        Log.d("FcmService", "Refreshed token = ${token}")
     }
 
-//    override fun onNewToken(token: String)
-//        super.onNewToken(token)
-//        Log.d("FcmService", "Refreshed token = ${token}")
-//    }
-
+    override fun onMessageReceived(message: RemoteMessage) {
+        super.onMessageReceived(message)
+        Log.d(TAG,"fcm message = ${message.data}")
+    }
 
 }
