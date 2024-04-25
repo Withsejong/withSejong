@@ -1,6 +1,5 @@
 package com.withsejong.home
 
-import android.view.InflateException
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,14 +11,20 @@ fun Int.addCommas(): String {//10000을 10,000으로 바꿔주는 확장함수
     return "%,d".format(this)
 }
 class HomeAdapter(val postData:ArrayList<PostData>):RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-    private lateinit var itemClickListener : OnitemClickListener
+    private lateinit var itemClickListener : OnItemClickListener //장터에 올라온 책 리스트
+    private lateinit var itemDetailClickListener: OnItemDetailClickListener //점3개 클릭
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val binding: ItemPostBinding = ItemPostBinding.inflate(LayoutInflater.from(parent.context),parent,false)
         return HomeViewHolder(binding)
     }
 
-    interface OnitemClickListener {
+    interface OnItemClickListener {
         fun onClick(v: View, position:Int)
+    }
+    interface OnItemDetailClickListener{
+        fun onClick(v:View, position: Int)
+
     }
 
     override fun getItemCount(): Int {
@@ -49,9 +54,16 @@ class HomeAdapter(val postData:ArrayList<PostData>):RecyclerView.Adapter<Recycle
             holder.itemView.setOnClickListener{
                 itemClickListener.onClick(it,position)
             }
+            holder.postDetail.setOnClickListener {
+                itemDetailClickListener.onClick(it,position)
+            }
         }
     }
-    fun setItemClickListener(onitemClickListener: OnitemClickListener){
-        this.itemClickListener = onitemClickListener
+    fun setItemClickListener(onItemClickListener: OnItemClickListener){
+        this.itemClickListener = onItemClickListener
+    }
+
+    fun setItemDetailClickListener(onItemDetailClickListener: OnItemDetailClickListener){
+        this.itemDetailClickListener = onItemDetailClickListener
     }
 }
