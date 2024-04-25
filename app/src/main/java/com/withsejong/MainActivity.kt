@@ -48,8 +48,6 @@ class MainActivity : AppCompatActivity() {
         val mypageMainFragment = MypageMainFragment()
         val chatFragment = ChatFragment()
 
-        val typeface:Typeface ?= ResourcesCompat.getFont(this,R.font.seolleimcool)
-
         supportFragmentManager.beginTransaction().add(R.id.fcv_all_fragment,homeFragment).commit()
 
         //bottomnavigation 각 메뉴별로 클릭했을 때 fragment가 바뀌는 기능
