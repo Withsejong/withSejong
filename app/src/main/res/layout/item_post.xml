@@ -56,7 +56,7 @@
         <TextView
             android:id="@+id/tv_booktag"
             android:layout_width="wrap_content"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             android:layout_marginStart="25dp"
             android:text="#지기전"
             android:gravity="center"
