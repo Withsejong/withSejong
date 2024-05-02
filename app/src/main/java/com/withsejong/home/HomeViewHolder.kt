@@ -15,5 +15,8 @@ class HomeViewHolder(val binding:ItemPostBinding) : RecyclerView.ViewHolder(bind
     val img = binding.ivBookimg
     val postDetail = binding.ibtnPostDetail
 
+
+
+
     //TODO 추가 위젯에 대한 변수 정의할 것
 }
