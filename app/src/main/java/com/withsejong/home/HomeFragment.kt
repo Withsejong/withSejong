@@ -6,7 +6,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.DialogFragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.withsejong.R
 import com.withsejong.databinding.FragmentHomeBinding
 import com.withsejong.home.market.AnotherPostDetailFragment
 
@@ -88,12 +90,14 @@ class HomeFragment : Fragment() {
         val anotherPostDetailFragment = AnotherPostDetailFragment()
 
         //어댑터의 점3개를 클릭했을 겨우
-        homeAdapter.setItemDetailClickListener(object :HomeAdapter.OnItemDetailClickListener{
+        //TODO 여기에 분기 추가해서 자기글일때와 아닐때 구분
+        homeAdapter.setItemDetailClickListener(object :HomeAdapter.OnItemClickListener{
             override fun onClick(v: View, position: Int) {
                 anotherPostDetailFragment.show(parentFragmentManager,anotherPostDetailFragment.tag)
             }
+        }
 
-        })
+        )
 
         //카테고리에 들어갈 리스트 작성
         val categoryList = arrayListOf<String>(
