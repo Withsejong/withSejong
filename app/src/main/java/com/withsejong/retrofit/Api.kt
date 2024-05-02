@@ -16,11 +16,9 @@ interface Api {
         @Body jsonParams: JsonElement
     ): Call<UserSignupResponse>
 
-
     @POST("/auth?method=MoodlerSession")
     fun checkSejong(
         @Body jsonParams: JsonElement
-
     ): Call<SejongAuthResponse>
 
     @POST("/login")
