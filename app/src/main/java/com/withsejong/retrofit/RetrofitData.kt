@@ -5,6 +5,7 @@ data class UserSignupResponse(
     val studentId: String,
 
 )
+
 data class SejongAuthResponse(
     val msg:String,
     val result:SejongAuthResponseResultJson
@@ -27,8 +28,6 @@ data class LoginResponse(
     val nickname: String,
     val major: String,
     val authToken : LoginResponseAuthToken
-
-
 )
 data class LoginResponseAuthToken(
     val grantType: String,
