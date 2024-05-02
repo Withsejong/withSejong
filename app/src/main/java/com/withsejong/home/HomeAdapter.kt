@@ -12,7 +12,7 @@ fun Int.addCommas(): String {//10000을 10,000으로 바꿔주는 확장함수
 }
 class HomeAdapter(val postData:ArrayList<PostData>):RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private lateinit var itemClickListener : OnItemClickListener //장터에 올라온 책 리스트
-    private lateinit var itemDetailClickListener: OnItemDetailClickListener //점3개 클릭
+    private lateinit var itemDetailClickListener: OnItemClickListener //점3개 클릭
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val binding: ItemPostBinding = ItemPostBinding.inflate(LayoutInflater.from(parent.context),parent,false)
@@ -22,10 +22,7 @@ class HomeAdapter(val postData:ArrayList<PostData>):RecyclerView.Adapter<Recycle
     interface OnItemClickListener {
         fun onClick(v: View, position:Int)
     }
-    interface OnItemDetailClickListener{
-        fun onClick(v:View, position: Int)
 
-    }
 
     override fun getItemCount(): Int {
 
@@ -39,7 +36,6 @@ class HomeAdapter(val postData:ArrayList<PostData>):RecyclerView.Adapter<Recycle
             //원래 가격에 콤마 삽입
             holder.price.text = "${postData[position].price.addCommas()}원"
             holder.uploadTime.text = "${postData[position].postTime}분 전"
-
 
             for(i:Int in 0 until postData[position].tag.size) {
                 if (i == 0) {
@@ -55,15 +51,19 @@ class HomeAdapter(val postData:ArrayList<PostData>):RecyclerView.Adapter<Recycle
                 itemClickListener.onClick(it,position)
             }
             holder.postDetail.setOnClickListener {
+
+
                 itemDetailClickListener.onClick(it,position)
             }
         }
     }
+
+
     fun setItemClickListener(onItemClickListener: OnItemClickListener){
         this.itemClickListener = onItemClickListener
     }
 
-    fun setItemDetailClickListener(onItemDetailClickListener: OnItemDetailClickListener){
+    fun setItemDetailClickListener(onItemDetailClickListener: OnItemClickListener){
         this.itemDetailClickListener = onItemDetailClickListener
     }
 }
