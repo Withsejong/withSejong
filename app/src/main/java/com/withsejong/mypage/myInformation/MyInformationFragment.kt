@@ -77,29 +77,33 @@ class MyInformationFragment : Fragment() {
             fragmentManager.replace(R.id.fcv_all_fragment,myInformationEditmodeFragment).commit()
         }
         //회원탈퇴 버튼 기능
+        val accountDeleteDiaglogFragment=AccountDeleteDiaglogFragment()
         binding.btnDeleteId.setOnClickListener {
 
             val accessToken = tokenSharedPreferences.getString("accessToken",null)
             val saveId = userInfoSharedPreferences.getString("studentId",null)
+//통신부분 일시 주석처리
+//            RetrofitClient.instance.deleteAccount(accessToken = "Bearer $accessToken",saveId.toString()).enqueue(object : Callback<DeleteAccountResponse>{
+//
+//                override fun onResponse(
+//                    call: Call<DeleteAccountResponse>,
+//                    response: Response<DeleteAccountResponse>
+//                ) {
+//                    Log.d("MyInformationFragment_TAG", response.toString())
+//
+//                    if(response.isSuccessful){
+//                        startActivity(intent)
+//
+//
+//                    }
+//                }
+//                override fun onFailure(call: Call<DeleteAccountResponse>, t: Throwable) {
+//                    Log.d("MyInformationFragment_TAG", t.toString())
+//                }
+//            })
+            accountDeleteDiaglogFragment.show(parentFragmentManager,"")
 
-            RetrofitClient.instance.deleteAccount(accessToken = "Bearer $accessToken",saveId.toString()).enqueue(object : Callback<DeleteAccountResponse>{
 
-                override fun onResponse(
-                    call: Call<DeleteAccountResponse>,
-                    response: Response<DeleteAccountResponse>
-                ) {
-                    Log.d("MyInformationFragment_TAG", response.toString())
-
-                    if(response.isSuccessful){
-                        startActivity(intent)
-
-
-                    }
-                }
-                override fun onFailure(call: Call<DeleteAccountResponse>, t: Throwable) {
-                    Log.d("MyInformationFragment_TAG", t.toString())
-                }
-            })
         }
             val intentLogout = Intent(requireActivity(),LoginChoicePage::class.java)
         binding.btnLogout.setOnClickListener {
