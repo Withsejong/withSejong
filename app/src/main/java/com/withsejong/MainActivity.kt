@@ -1,13 +1,12 @@
 package com.withsejong
 
-import android.graphics.Typeface
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.res.ResourcesCompat
 import com.withsejong.databinding.MainActivityBinding
 import com.withsejong.home.HomeFragment
 import com.withsejong.home.PostData
 import com.withsejong.mypage.MypageMainFragment
+import com.withsejong.post.PostFragment
 
 class MainActivity : AppCompatActivity() {
 
