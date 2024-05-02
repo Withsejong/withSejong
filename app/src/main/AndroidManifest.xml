@@ -23,12 +23,11 @@
             android:name=".fcm.FcmService"
             android:exported="true">
             <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
             <meta-data
                 android:name="com.google.firebase.messaging.default_notification_icon"
-                android:resource="@drawable/icon_app"/>
-
+                android:resource="@drawable/icon_app" />
         </service> <!-- Acticity.login  정의부 -->
         <activity
             android:name=".login.AccountPage"
@@ -47,6 +46,9 @@
             android:exported="false" />
         <activity
             android:name=".MainActivity"
+            android:exported="false" />
+        <activity
+            android:name=".post.PostActivity"
             android:exported="false" />
         <activity
             android:name=".login.MakePasswordPage"
