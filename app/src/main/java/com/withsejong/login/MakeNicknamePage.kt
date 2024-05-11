@@ -92,7 +92,6 @@ private fun isDuplicatedNickname(saveName:String?, saveId:String?, savePassword:
                 binding.tvDuplicatedNicknameErrorIndicator.visibility = View.VISIBLE
             }
         }
-
         override fun onFailure(call: Call<Boolean>, t: Throwable) {
 
         }
