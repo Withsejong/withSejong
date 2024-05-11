@@ -22,6 +22,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
+        android:fontFamily="@font/pretendardregular"
 
         android:text="세종인 끼리 중고책 거래"
         android:textColor="#000000"
@@ -39,6 +40,7 @@
 
         android:layout_marginBottom="30dp"
         android:text="세종끼리"
+        android:fontFamily="@font/seolleimcool"
         android:textColor="#000000"
         android:textSize="40sp"
         app:layout_constraintBottom_toTopOf="@+id/btn_login"
@@ -57,6 +59,7 @@
         android:backgroundTint="#46515B"
         android:padding="20dp"
         android:text="회원가입"
+        android:fontFamily="@font/pretendardbold"
         android:textColor="#fff"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -72,6 +75,7 @@
         android:backgroundTint="#FE0000"
         android:padding="20dp"
         android:text="로그인"
+        android:fontFamily="@font/pretendardbold"
         android:textColor="#fff"
         android:textSize="20sp"
         app:layout_constraintBottom_toTopOf="@id/btn_signup"
