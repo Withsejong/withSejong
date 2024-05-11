@@ -71,3 +71,9 @@ data class LogoutResponse(
     val major: String
 )
 
+data class MakePostResponse(
+    val title:String,
+    val context : String,
+    val studentId: String
+)
+
