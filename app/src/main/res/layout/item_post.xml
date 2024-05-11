@@ -83,6 +83,7 @@
             android:layout_height="0dp"
             android:layout_marginStart="10dp"
             android:text="5분 전"
+            android:fontFamily="@font/pretendardregular"
             android:gravity="center"
             android:textSize="10sp"
             app:layout_constraintBottom_toTopOf="@id/tv_bookprice"
