@@ -8,7 +8,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 object RetrofitClient {
 
-    private const val BASEURL = "http://43.201.66.172:8080"
+    private const val BASEURL = "http://15.164.163.65:8080"
     val instance : Api by lazy {
         //로깅 인터셉터 설정
         val logging = HttpLoggingInterceptor()
