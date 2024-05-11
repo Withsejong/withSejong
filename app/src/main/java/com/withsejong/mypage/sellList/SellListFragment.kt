@@ -31,12 +31,12 @@ class SellListFragment : Fragment() {
             fragmentManager.replace(R.id.fcv_all_fragment,mypageMainFragment).commit()
         }
         //휴대폰 뒤로가기를 누른 경우 이전 fragment로 돌아가는 행동 정의
+        //TODO 뒤로가기 코드에서 뒤로가기 광클릭시 에러 발생
         val backActionCallback = object : OnBackPressedCallback(true){
             override fun handleOnBackPressed() {
                 val fragmentManager = parentFragmentManager.beginTransaction()
                 fragmentManager.replace(R.id.fcv_all_fragment,mypageMainFragment).commit()
             }
-
         }
 
         requireActivity().onBackPressedDispatcher.addCallback(requireActivity(),backActionCallback)
