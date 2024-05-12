@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".login.LoginPage"
-    >
+    tools:context=".login.LoginPage">
 
     <TextView
         android:id="@+id/tv_title_subname"
@@ -13,6 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="50dp"
         android:layout_marginTop="130dp"
+        android:fontFamily="@font/pretendardregular"
         android:text="세종인 끼리\n간편한 중고책 거래"
         android:textColor="#000000"
         android:textSize="20sp"
@@ -23,7 +23,7 @@
         android:id="@+id/tv_title_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-
+        android:fontFamily="@font/seolleimcool"
         android:text="세종끼리"
         android:textColor="#000000"
 
@@ -34,25 +34,18 @@
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btn_next"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="30dp"
         android:layout_marginBottom="100dp"
         android:background="@drawable/design_next_btn_noinput"
-        android:padding="20dp"
+        android:fontFamily="@font/pretendardbold"
+        android:padding="15dp"
         android:text="다음"
         android:textColor="#fff"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        />
-
-    <ImageView
-        android:id="@+id/iv_sejong_icon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/sejong_icon" />
+        app:layout_constraintEnd_toEndOf="@+id/et_student_password_input"
+        app:layout_constraintStart_toStartOf="@+id/et_student_password_input" />
 
     <EditText
         android:id="@+id/et_student_id_input"
@@ -63,7 +56,9 @@
         android:background="@drawable/radius_redcolor_line"
         android:ems="10"
         android:inputType="text"
+        android:letterSpacing=".3"
         android:padding="10dp"
+        android:paddingStart="20dp"
         app:layout_constraintBottom_toTopOf="@+id/et_student_password_input"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -77,7 +72,9 @@
         android:background="@drawable/radius_redcolor_line"
         android:ems="10"
         android:inputType="textPassword"
+        android:letterSpacing=".3"
         android:padding="10dp"
+        android:paddingStart="20dp"
         app:layout_constraintBottom_toTopOf="@+id/btn_next"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -88,7 +85,9 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:layout_marginBottom="10dp"
+        android:fontFamily="@font/pretendardmedium"
         android:text="아이디"
+        android:textColor="#000"
         app:layout_constraintBottom_toTopOf="@+id/et_student_id_input"
         app:layout_constraintStart_toStartOf="@+id/et_student_id_input" />
 
@@ -98,7 +97,9 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:layout_marginBottom="10dp"
+        android:fontFamily="@font/pretendardmedium"
         android:text="비밀번호"
+        android:textColor="#000"
         app:layout_constraintBottom_toTopOf="@+id/et_student_password_input"
         app:layout_constraintStart_toStartOf="@+id/et_student_password_input" />
 
@@ -107,7 +108,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"
+        android:fontFamily="@font/pretendardregular"
         android:text="안녕하세요, 세종끼리 입니다.\n간편하고 편리한 책거래를 시작해 보아요 :)"
+        android:textColor="#000"
         app:layout_constraintBottom_toTopOf="@+id/tv_id_text"
         app:layout_constraintStart_toStartOf="@+id/tv_id_text" />
 
@@ -117,11 +120,11 @@
         android:layout_height="wrap_content"
         android:background="@android:color/transparent"
         android:backgroundTint="@android:color/transparent"
+        android:fontFamily="@font/pretendardregular"
         android:text="@string/underline_text_lost_password"
         app:layout_constraintEnd_toEndOf="@+id/btn_next"
         app:layout_constraintStart_toStartOf="@+id/btn_next"
-        app:layout_constraintTop_toBottomOf="@+id/btn_next"
-        />
+        app:layout_constraintTop_toBottomOf="@+id/btn_next" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

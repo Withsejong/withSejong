@@ -17,28 +17,36 @@
      app:layout_constraintStart_toStartOf="parent"
      app:layout_constraintEnd_toEndOf="parent"
      android:text="회원탈퇴"
+     android:textSize="15sp"
+     android:textColor="#757575"
+     android:fontFamily="@font/pretendardregular"
      />
     <TextView
         android:id="@+id/tv_delete_account_explain"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="정말 탈퇴하실 건가요?\n탈퇴 이후 계정 복구는 어렵습니다"
+        android:lineSpacingExtra="10dp"
+        android:textSize="15sp"
+        android:fontFamily="@font/pretendardregular"
         app:layout_constraintTop_toBottomOf="@id/tv_delete_account_indicator"
+        app:layout_constraintBottom_toTopOf="@id/iv_icon_dialog"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:textAlignment="center"
-        android:layout_marginTop="30dp"/>
+
+        />
 
     <ImageView
         android:id="@+id/iv_icon_dialog"
-        android:layout_marginTop="30dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
         android:src="@drawable/img_delete_account"
-        app:layout_constraintTop_toBottomOf="@id/tv_delete_account_explain"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/btn_no_leave"
         app:layout_constraintEnd_toEndOf="parent"
-        />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_delete_account_explain" />
 
 
     <androidx.appcompat.widget.AppCompatButton
@@ -50,6 +58,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/btn_no_leave"
         android:background="#0000"
+        android:layout_marginBottom="20dp"
 
         />
 <!--    떠나기 버튼과 아니요 버튼 사이에 나누는 divider 추가-->
@@ -64,6 +73,8 @@
         android:text="아니요"
         android:textColor="#FF0000"
         app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="20dp"
+
 
         />
 
