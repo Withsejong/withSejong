@@ -4,13 +4,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.withsejong.databinding.ItemPostBinding
+import com.withsejong.retrofit.LoadPostResponse
 
 
 fun Int.addCommas(): String {//10000을 10,000으로 바꿔주는 확장함수
     return "%,d".format(this)
 }
-class HomeAdapter(val postData:ArrayList<PostData>):RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+//class HomeAdapter(val postData:ArrayList<PostData>):RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class HomeAdapter(val postData:ArrayList<LoadPostResponse>):RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+
     private lateinit var itemClickListener : OnItemClickListener //장터에 올라온 책 리스트
     private lateinit var itemDetailClickListener: OnItemClickListener //점3개 클릭
 
@@ -32,10 +36,18 @@ class HomeAdapter(val postData:ArrayList<PostData>):RecyclerView.Adapter<Recycle
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
 
         if(holder is HomeViewHolder){
-            holder.name.text = postData[position].name
+            holder.name.text = postData[position].title
             //원래 가격에 콤마 삽입
             holder.price.text = "${postData[position].price.addCommas()}원"
-            holder.uploadTime.text = "${postData[position].postTime}분 전"
+
+            if(postData[position].image.isNotEmpty()) {
+                Glide.with(holder.itemView.context)
+                    .load(postData[position].image[0].url)
+                    .into(holder.img)
+            }
+
+
+            //holder.uploadTime.text = "${postData[position].postTime}분 전"
 
             for(i:Int in 0 until postData[position].tag.size) {
                 if (i == 0) {
