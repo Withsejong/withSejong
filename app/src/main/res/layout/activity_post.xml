@@ -83,6 +83,7 @@
                 android:background="#0000"
                 android:src="@drawable/icon_empty_post_image"
                 app:layout_constraintDimensionRatio="1:1"
+                android:layout_marginHorizontal="10dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -90,21 +91,74 @@
 
                 />
 
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btn_add_image"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/clo_add_image"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginEnd="10dp"
                 android:background="@drawable/design_post_addbtn"
-                android:textColor="#fff"
                 android:fontFamily="@font/pretendardsemibold"
                 android:text="이미지 추가"
+                android:textColor="#fff"
                 app:layout_constraintDimensionRatio="1:1"
                 app:layout_constraintEnd_toStartOf="@id/ibtn_second_image"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/iv_main_image" />
+                app:layout_constraintTop_toBottomOf="@id/iv_main_image">
+
+                <ImageView
+                    android:id="@+id/iv_icon_add_img"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:src="@drawable/icon_image_add"
+                    app:layout_constraintBottom_toTopOf="@id/tv_add_img_title"
+                    app:layout_constraintDimensionRatio="1:1"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <TextView
+                    android:id="@+id/tv_add_img_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:fontFamily="@font/pretendardsemibold"
+                    android:text="이미지 추가"
+                    android:textColor="#fff"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tv_img_cnt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="1/3"
+                    android:textColor="#fff"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_add_img_title" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            <!--            <androidx.appcompat.widget.AppCompatButton-->
+            <!--                android:id="@+id/btn_add_image"-->
+            <!--                android:layout_width="0dp"-->
+            <!--                android:layout_height="0dp"-->
+            <!--                android:layout_marginStart="10dp"-->
+            <!--                android:layout_marginTop="10dp"-->
+            <!--                android:layout_marginEnd="10dp"-->
+            <!--                android:background="@drawable/design_post_addbtn"-->
+            <!--                android:textColor="#fff"-->
+            <!--                android:fontFamily="@font/pretendardsemibold"-->
+            <!--                android:text="이미지 추가"-->
+            <!--                app:layout_constraintDimensionRatio="1:1"-->
+            <!--                app:layout_constraintEnd_toStartOf="@id/ibtn_second_image"-->
+            <!--                app:layout_constraintStart_toStartOf="parent"-->
+            <!--                app:layout_constraintTop_toBottomOf="@id/iv_main_image" />-->
 
             <ImageButton
                 android:id="@+id/ibtn_second_image"
@@ -116,7 +170,7 @@
                 android:src="@drawable/icon_empty_post_image"
                 app:layout_constraintDimensionRatio="1:1"
                 app:layout_constraintEnd_toStartOf="@id/ibtn_third_image"
-                app:layout_constraintStart_toEndOf="@id/btn_add_image"
+                app:layout_constraintStart_toEndOf="@id/clo_add_image"
                 app:layout_constraintTop_toBottomOf="@id/iv_main_image"
 
 
@@ -158,7 +212,7 @@
                 android:textSize="12sp"
                 app:layout_constraintBottom_toTopOf="@id/et_post_price"
                 app:layout_constraintEnd_toEndOf="@id/ibtn_third_image"
-                app:layout_constraintStart_toStartOf="@id/btn_add_image"
+                app:layout_constraintStart_toStartOf="@id/clo_add_image"
                 app:layout_constraintTop_toBottomOf="@id/v_img_adder_divider"
 
                 />
@@ -174,8 +228,9 @@
                 android:paddingVertical="10dp"
                 android:paddingStart="20dp"
                 android:textSize="12sp"
+                android:inputType="numberDecimal"
                 app:layout_constraintEnd_toEndOf="@id/ibtn_third_image"
-                app:layout_constraintStart_toStartOf="@id/btn_add_image"
+                app:layout_constraintStart_toStartOf="@id/clo_add_image"
                 app:layout_constraintTop_toBottomOf="@id/et_post_title"
 
                 />
@@ -187,15 +242,34 @@
                 android:layout_marginTop="20dp"
                 android:background="@drawable/design_post_edittext"
                 android:fontFamily="@font/pretendardsemibold"
+                android:gravity="top"
                 android:hint="내용"
                 android:lines="10"
                 android:paddingVertical="10dp"
                 android:paddingStart="20dp"
-                android:gravity="top"
                 android:textSize="12sp"
                 app:layout_constraintEnd_toEndOf="@id/ibtn_third_image"
-                app:layout_constraintStart_toStartOf="@id/btn_add_image"
+                app:layout_constraintStart_toStartOf="@id/clo_add_image"
                 app:layout_constraintTop_toBottomOf="@id/et_post_price"
+                app:layout_constraintBottom_toTopOf="@id/et_tag_input"
+
+                />
+
+            <EditText
+                android:id="@+id/et_tag_input"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/design_post_edittext"
+                android:fontFamily="@font/pretendardsemibold"
+                android:hint="태그"
+                android:layout_marginBottom="10dp"
+                android:paddingVertical="10dp"
+                android:paddingStart="20dp"
+                android:textSize="12sp"
+                app:layout_constraintEnd_toEndOf="@id/ibtn_third_image"
+                app:layout_constraintStart_toStartOf="@id/clo_add_image"
+                app:layout_constraintTop_toBottomOf="@id/et_post_description"
+                android:layout_marginTop="20dp"
 
                 />
 
