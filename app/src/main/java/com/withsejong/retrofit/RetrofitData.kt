@@ -77,3 +77,20 @@ data class MakePostResponse(
     val studentId: String
 )
 
+data class LoadPostResponse(
+    val id:Int,
+    val title:String,
+    val price:Int,
+    val content:String,
+    val studentId: String,
+    val createAt:String,
+    val image:List<Image>,
+    val tag:ArrayList<String>
+
+)
+data class Image(
+    val id:Int,
+    val url : String
+)
+
+
