@@ -24,11 +24,6 @@ class AnotherPostDetailFragment : BottomSheetDialogFragment() {
         val bottomSheetDialog = dialog as BottomSheetDialog?
         val bottomSheet = bottomSheetDialog?.findViewById<View>(com.google.android.material.R.id.design_bottom_sheet)
         bottomSheet?.setBackgroundResource(R.drawable.design_another_post_detail_clo)
-
-
-
-
-
         //TODO 각 버튼에 해당하는 동작 만들 것
     }
 
