@@ -90,5 +90,12 @@ interface Api {
         @Part file : List<MultipartBody.Part>
         ):Call<MakePostResponse>
 
+    @GET("/user/board1")
+    //계속 로드하면 서버에 무리되어서 일단 주소에 1 붙임
+    fun loadPost(
+        @Header("Authorization") accessToken: String,
+        @Query("page") page:Int
+        ):Call<List<LoadPostResponse>>
+
 
 }
