@@ -90,12 +90,31 @@ interface Api {
         @Part file : List<MultipartBody.Part>
         ):Call<MakePostResponse>
 
-    @GET("/user/board1")
+    @GET("/user/board")
     //계속 로드하면 서버에 무리되어서 일단 주소에 1 붙임
     fun loadPost(
         @Header("Authorization") accessToken: String,
         @Query("page") page:Int
-        ):Call<List<LoadPostResponse>>
+        ):Call<LoadPostResponse>
 
+    @GET("/user/board/search")
+    fun loadSearchPost(
+        @Header("Authorization") accessToken: String,
+        @Query("keyword") keyword:String,
+        @Query("page") page:Int,
+        ):Call<LoadPostResponse>
+
+    @GET("/user/board/history")
+    fun loadSellList(
+        @Header("Authorization") accessToken: String,
+        @Query("studentId") studentId: String,
+        @Query("page") page:Int
+    ):Call<LoadPostResponse>
+
+    @GET("/user/chat/rooms")
+    fun loadChattingroom(
+        @Header("Authorization") accessToken: String,
+        @Query("studentId") studentId:String
+    ):Call<LoadChattingRoomResponse>
 
 }
