@@ -98,6 +98,7 @@ class MyInformationEditmodeFragment : Fragment() {
                 Log.d(TAG, response.toString())
 
                 if(response.code()==403){
+                    //TODO response를 저장하지 않는 것 같아서 다시 확인할 필요가 있음
                     refreshToken(saveId = saveId)
                     var accessToken = tokenSharedPreferences.getString("accessToken", "error").toString()
                     var refreshToken = tokenSharedPreferences.getString("refreshToken", "error").toString()
