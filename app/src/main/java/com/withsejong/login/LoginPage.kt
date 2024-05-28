@@ -41,7 +41,6 @@ class LoginPage : AppCompatActivity() {
         val backActionCallback = object : OnBackPressedCallback(true){
             override fun handleOnBackPressed() {
                 val intent = Intent(this@LoginPage,loginChoicePage::class.java)
-
                 startActivity(intent)
                 finish()
             }
