@@ -2,10 +2,14 @@ package com.withsejong.login
 
 import android.content.Intent
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.gson.JsonParser
+import com.withsejong.R
 
 import com.withsejong.databinding.ActivityLostPasswordPageBinding
 import com.withsejong.retrofit.RetrofitClient
@@ -44,7 +48,7 @@ class LostPasswordPage : AppCompatActivity() {
 
             if(binding.etNewPasswordInput.text.toString()!=binding.etNewPasswordOkInput.text.toString()){
                 //우선 토스트 메시지로 표시
-                Toast.makeText(this,"비밀번호가 일치하지 않습니다!", Toast.LENGTH_SHORT).show()
+                binding.tvNotAccordPasswordErrorIndicator.visibility = View.VISIBLE
             }
             else if(binding.etNewPasswordInput.text.length==0 || binding.etNewPasswordOkInput.text.length==0){
                 Toast.makeText(this,"비어있는 칸이 있습니다!", Toast.LENGTH_SHORT).show()
@@ -62,6 +66,7 @@ class LostPasswordPage : AppCompatActivity() {
                     ) {
                         Log.d("LostPasswordPage_TAG",response.toString())
                         if(response.isSuccessful){
+                            Toast.makeText(this@LostPasswordPage,"비밀번호 변경이 완료되었습니다.",Toast.LENGTH_SHORT).show()
                             startActivity(intent)
                             finish()
                         }
@@ -78,5 +83,63 @@ class LostPasswordPage : AppCompatActivity() {
 
 
         }
+
+
+
+        //입력 감지
+
+        var idInputCheck:Int = 0
+        var pwInputCheck:Int = 0
+        binding.etNewPasswordInput.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                if(binding.etNewPasswordInput.text.length>0){
+                    idInputCheck=1
+                    if(idInputCheck+pwInputCheck==2){
+                        binding.btnNext.setBackgroundResource(R.drawable.design_next_btn_input)
+                    }
+                }
+                else{
+                    idInputCheck=0
+                    binding.btnNext.setBackgroundResource(R.drawable.design_next_btn_noinput)
+                }
+                Log.d("LoginPage_TAG", (idInputCheck+pwInputCheck).toString())
+
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+
+            }
+
+        })
+
+        binding.etNewPasswordOkInput.addTextChangedListener(object: TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                if(binding.etNewPasswordOkInput.text.length>0){
+                    pwInputCheck=1
+                    if(idInputCheck+pwInputCheck==2){
+                        binding.btnNext.setBackgroundResource(R.drawable.design_next_btn_input)
+                    }
+                }
+                else{
+                    pwInputCheck=0
+                    binding.btnNext.setBackgroundResource(R.drawable.design_next_btn_noinput)
+                }
+                Log.d("LoginPage_TAG", (idInputCheck+pwInputCheck).toString())
+
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+
+            }
+
+        })
     }
 }
