@@ -6,11 +6,11 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
-<!--    외부 이미지를 가져오기 위한 권한-->
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES"/>
+    <!-- 외부 이미지를 가져오기 위한 권한 -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
 
-<!--    저장소 관련 권한-->
+    <!-- 저장소 관련 권한 -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
@@ -25,6 +25,9 @@
         android:theme="@style/Theme.WithSejong"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
+        <activity
+            android:name=".home.market.PostDetailActivity"
+            android:exported="false" />
         <activity
             android:name=".home.search.SearchActivity"
             android:exported="false" />
@@ -47,7 +50,7 @@
             android:name=".login.MakeNicknamePage"
             android:exported="false" />
         <activity
-            android:name=".login.AccountInPageSync"
+            android:name=".login.AccountInPage"
             android:exported="false" />
         <activity
             android:name=".login.LostPasswordPage"
@@ -64,6 +67,8 @@
         <activity
             android:name=".login.MakePasswordPage"
             android:exported="false" />
+        <activity android:name=".home.search.SearchResultActivity"
+            android:exported="false"/>
         <activity
             android:name=".login.LoginPage"
             android:exported="false" /> <!-- 첫 화면으로 보여 줄 Acticity -->
