@@ -4,11 +4,8 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
-import com.withsejong.R
 import com.withsejong.databinding.ActivityAccountPageBinding
-import com.withsejong.databinding.ActivityLoginChoicePageBinding
 import com.withsejong.start.LoginChoicePage
-import kotlin.math.log
 
 
 class AccountPage : AppCompatActivity() {
@@ -31,7 +28,7 @@ class AccountPage : AppCompatActivity() {
 
         val isSignup = intent.getStringExtra("isSignup").toString()
         binding.btnAuth.setOnClickListener {//세종인 인증 버튼 클릭시
-            val intent = Intent(this@AccountPage, AccountInPageSync::class.java)
+            val intent = Intent(this@AccountPage, AccountInPage::class.java)
             intent.putExtra("isSignup",isSignup)
             startActivity(intent)
             finish()
