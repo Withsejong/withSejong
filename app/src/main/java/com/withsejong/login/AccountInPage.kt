@@ -2,24 +2,24 @@ package com.withsejong.login
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.JsonReader
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.gson.JsonParser
+import com.withsejong.R
 import com.withsejong.databinding.ActivityAccountInPageBinding
 import com.withsejong.retrofit.RetrofitClient
 import com.withsejong.retrofit.SejongAuthResponse
 import com.withsejong.retrofit.CheckStudentIdResponse
 import okio.IOException
 import org.json.JSONObject
-import retrofit2.Call
-import retrofit2.Callback
 import retrofit2.Response
 
 
-class AccountInPageSync : AppCompatActivity() {
+class AccountInPage : AppCompatActivity() {
     lateinit var binding: ActivityAccountInPageBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,6 +28,63 @@ class AccountInPageSync : AppCompatActivity() {
         val isSignup = intent.getStringExtra("isSignup").toString()
         val intent = Intent(this, MakePasswordPage::class.java)
         val intentChangeForgotPassword = Intent(this, LostPasswordPage::class.java)
+
+        //입력 감지
+        var idInputCheck:Int = 0
+        var pwInputCheck:Int = 0
+        binding.etStudentIdInput.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                if(binding.etStudentIdInput.text.length>0){
+                    idInputCheck=1
+                    if(idInputCheck+pwInputCheck==2){
+                        //binding.btnNext.setBackgroundResource(R.drawable.design_next_btn_input)
+                        binding.btnNext.setBackgroundResource(R.drawable.design_next_btn_input)
+                    }
+                }
+                else{
+                    idInputCheck=0
+                    binding.btnNext.setBackgroundResource(R.drawable.design_next_btn_noinput)
+                }
+                Log.d("AccountInPage", (idInputCheck+pwInputCheck).toString())
+
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+
+            }
+
+        })
+
+        binding.etStudentPasswordInput.addTextChangedListener(object: TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                if(binding.etStudentPasswordInput.text.length>0){
+                    pwInputCheck=1
+                    if(idInputCheck+pwInputCheck==2){
+                        binding.btnNext.setBackgroundResource(R.drawable.design_next_btn_input)
+                    }
+                }
+                else{
+                    pwInputCheck=0
+                    binding.btnNext.setBackgroundResource(R.drawable.design_next_btn_noinput)
+                }
+                Log.d("AccountInPage", (idInputCheck+pwInputCheck).toString())
+
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+
+            }
+
+        })
+
         binding.btnNext.setOnClickListener {
             if (binding.etStudentIdInput.text.isNullOrEmpty() || binding.etStudentPasswordInput.text.isNullOrEmpty()) {
                 Toast.makeText(this, "학번 또는 비밀번호를 입력 해주세요!", Toast.LENGTH_SHORT).show()
@@ -47,6 +104,11 @@ class AccountInPageSync : AppCompatActivity() {
                 }
             }
         }
+
+
+
+
+
     }
 
     private fun checkisDuplicatedID(intent: Intent): Int {
@@ -81,7 +143,7 @@ class AccountInPageSync : AppCompatActivity() {
 
                 } else {
                     runOnUiThread {
-                        Toast.makeText(this@AccountInPageSync, "서버 통신 실패", Toast.LENGTH_SHORT)
+                        Toast.makeText(this@AccountInPage, "서버 통신 실패", Toast.LENGTH_SHORT)
                             .show()
                     }
                     checkValid = 0
@@ -157,7 +219,7 @@ class AccountInPageSync : AppCompatActivity() {
                             //TODO 우선 토스트 메시지로 대체
 
                             runOnUiThread{
-                                Toast.makeText(this@AccountInPageSync,"회원가입X", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(this@AccountInPage,"회원가입X", Toast.LENGTH_SHORT).show()
                             }
 
                         }
@@ -179,7 +241,7 @@ class AccountInPageSync : AppCompatActivity() {
                 } else {//아디 비번이 틀린경우
                     runOnUiThread {
                         Toast.makeText(
-                            this@AccountInPageSync,
+                            this@AccountInPage,
                             "아이디 또는 비밀번호가 일치하지 않습니다.",
                             Toast.LENGTH_SHORT
                         ).show()
