@@ -2,23 +2,21 @@ package com.withsejong.mypage.myInformation
 
 import android.content.res.Resources
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.WindowManager
 import androidx.fragment.app.DialogFragment
 import com.withsejong.R
-import com.withsejong.databinding.FragmentAccountDeleteDiaglogBinding
+import com.withsejong.databinding.FragmentAccountDeleteDialogBinding
 
 
-class AccountDeleteDiaglogFragment : DialogFragment() {
+class AccountDeleteDialogFragment : DialogFragment() {
 
-    lateinit var binding : FragmentAccountDeleteDiaglogBinding
+    lateinit var binding : FragmentAccountDeleteDialogBinding
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         // Inflate the layout for this fragment
 
-        binding = FragmentAccountDeleteDiaglogBinding.inflate(layoutInflater,container,false)
+        binding = FragmentAccountDeleteDialogBinding.inflate(layoutInflater,container,false)
         return binding.root
     }
 
