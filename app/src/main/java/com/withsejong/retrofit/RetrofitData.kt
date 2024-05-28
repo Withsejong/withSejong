@@ -78,19 +78,37 @@ data class MakePostResponse(
 )
 
 data class LoadPostResponse(
+    val currentPage : Int,
+    val totalPages : Int,
+    val totalElment :Int,
+    val boardFindResponseDtoList : ArrayList<BoardFindResponseDtoList>
+)
+
+data class BoardFindResponseDtoList(
     val id:Int,
     val title:String,
     val price:Int,
     val content:String,
     val studentId: String,
-    val createAt:String,
+    val createdAt:String,
+    val status:Int,
     val image:List<Image>,
-    val tag:ArrayList<String>
-
+    val tag:ArrayList<Tag>,
+    val nickname: String,
+    val major:String
 )
 data class Image(
     val id:Int,
     val url : String
 )
-
+data class Tag(
+    val id:Int,
+    val category: String
+)
+data class LoadChattingRoomResponse(
+    val roomId:Int,
+    val publisher:String,
+    val subscriber:String,
+    val createdAt:String
+)
 
