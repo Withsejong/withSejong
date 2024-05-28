@@ -8,10 +8,14 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
+import android.view.View
+import android.view.inputmethod.EditorInfo
+import android.widget.CheckBox
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import com.bumptech.glide.Glide
+import com.google.gson.JsonArray
 import com.google.gson.JsonParser
 import com.withsejong.R
 import com.withsejong.databinding.ActivityPostBinding
@@ -23,6 +27,7 @@ import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
+import org.json.JSONArray
 import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
@@ -41,6 +46,7 @@ class PostActivity : AppCompatActivity() {
     lateinit var jsonBody:RequestBody
 
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityPostBinding.inflate(layoutInflater)
@@ -49,6 +55,19 @@ class PostActivity : AppCompatActivity() {
         val userInfoSharedPreferences = this.getSharedPreferences("userInfo",
             Context.MODE_PRIVATE
         )
+        val checkBoxList = arrayListOf(
+            binding.cbClassification1,
+            binding.cbClassification2,
+            binding.cbClassification3,
+            binding.cbClassification4,
+            binding.cbClassification5,
+            binding.cbClassification6,
+            binding.cbClassification7,
+            binding.cbClassification8,
+
+            )
+
+        val tagList = ArrayList<String>()
 
         val saveID = userInfoSharedPreferences.getString("studentId", "Error")
         val saveAccessToken = tokenSharedPreferences.getString("accessToken","Error")
@@ -64,8 +83,13 @@ class PostActivity : AppCompatActivity() {
             activityResult.launch(intent)
         }
         binding.tvSave.setOnClickListener {
+            val totalTag = JSONArray()
             if(imgCnt==0){
                 Toast.makeText(this,"이미지를 최소 1개는 등록해주세요!", Toast.LENGTH_SHORT).show()
+            }
+            else if(!checkBoxList.any{it.isChecked}){
+                Toast.makeText(this,"이수구분 태그를 선택해주세요!", Toast.LENGTH_SHORT).show()
+
             }
             else{
 
@@ -88,12 +112,32 @@ class PostActivity : AppCompatActivity() {
 
                 val accessToken = tokenSharedPreferences.getString("accessToken","")
                 val studentId = userInfoSharedPreferences.getString("studentId", "")
+                val nickname = userInfoSharedPreferences.getString(",nickname", "")
+
+
                 val jsonObject = JSONObject()
                 jsonObject.put("content",binding.etPostDescription.text.toString())
                 jsonObject.put("title", binding.etPostTitle.text.toString())
                 jsonObject.put("studentId", studentId)
                 jsonObject.put("price", binding.etPostPrice.text.toString())
+                jsonObject.put("nickname",nickname)
 
+
+                //이수구분 태그 array에 추가
+                checkBoxList.forEach {
+                    if(it.isChecked){
+                        totalTag.put(it.text.toString())
+                    }
+                }
+
+                //사용자 추가 태그 array에 추가
+                tagList.forEach{
+                    totalTag.put(it)
+                }
+                jsonObject.put("tags",totalTag)
+
+
+                Log.d("PostActivity",totalTag.toString())
                 //TODO 동기통신으로 가보자구
                 val uploadPostThread = Thread{
                     //val jsonBody = RequestBody.create(parse("application/json"),jsonObject)
@@ -106,38 +150,39 @@ class PostActivity : AppCompatActivity() {
 
                     //403일 때 코드
                     if(response.code().toString()=="403"){
-                        //TODO 토큰 리프레시 하는 api 연결
-                        val jsonObjectInfo = JSONObject()
-                        jsonObjectInfo.put("studentId", saveID)
-                        jsonObjectInfo.put("accessToken", saveAccessToken)
-                        jsonObjectInfo.put("refreshToken", saveRefreshToken)
-
-
-
-                        RetrofitClient.instance.refreshToken(accessToken = "Bearer $saveAccessToken",JsonParser.parseString(jsonObjectInfo.toString()))
-                            .enqueue(object :Callback<RefreshTokenResponse> {
-                                override fun onResponse(call: Call<RefreshTokenResponse>, response: Response<RefreshTokenResponse>) {
-                                    if(response.isSuccessful){
-                                        Log.d("$TAG,갱신 전", saveAccessToken.toString())
-                                        val accessTokenNew = response.body()?.accessToken
-                                        val refreshTokenNew = response.body()?.refreshToken
-                                        val tokenSharedPreferencesEditor = this@PostActivity.getSharedPreferences("token",Context.MODE_PRIVATE).edit()
-                                        tokenSharedPreferencesEditor.putString("accessToken",accessTokenNew)
-                                        tokenSharedPreferencesEditor.putString("refreshToken", refreshTokenNew)
-                                        tokenSharedPreferencesEditor.apply()
-                                        Log.d("$TAG,갱신 후", accessTokenNew.toString())
-                                        //TODO 공지사항 다시 받는 코드 추가
-                                        resavePost(accessTokenNew.toString(),jsonObject)
-                                    }
-                                }
-                                override fun onFailure(call: Call<RefreshTokenResponse>, t: Throwable) {
-                                    Log.d("FaqFragment_TAG", t.toString())
-                                }
-
-                            })
+                        //TODO 토큰 리프레시 하는 api 연결 임시 비활성화
+//                        val jsonObjectInfo = JSONObject()
+//                        jsonObjectInfo.put("studentId", saveID)
+//                        jsonObjectInfo.put("accessToken", saveAccessToken)
+//                        jsonObjectInfo.put("refreshToken", saveRefreshToken)
+//
+//
+//
+//                        RetrofitClient.instance.refreshToken(accessToken = "Bearer $saveAccessToken",JsonParser.parseString(jsonObjectInfo.toString()))
+//                            .enqueue(object :Callback<RefreshTokenResponse> {
+//                                override fun onResponse(call: Call<RefreshTokenResponse>, response: Response<RefreshTokenResponse>) {
+//                                    if(response.isSuccessful){
+//                                        Log.d("$TAG,갱신 전", saveAccessToken.toString())
+//                                        val accessTokenNew = response.body()?.accessToken
+//                                        val refreshTokenNew = response.body()?.refreshToken
+//                                        val tokenSharedPreferencesEditor = this@PostActivity.getSharedPreferences("token",Context.MODE_PRIVATE).edit()
+//                                        tokenSharedPreferencesEditor.putString("accessToken",accessTokenNew)
+//                                        tokenSharedPreferencesEditor.putString("refreshToken", refreshTokenNew)
+//                                        tokenSharedPreferencesEditor.apply()
+//                                        Log.d("$TAG,갱신 후", accessTokenNew.toString())
+//                                        //TODO 공지사항 다시 받는 코드 추가
+//                                        resavePost(accessTokenNew.toString(),jsonObject)
+//                                    }
+//                                }
+//                                override fun onFailure(call: Call<RefreshTokenResponse>, t: Throwable) {
+//                                    Log.d("FaqFragment_TAG", t.toString())
+//                                }
+//
+//                            })
                     }
                     else if(response.isSuccessful){
                         //잘 받아온 경우
+                        Log.d("PostActivity",response.toString())
 
                         runOnUiThread {
                             Toast.makeText(this@PostActivity,"게시물 저장 성공,임시코드", Toast.LENGTH_SHORT).show()
@@ -153,60 +198,69 @@ class PostActivity : AppCompatActivity() {
                 }
                 uploadPostThread.join()
                 uploadPostThread.start()
-
-    //            RetrofitClient.instance.makePost(accessToken = "Bearer $accessToken",
-    //                request = JsonParser.parseString(jsonObject.toString()), file = urlList).enqueue(
-    //                object : Callback<MakePostResponse> {
-    //
-    //                    override fun onResponse(
-    //                        call: Call<MakePostResponse>,
-    //                        response: Response<MakePostResponse>
-    //                    ) {
-    //                        Log.d(TAG, response.toString())
-    //                        if(response.code().toString()=="403"){
-    //                            //TODO 토큰 리프레시 하는 api 연결
-    //                            val jsonObjectInfo = JSONObject()
-    //                            jsonObjectInfo.put("studentId", saveID)
-    //                            jsonObjectInfo.put("accessToken", saveAccessToken)
-    //                            jsonObjectInfo.put("refreshToken", saveRefreshToken)
-    //
-    //
-    //
-    //                            RetrofitClient.instance.refreshToken(accessToken = "Bearer $saveAccessToken",JsonParser.parseString(jsonObjectInfo.toString()))
-    //                                .enqueue(object :Callback<RefreshTokenResponse> {
-    //                                    override fun onResponse(call: Call<RefreshTokenResponse>, response: Response<RefreshTokenResponse>) {
-    //                                        if(response.isSuccessful){
-    //                                            Log.d("$TAG,갱신 전", saveAccessToken.toString())
-    //                                            val accessTokenNew = response.body()?.accessToken
-    //                                            val refreshToken = response.body()?.refreshToken
-    //                                            val tokenSharedPreferencesEditor = this@PostActivity.getSharedPreferences("token",Context.MODE_PRIVATE).edit()
-    //                                            tokenSharedPreferencesEditor.putString("accessToken",accessTokenNew)
-    //                                            tokenSharedPreferencesEditor.putString("refreshToken", refreshToken)
-    //                                            tokenSharedPreferencesEditor.apply()
-    //                                            Log.d("$TAG,갱신 후", accessToken.toString())
-    //
-    //
-    //                                            //TODO 공지사항 다시 받는 코드 추가
-    //                                            resavePost(accessTokenNew.toString(),jsonObject)
-    //                                        }
-    //                                    }
-    //
-    //                                    override fun onFailure(call: Call<RefreshTokenResponse>, t: Throwable) {
-    //                                        Log.d("FaqFragment_TAG", t.toString())
-    //                                    }
-    //
-    //                                })
-    //                        }
-    //                    }
-    //
-    //                    override fun onFailure(call: Call<MakePostResponse>, t: Throwable) {
-    //                        Log.d(TAG, t.toString())
-    //                    }
-    //
-    //                })
-
             }
         }
+
+        //체크박스 관련 코드
+
+        for (checkBox in checkBoxList){
+            checkBox.setOnCheckedChangeListener { buttonView, isChecked ->
+                if(isChecked){
+                    checkBoxList.filter { it != buttonView }.forEach { it.isChecked = false }
+                }
+            }
+        }
+
+        //태그 관련 코드
+        binding.etTagInput.setOnEditorActionListener { v, actionId, event ->
+
+            if(actionId == EditorInfo.IME_ACTION_DONE){
+                if(tagList.size>5){
+                    Toast.makeText(this,"5개 태그를 넘길 수 없습니다!",Toast.LENGTH_SHORT).show()
+                }
+                else{
+                    tagList.add(binding.etTagInput.text.toString())
+
+                    when(tagList.size){
+                        1->{
+                            binding.tvTag01.text=tagList[tagList.size-1]
+                            binding.etTagInput.setText("")
+                            binding.tvTag01.visibility = View.VISIBLE
+                        }
+                        2->{
+                            binding.tvTag02.text=tagList[tagList.size-1]
+                            binding.etTagInput.setText("")
+                            binding.tvTag02.visibility = View.VISIBLE
+                        }
+                        3->{
+                            binding.tvTag03.text=tagList[tagList.size-1]
+                            binding.etTagInput.setText("")
+                            binding.tvTag03.visibility = View.VISIBLE
+                        }
+                        4->{
+                            binding.tvTag04.text=tagList[tagList.size-1]
+                            binding.etTagInput.setText("")
+                            binding.tvTag04.visibility = View.VISIBLE
+                        }
+                        5->{
+                            binding.tvTag05.text=tagList[tagList.size-1]
+                            binding.etTagInput.setText("")
+                            binding.tvTag05.visibility = View.VISIBLE
+                        }
+                    }
+
+                }
+                Log.d("PostActivity_TAG", tagList.toString())
+                true
+            }
+
+            else{
+                false
+            }
+
+
+        }
+
     }
     //파일의 경로를 절대경로로 변환하는 코드
     fun absolutelyPath(path: Uri?, context : Context): String {
