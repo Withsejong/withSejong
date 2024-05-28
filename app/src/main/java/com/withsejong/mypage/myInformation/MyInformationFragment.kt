@@ -10,13 +10,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
-import androidx.compose.material3.Snackbar
-import com.google.android.material.snackbar.Snackbar
 import com.withsejong.R
 import com.withsejong.databinding.FragmentMyInformationBinding
 import com.withsejong.mypage.MypageMainFragment
 import com.withsejong.retrofit.RetrofitClient
-import com.withsejong.retrofit.DeleteAccountResponse
 import com.withsejong.retrofit.LogoutResponse
 import com.withsejong.start.LoginChoicePage
 import retrofit2.Call
@@ -77,7 +74,7 @@ class MyInformationFragment : Fragment() {
             fragmentManager.replace(R.id.fcv_all_fragment,myInformationEditmodeFragment).commit()
         }
         //회원탈퇴 버튼 기능
-        val accountDeleteDiaglogFragment=AccountDeleteDiaglogFragment()
+        val accountDeleteDialogFragment=AccountDeleteDialogFragment()
         binding.btnDeleteId.setOnClickListener {
 
             val accessToken = tokenSharedPreferences.getString("accessToken",null)
@@ -101,7 +98,7 @@ class MyInformationFragment : Fragment() {
 //                    Log.d("MyInformationFragment_TAG", t.toString())
 //                }
 //            })
-            accountDeleteDiaglogFragment.show(parentFragmentManager,"")
+            accountDeleteDialogFragment.show(parentFragmentManager,"")
 
 
         }
