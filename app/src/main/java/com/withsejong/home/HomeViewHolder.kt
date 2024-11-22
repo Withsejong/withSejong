@@ -12,8 +12,9 @@ class HomeViewHolder(val binding:ItemPostBinding) : RecyclerView.ViewHolder(bind
     val price = binding.tvBookprice
     val uploadTime = binding.tvUploadtime
     val booktag = binding.tvBooktag
-    val img = binding.ivBookimg
+    val img = binding.vpBookimg
     val postDetail = binding.ibtnPostDetail
+    val pick = binding.ibtnPostPick
 
 
 

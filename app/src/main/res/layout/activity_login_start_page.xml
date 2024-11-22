@@ -12,7 +12,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="30dp"
-        android:fontFamily="@font/seolleimcool"
+        android:fontFamily="@font/pretendardregular"
         android:text="세종인 끼리\n간편한 중고책 거래"
         android:lineSpacingExtra="5dp"
         android:textColor="#000000"
@@ -56,7 +56,7 @@
 
         android:background="@drawable/radius"
         android:backgroundTint="#FF0000"
-        android:fontFamily="@font/seolleimcool"
+        android:fontFamily="@font/pretendardsemibold"
         android:padding="20dp"
         android:text="시작하기"
         android:textColor="#fff"

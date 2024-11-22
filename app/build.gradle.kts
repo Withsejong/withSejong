@@ -1,3 +1,5 @@
+import java.util.Properties
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
@@ -6,14 +8,16 @@ plugins {
     id("com.google.gms.google-services")
 
 }
-
+val properties = Properties()
+properties.load(project.rootProject.file("local.properties").inputStream())
 
 
 android {
     namespace = "com.withsejong"
     compileSdk = 34
     buildFeatures {
-        viewBinding=true
+        viewBinding = true
+        buildConfig = true
     }
     defaultConfig {
         applicationId = "com.withsejong"
@@ -26,6 +30,9 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
+        buildConfigField("String", "BASEURL", properties.getProperty("BASEURL"))
+        buildConfigField("String", "SEJONGAUTHBASEURL", properties.getProperty("BASEURL"))
+
     }
 
     buildTypes {
@@ -78,26 +85,27 @@ dependencies {
 
     //retrofit
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
-    implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
-    implementation ("com.squareup.okhttp3:okhttp:4.12.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+    implementation("com.squareup.okhttp3:okhttp:4.12.0")
     implementation("com.squareup.okhttp3:logging-interceptor:4.12.0")
 
     //Gson
-    implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
     implementation("com.google.code.gson:gson:2.10.1")
 
     //fcm
-    implementation("com.google.firebase:firebase-messaging-ktx:24.0.0")
-    implementation("com.google.firebase:firebase-messaging:24.0.0")
+    implementation("com.google.firebase:firebase-messaging-ktx:24.0.3")
+    //implementation("com.google.firebase:firebase-messaging:24.0.3")
+    implementation ("com.google.firebase:firebase-analytics-ktx")
 
     //glide
     implementation("com.github.bumptech.glide:glide:4.16.0")
 
     //swipe to refresh
-    implementation ("androidx.swiperefreshlayout:swiperefreshlayout:1.2.0-alpha01")
+    implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.2.0-alpha01")
 
     //flexbox Layout
-    implementation ("com.google.android.flexbox:flexbox:3.0.0")
+    implementation("com.google.android.flexbox:flexbox:3.0.0")
 
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
@@ -106,4 +114,20 @@ dependencies {
     androidTestImplementation("androidx.compose.ui:ui-test-junit4")
     debugImplementation("androidx.compose.ui:ui-tooling")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
+
+    //stomp
+//    implementation("com.github.NaikSoftware:StompProtocolAndroid:1.2.0")
+//    implementation ("io.reactivex.rxjava2:rxjava:2.2.5")
+//    implementation ("org.java-websocket:Java-WebSocket:1.3.6")
+    // stomp
+    implementation("com.github.NaikSoftware:StompProtocolAndroid:1.6.6")
+
+    //rx
+    implementation("io.reactivex.rxjava2:rxjava:2.2.5")
+    implementation("io.reactivex.rxjava2:rxandroid:2.1.0")
+
+    //annotation
+    implementation("androidx.annotation:annotation:1.8.0")
+
+
 }

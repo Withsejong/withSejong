@@ -5,5 +5,6 @@ import com.withsejong.databinding.ItemCategoryBinding
 
 class CategoryViewHolder(binding:ItemCategoryBinding):RecyclerView.ViewHolder(binding.root) {
     val categoryName = binding.tvCategoryName
+    
 
 }

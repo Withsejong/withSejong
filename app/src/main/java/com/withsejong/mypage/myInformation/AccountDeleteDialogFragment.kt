@@ -15,7 +15,6 @@ class AccountDeleteDialogFragment : DialogFragment() {
     lateinit var binding : FragmentAccountDeleteDialogBinding
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         // Inflate the layout for this fragment
-
         binding = FragmentAccountDeleteDialogBinding.inflate(layoutInflater,container,false)
         return binding.root
     }

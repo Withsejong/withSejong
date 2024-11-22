@@ -8,6 +8,7 @@ import android.util.Log
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.GsonBuilder
@@ -15,7 +16,6 @@ import com.google.gson.JsonElement
 import com.google.gson.reflect.TypeToken
 import com.withsejong.databinding.ActivityPostSearchResultBinding
 import com.withsejong.home.CategoryAdapter
-import com.withsejong.home.HomeFragment
 import com.withsejong.home.addCommas
 import com.withsejong.home.market.PostDetailActivity
 import com.withsejong.retrofit.BoardFindResponseDtoList
@@ -24,11 +24,15 @@ import com.withsejong.retrofit.RetrofitClient
 class SearchResultActivity : AppCompatActivity() {
     private lateinit var binding: ActivityPostSearchResultBinding
     lateinit var searchResultAdapter: SearchResultAdapter
+    lateinit var categoryAdapter: CategoryAdapter
+
 
     private var loadedPageCnt = 0
     private var totalPageCnt = 0
     private lateinit var searchWord: String
     private val TAG = "SearchResultActivity_TAG"
+    private var searchTag="전체"
+
 
     companion object {
         private val loadData = ArrayList<BoardFindResponseDtoList>()
@@ -142,17 +146,133 @@ class SearchResultActivity : AppCompatActivity() {
             binding.etSearch.setText("")
         }
 
-        val categoryList = arrayListOf(
+        val categoryList = arrayListOf<String>(
             "전체",
             "전공",
-            "교양",
-            "균필",
+            "전선",
+            "전필",
             "공필",
+            "교양",
+            "교선",
+            "교필",
+            //"공필",
             "기타"
         )
-        binding.rcvCategory.adapter = CategoryAdapter(categoryList)
+        categoryAdapter = CategoryAdapter(categoryList)
+        binding.rcvCategory.adapter = categoryAdapter
         binding.rcvCategory.layoutManager =
             LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+
+        categoryAdapter.setCategoryClickListener(object : CategoryAdapter.OnItemClickListener{
+            override fun onClick(v: View, position: Int) {
+                when(position){
+                    0->{
+                        searchTag = "전체"
+                    }
+                    1->{
+                        searchTag = "전공"
+                    }
+                    2->{
+                        searchTag = "전선"
+                    }
+                    3->{
+                        searchTag = "전필"
+                    }
+                    4->{
+                        searchTag = "공필"
+                    }
+                    5->{
+                        searchTag = "교양"
+                    }
+                    6->{
+                        searchTag = "교선"
+                    }
+                    7->{
+                        searchTag = "교필"
+                    }
+                    else->{
+                        searchTag = "기타"
+                    }
+                }
+                Log.d("HomeFragment_TAG", searchTag)
+                loadData.clear()
+                var searchTagArray = arrayListOf(searchTag)
+                Log.d("HomeFragment_TAG", searchTagArray.toString())
+                val tokenSharedPreferences = this@SearchResultActivity.getSharedPreferences("token", Context.MODE_PRIVATE)
+                val accessToken:String = tokenSharedPreferences.getString("accessToken","").toString()
+                loadedPageCnt=0
+                totalPageCnt=0
+                if(searchTag=="전체"){
+                    val loadPostThread = Thread{
+                        loadData.clear()
+                        loadedPageCnt=0
+                        totalPageCnt=0
+                        val response = RetrofitClient.instance.loadPost(accessToken = "Bearer $accessToken", page = loadedPageCnt)
+                            .execute()
+                        if(response.code()==403){
+                            //토큰 만료
+                            loadedPageCnt++
+                            isLoaded =true
+//                    totalPageCnt = response.body()?.totalPages ?: -1
+                        }
+                        else if(response.isSuccessful){
+                            response.body()?.let { loadData.addAll(response.body()!!.boardFindResponseDtoList) }
+                            loadedPageCnt++
+                            isLoaded =true
+                            totalPageCnt = response.body()?.totalPages ?: -1
+                        }
+                        else{
+                            Log.d("HomeFragment",response.toString())
+                        }
+                        runOnUiThread{
+                            //binding.rcvSellList.adapter=homeAdapter(loadDat a)
+                            searchResultAdapter.notifyDataSetChanged()
+                        }
+                    }
+                    loadPostThread.join()
+                    loadPostThread.start()
+                    Log.d("HomeFragment_TAG", loadData.toString())
+                }
+                else{
+                    val searchByTagThread = Thread{
+                        val response = RetrofitClient.instance.loadSearchByTag("Bearer $accessToken",searchTagArray,loadedPageCnt).execute()
+                        Log.d("HomeFragment_TAG_",response.code().toString())
+                        if(response.code()==403){
+                            //토큰 만료
+                            loadedPageCnt++
+                            isLoaded =true
+//                    totalPageCnt = response.body()?.totalPages ?: -1
+                        }
+                        else if(response.body()!!.totalElements==0){
+                            Log.d("SearchResultActivity_TAG_", response.body()!!.totalElements.toString())
+                            Toast.makeText(this@SearchResultActivity, "검색결과가 없습니다.", Toast.LENGTH_SHORT).show()
+                        }
+                        else if(response.isSuccessful){
+                            loadData.clear()
+                            response.body()?.let { loadData.addAll(response.body()!!.boardFindResponseDtoList) }
+                            loadedPageCnt++
+                            isLoaded =true
+                            totalPageCnt = response.body()?.totalPages ?: -1
+                            Log.d("HomeFragment_TAG_",response.toString())
+                            Log.d("HomeFragment_TAG_",response.body().toString())
+                            Log.d("HomeFragment_TAG_", loadData.toString())
+                        }
+                        else{
+                            Log.d("HomeFragment_TAG",response.toString())
+                        }
+                        Log.d("HomeFragment_TAG", loadData.toString())
+                        runOnUiThread{
+                            //binding.rcvSellList.adapter=homeAdapter(loadDat a)
+                            searchResultAdapter.notifyDataSetChanged()
+                        }
+                    }
+                    searchByTagThread.join()
+                    searchByTagThread.start()
+                }
+            }
+        })
+
+
 
         val intentPost = Intent(this, PostDetailActivity::class.java)
         searchResultAdapter.setItemClickListener(object:SearchResultAdapter.OnItemClickListener{
@@ -231,6 +351,12 @@ class SearchResultActivity : AppCompatActivity() {
 
             if(response.code()==403){
 
+            }
+            else if(response.body()?.totalElements==0){
+                runOnUiThread {
+                    Toast.makeText(this@SearchResultActivity, "검색결과가 없습니다.", Toast.LENGTH_SHORT).show()
+
+                }
             }
             else if(response.isSuccessful){
                 loadData.clear()

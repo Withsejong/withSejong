@@ -74,7 +74,7 @@ class MyInformationFragment : Fragment() {
             fragmentManager.replace(R.id.fcv_all_fragment,myInformationEditmodeFragment).commit()
         }
         //회원탈퇴 버튼 기능
-        val accountDeleteDialogFragment=AccountDeleteDialogFragment()
+            val accountDeleteDialogFragment=AccountDeleteDialogFragment()
         binding.btnDeleteId.setOnClickListener {
 
             val accessToken = tokenSharedPreferences.getString("accessToken",null)

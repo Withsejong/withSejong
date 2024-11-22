@@ -12,6 +12,7 @@ import retrofit2.http.Multipart
 import retrofit2.http.POST
 import retrofit2.http.PUT
 import retrofit2.http.Part
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface Api {
@@ -104,6 +105,13 @@ interface Api {
         @Query("page") page:Int,
         ):Call<LoadPostResponse>
 
+    @GET("/user/board/find-by-tag")
+    fun loadSearchByTag(
+        @Header("Authorization") accessToken: String,
+        @Query("tags") tags:ArrayList<String>,
+        @Query("page") page:Int,
+    ):Call<LoadPostResponse>
+
     @GET("/user/board/history")
     fun loadSellList(
         @Header("Authorization") accessToken: String,
@@ -115,6 +123,37 @@ interface Api {
     fun loadChattingroom(
         @Header("Authorization") accessToken: String,
         @Query("studentId") studentId:String
-    ):Call<LoadChattingRoomResponse>
+    ):Call<ArrayList<LoadChattingRoomResponse>>
+
+    @GET("/user/chat/{roomId}")
+    fun loadChatting(
+        @Path("roomId") roomId : Int,
+        @Header("Authorization") accessToken: String,
+    ):Call<ArrayList<LoadingChattingResponse>>
+
+    @POST("/user/chat/room")
+    fun makeChattingRoom(
+        @Header("Authorization") accessToken: String,
+        @Body jsonParams: JsonElement
+    ):Call<MakeChattingRoomResponse>
+
+    @POST("/user/report")
+    fun postReport(
+        @Header("Authorization") accessToken: String,
+        @Body jsonParams: JsonElement
+    ):Call<PostReportResponse>
+
+    @DELETE("/user/board/{boardId}")
+    fun deletePost(
+        @Header("Authorization") accessToken: String,
+        @Path ("boardId") boardId : Int
+        ):Call<DeletePostResponse>
+
+    @GET("/user/chat/last/{roomId}")
+    fun loadLastChat(
+        @Header("Authorization") accessToken: String,
+        @Path("roomId") roomId:Int
+    ):Call<LoadLastChatResponse>
+
 
 }

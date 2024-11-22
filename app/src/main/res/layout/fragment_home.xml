@@ -11,19 +11,34 @@
     <!--        android:layout_height="wrap_content"-->
     <!--        android:id="@+id/tab_category"-->
     <!--        -->
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rcv_sell_list"
+    
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:background="#F5F5F5"
+        android:id="@+id/srl_swiperefresh"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/clo_upper_menu"
-        tools:listitem="@layout/item_post"
-        tools:itemCount="4"
-        />
+
+        >
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rcv_sell_list"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="#F5F5F5"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/clo_upper_menu"
+            tools:listitem="@layout/item_post"
+            tools:itemCount="4"
+            />
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/clo_upper_menu"
@@ -36,6 +51,20 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rcv_category"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="10dp"
+            app:layout_constraintTop_toBottomOf="@id/tv_title"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            tools:listitem="@layout/item_category"
+            tools:itemCount="1"
+
+            />
         <TextView
             android:id="@+id/tv_title"
             android:layout_width="wrap_content"
@@ -75,20 +104,6 @@
             app:layout_constraintEnd_toStartOf="@id/iv_notify_icon"
             app:layout_constraintTop_toTopOf="parent"
             />
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rcv_category"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginVertical="10dp"
-            app:layout_constraintTop_toBottomOf="@id/tv_title"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            tools:listitem="@layout/item_category"
-            tools:itemCount="1"
-
-            />
-
 
 
 

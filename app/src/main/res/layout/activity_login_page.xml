@@ -59,6 +59,8 @@
         android:letterSpacing=".3"
         android:padding="10dp"
         android:paddingStart="20dp"
+        android:textSize="15sp"
+
         app:layout_constraintBottom_toTopOf="@+id/et_student_password_input"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -75,6 +77,8 @@
         android:letterSpacing=".3"
         android:padding="10dp"
         android:paddingStart="20dp"
+        android:textSize="15sp"
+
         app:layout_constraintBottom_toTopOf="@+id/btn_next"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

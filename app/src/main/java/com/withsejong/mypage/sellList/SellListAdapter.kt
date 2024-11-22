@@ -1,15 +1,22 @@
 package com.withsejong.mypage.sellList
 
+import android.os.Build
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.withsejong.R
 import com.withsejong.databinding.ItemSellListBinding
 import com.withsejong.home.addCommas
 import com.withsejong.retrofit.BoardFindResponseDtoList
+import java.time.Duration
+import java.time.ZoneId
+import java.time.ZonedDateTime
+import java.time.format.DateTimeFormatter
 
-    private val TAG = "SellListAdapter_TAG"
+private val TAG = "SellListAdapter_TAG"
 class SellListAdapter(val postData: ArrayList<BoardFindResponseDtoList>):RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val binding = ItemSellListBinding.inflate(LayoutInflater.from(parent.context),parent,false)
@@ -20,6 +27,7 @@ class SellListAdapter(val postData: ArrayList<BoardFindResponseDtoList>):Recycle
         return postData.size
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         if(holder is SellListViewHolder){
             holder.name.text = postData[position].title
@@ -28,9 +36,9 @@ class SellListAdapter(val postData: ArrayList<BoardFindResponseDtoList>):Recycle
 
             if(postData[position].image.isNotEmpty()) {
                 Log.d(TAG, postData[position].image[0].url)
-//                Glide.with(holder.itemView.context)
-//                    .load(postData[position].image[0].url)
-//                    .into(holder.img)
+                Glide.with(holder.itemView.context)
+                    .load(postData[position].image[0].url)
+                    .into(holder.img)
             }
 
 
@@ -48,20 +56,55 @@ class SellListAdapter(val postData: ArrayList<BoardFindResponseDtoList>):Recycle
             if(postData[position].status==0){//판매중
                 holder.stateIndicator.setBackgroundResource(R.drawable.design_post_state_indicator_selling)
                 holder.stateIndicator.text="판매중"
-
             }
             else if(postData[position].status==1){
                 holder.stateIndicator.setBackgroundResource(R.drawable.design_post_state_indicator_reserved)
                 holder.stateIndicator.text="예약중"
-
-
             }
             else{
                 holder.stateIndicator.setBackgroundResource(R.drawable.design_post_state_indicator_sold)
                 holder.stateIndicator.text="판매완료"
-
-
             }
+
+            //게시글 작성 시간 관련 코드
+
+            //한국시간으로 변환
+
+            val utcTime = postData[position].createdAt.toString()
+            val utcDateTime = ZonedDateTime.parse(utcTime, DateTimeFormatter.ISO_OFFSET_DATE_TIME)
+
+            // 한국 시간대로 변환
+            val koreaDateTime = utcDateTime.withZoneSameInstant(ZoneId.of("Asia/Seoul"))
+
+            // 변환된 시간 출력
+            val koreaTime = koreaDateTime.format(DateTimeFormatter.ISO_OFFSET_DATE_TIME)
+
+            //현재 디바이스의 시간
+
+            // 현재 디바이스의 시간을 서울 시간 기준으로 가져오기
+            val now = ZonedDateTime.now(ZoneId.of("Asia/Seoul"))
+
+            // 원하는 포맷으로 변환
+            val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
+            val formattedNow = now.format(formatter)
+
+            val duration = Duration.between(koreaDateTime, now)
+
+            // 차이를 원하는 형식으로 변환
+            val days = duration.toDays()
+            val hours = duration.toHours() % 24
+            val minutes = duration.toMinutes() % 60
+
+            // 차이를 문자열로 출력
+            val elapsedTime = when {
+                days > 0 -> "$days 일 전"
+                hours > 0 -> "$hours 시간 전"
+                minutes > 0 -> "$minutes 분 전"
+                else -> "방금 전"
+            }
+
+            holder.uploadTime.text = elapsedTime
+
         }
     }
 }

@@ -3,6 +3,8 @@ package com.withsejong.post
 import android.content.Context
 import android.content.Intent
 import android.database.Cursor
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -32,7 +34,9 @@ import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.io.ByteArrayOutputStream
 import java.io.File
+import java.io.FileOutputStream
 
 class PostActivity : AppCompatActivity() {
 
@@ -93,26 +97,45 @@ class PostActivity : AppCompatActivity() {
             }
             else{
 
+//                val saveFilePaths = ArrayList<String>()
+//                for(i:Int in 0 until urlList.size){
+//                    saveFilePaths.add(absolutelyPath(urlList[i],this))
+//                }
+//
+//                //
+//                saveFilePaths.forEach { path ->
+//                    val file = File(path)
+//                    val requestFile = file.asRequestBody("image/*".toMediaTypeOrNull())
+//                    // 파일 이름을 동적으로 지정합니다. 예를 들어, file.name을 사용할 수 있습니다.
+//                    val body = MultipartBody.Part.createFormData("file", file.name, requestFile)
+//                    multipartList.add(body)
+//                }
+//                Log.d(TAG+"multipart", multipartList.toString())
+
+                // saveFilePaths 초기화 및 파일 압축 후 multipartList 생성
                 val saveFilePaths = ArrayList<String>()
-                for(i:Int in 0 until urlList.size){
-                    saveFilePaths.add(absolutelyPath(urlList[i],this))
+                for (i: Int in 0 until urlList.size) {
+                    saveFilePaths.add(absolutelyPath(urlList[i], this))
                 }
 
-                //
+// 압축 후 MultipartBody.Part 생성 및 추가
+                val multipartList = mutableListOf<MultipartBody.Part>()
                 saveFilePaths.forEach { path ->
-                    val file = File(path)
-                    val requestFile = file.asRequestBody("image/*".toMediaTypeOrNull())
-                    // 파일 이름을 동적으로 지정합니다. 예를 들어, file.name을 사용할 수 있습니다.
-                    val body = MultipartBody.Part.createFormData("file", file.name, requestFile)
+                    val originalFile = File(path)
+                    val compressedFile = compressImageFile(originalFile)  // 파일 압축
+
+                    val requestFile = compressedFile.asRequestBody("image/*".toMediaTypeOrNull())
+                    val body = MultipartBody.Part.createFormData("file", compressedFile.name, requestFile)
                     multipartList.add(body)
                 }
-                Log.d(TAG+"multipart", multipartList.toString())
+
+                Log.d(TAG + "multipart", multipartList.toString())
 
                 //
 
-                val accessToken = tokenSharedPreferences.getString("accessToken","")
+                val accessToken = "Bearer " + tokenSharedPreferences.getString("accessToken","")
                 val studentId = userInfoSharedPreferences.getString("studentId", "")
-                val nickname = userInfoSharedPreferences.getString(",nickname", "")
+                val nickname = userInfoSharedPreferences.getString("nickname", "")
 
 
                 val jsonObject = JSONObject()
@@ -120,7 +143,7 @@ class PostActivity : AppCompatActivity() {
                 jsonObject.put("title", binding.etPostTitle.text.toString())
                 jsonObject.put("studentId", studentId)
                 jsonObject.put("price", binding.etPostPrice.text.toString())
-                jsonObject.put("nickname",nickname)
+                //jsonObject.put("nickname",nickname)
 
 
                 //이수구분 태그 array에 추가
@@ -143,13 +166,46 @@ class PostActivity : AppCompatActivity() {
                     //val jsonBody = RequestBody.create(parse("application/json"),jsonObject)
                     jsonBody =
                         jsonObject.toString().toRequestBody("application/json".toMediaTypeOrNull())
-
-                    val response = RetrofitClient.instance.makePost(accessToken = "Bearer $accessToken",
+                    Log.d(TAG, "access token = $accessToken")
+                    val response = RetrofitClient.instance.makePost(accessToken = accessToken,
                         request = jsonBody, file = multipartList).execute()
                     Log.d(TAG, response.toString())
 
                     //403일 때 코드
                     if(response.code().toString()=="403"){
+
+                        val tokenRefreshThread = Thread{
+                            val jsonObjectInfo = JSONObject()
+                            jsonObjectInfo.put("studentId", saveID)
+                            jsonObjectInfo.put("accessToken", saveAccessToken)
+                            jsonObjectInfo.put("refreshToken", saveRefreshToken)
+                            val response2 = RetrofitClient.instance.refreshToken(accessToken = "Bearer $saveAccessToken",JsonParser.parseString(jsonObjectInfo.toString())).execute()
+                            val tokenSharedPreferencesEditor = this.getSharedPreferences("token",Context.MODE_PRIVATE).edit()
+                            val accessToken2 = response2.body()?.accessToken
+                            val refreshToken2 = response2.body()?.refreshToken
+                            Log.d(TAG, "access token = " + accessToken2)
+                            Log.d(TAG, "refresh token = " + refreshToken2)
+                            tokenSharedPreferencesEditor.putString("accessToken",accessToken2)
+                            tokenSharedPreferencesEditor.putString("refreshToken", refreshToken2)
+                            tokenSharedPreferencesEditor.apply()
+                            Log.d(TAG,response2.toString())
+                            if(response2.isSuccessful){
+                                val response3 = RetrofitClient.instance.makePost(accessToken = "Bearer $accessToken2",
+                                    request = jsonBody, file = multipartList).execute()
+                                if(response3.isSuccessful){
+                                    Log.d(TAG,response3.toString())
+                                    runOnUiThread {
+                                        Toast.makeText(this@PostActivity,"게시물 저장 성공,임시코드2", Toast.LENGTH_SHORT).show()
+                                        finish()
+                                    }
+                                    Log.d(TAG, response3.toString())
+                                }
+
+                            }
+                        }
+                        tokenRefreshThread.join()
+                        tokenRefreshThread.start()
+
                         //TODO 토큰 리프레시 하는 api 연결 임시 비활성화
 //                        val jsonObjectInfo = JSONObject()
 //                        jsonObjectInfo.put("studentId", saveID)
@@ -185,7 +241,7 @@ class PostActivity : AppCompatActivity() {
                         Log.d("PostActivity",response.toString())
 
                         runOnUiThread {
-                            Toast.makeText(this@PostActivity,"게시물 저장 성공,임시코드", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(this@PostActivity,"게시물 저장 성공,임시코드1", Toast.LENGTH_SHORT).show()
                             finish()
 
                         }
@@ -381,5 +437,29 @@ class PostActivity : AppCompatActivity() {
 
         })
 
+
+    }
+    // 이미지 파일 압축 함수
+    fun compressImageFile(imageFile: File): File {
+        if (imageFile.length() <= 1_000_000) {
+            return imageFile  // 1MB 이하면 압축하지 않음
+        }
+
+        var bitmap = BitmapFactory.decodeFile(imageFile.absolutePath)
+        var quality = 100
+        val outputStream = ByteArrayOutputStream()
+        do {
+            outputStream.reset()
+            bitmap.compress(Bitmap.CompressFormat.JPEG, quality, outputStream)
+            quality -= 5
+        } while (outputStream.size() > 1_000_000 && quality > 5)
+
+        val compressedFile = File(imageFile.parent, "compressed_${imageFile.name}")
+        val fos = FileOutputStream(compressedFile)
+        fos.write(outputStream.toByteArray())
+        fos.flush()
+        fos.close()
+
+        return compressedFile
     }
 }

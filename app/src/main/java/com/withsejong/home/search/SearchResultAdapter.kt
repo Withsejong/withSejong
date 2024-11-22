@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.withsejong.databinding.ItemPostBinding
 import com.withsejong.home.addCommas
 import com.withsejong.retrofit.BoardFindResponseDtoList
@@ -43,9 +44,9 @@ class SearchResultAdapter(val postData: ArrayList<BoardFindResponseDtoList>): Re
 
             if(postData[position].image.isNotEmpty()) {
                 Log.d("HomeAdapter_TAG1", postData[position].image[0].url)
-//                Glide.with(holder.itemView.context)
-//                    .load(postData[position].image[0].url)
-//                    .into(holder.img)
+                Glide.with(holder.itemView.context)
+                    .load(postData[position].image[0].url)
+                    .into(holder.img)
             }
 
 
@@ -113,9 +114,5 @@ class SearchResultAdapter(val postData: ArrayList<BoardFindResponseDtoList>): Re
     }
     fun setItemClickListener(onItemClickListener: OnItemClickListener){
         this.itemClickListener = onItemClickListener
-    }
-
-    fun setItemDetailClickListener(onItemDetailClickListener: OnItemClickListener){
-        this.itemDetailClickListener = onItemDetailClickListener
     }
 }

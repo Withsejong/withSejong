@@ -20,9 +20,9 @@ class PostDetailViewpagerAdapter(val imageList : ArrayList<String>):RecyclerView
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         if(holder is PagerViewHolder){
-//            Glide.with(holder.itemView.context)
-//                .load(imageList[position])
-//                .into(holder.iv)
+            Glide.with(holder.itemView.context)
+                .load(imageList[position])
+                .into(holder.iv)
         }
 
 

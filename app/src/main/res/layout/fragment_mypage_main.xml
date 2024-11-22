@@ -95,7 +95,7 @@
             android:fontFamily="@font/pretendardmedium"
             android:text="관심목록"
             android:textColor="#000"
-            android:textSize="25sp"
+            android:textSize="22sp"
             app:layout_constraintBottom_toBottomOf="@id/iv_icon_heart"
             app:layout_constraintStart_toEndOf="@id/iv_icon_heart"
             app:layout_constraintTop_toTopOf="@id/iv_icon_heart" />
@@ -129,7 +129,7 @@
 
             android:text="판매내역"
             android:textColor="#000"
-            android:textSize="25sp"
+            android:textSize="22sp"
             app:layout_constraintBottom_toBottomOf="@id/iv_icon_sell"
             app:layout_constraintStart_toEndOf="@id/iv_icon_sell"
             app:layout_constraintTop_toTopOf="@id/iv_icon_sell" />
@@ -163,7 +163,7 @@
 
             android:text="구매내역"
             android:textColor="#000"
-            android:textSize="25sp"
+            android:textSize="22sp"
             app:layout_constraintBottom_toBottomOf="@id/iv_icon_buy"
             app:layout_constraintStart_toEndOf="@id/iv_icon_buy"
             app:layout_constraintTop_toTopOf="@id/iv_icon_buy" />
@@ -188,7 +188,7 @@
         android:id="@+id/clo_my_information"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginVertical="30dp"
+        android:layout_marginVertical="10dp"
         android:paddingVertical="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -212,7 +212,7 @@
 
             android:text="나의 정보"
             android:textColor="#000"
-            android:textSize="25sp"
+            android:textSize="22sp"
             app:layout_constraintBottom_toBottomOf="@id/iv_icon_my_information"
             app:layout_constraintStart_toEndOf="@id/iv_icon_my_information"
             app:layout_constraintTop_toTopOf="@id/iv_icon_my_information" />
@@ -246,7 +246,7 @@
 
             android:text="환경설정"
             android:textColor="#000"
-            android:textSize="25sp"
+            android:textSize="22sp"
             app:layout_constraintBottom_toBottomOf="@id/iv_setting"
             app:layout_constraintStart_toEndOf="@id/iv_setting"
             app:layout_constraintTop_toTopOf="@id/iv_setting" />
@@ -280,7 +280,7 @@
 
             android:text="자주 묻는 질문"
             android:textColor="#000"
-            android:textSize="25sp"
+            android:textSize="22sp"
             app:layout_constraintBottom_toBottomOf="@id/iv_icon_faq"
             app:layout_constraintStart_toEndOf="@id/iv_icon_faq"
             app:layout_constraintTop_toTopOf="@id/iv_icon_faq" />

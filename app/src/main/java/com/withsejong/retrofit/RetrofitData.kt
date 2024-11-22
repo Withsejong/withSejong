@@ -80,7 +80,7 @@ data class MakePostResponse(
 data class LoadPostResponse(
     val currentPage : Int,
     val totalPages : Int,
-    val totalElment :Int,
+    val totalElements :Int,
     val boardFindResponseDtoList : ArrayList<BoardFindResponseDtoList>
 )
 
@@ -109,6 +109,47 @@ data class LoadChattingRoomResponse(
     val roomId:Int,
     val publisher:String,
     val subscriber:String,
+    val createdAt:String,
+    val boardTitle: String,
+    var lastmsg:String
+)
+data class LoadingChattingResponse(
+    val viewType:Int,
+    val roomId:Int,
+    val message:String,
+    val sender:String,
+    val createdAt:String,
+)
+
+data class MakeChattingRoomResponse(
+    val id:Int,
+    val publisher:String,
+    val subscriber:String,
+    val createdAt : String,
+    val boardTitle:String,
+    val isCreated:Boolean
+)
+
+data class PostReportResponse(
+    val title:String,
+    val content:String,
+    val boardId :Int
+)
+
+data class DeletePostResponse(
+
+    val date:String,
+    val content:String,
+    val title:String,
+    val price:Int
+)
+
+data class LoadLastChatResponse(
+
+    val roomId:Int,
+    val message:String,
+    val sender:String,
     val createdAt:String
+
 )
 

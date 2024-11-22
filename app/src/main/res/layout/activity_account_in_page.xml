@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".start.LoginChoicePage">
+    tools:context=".login.AccountInPage">
 
     <TextView
         android:id="@+id/tv_title_subname"
@@ -13,7 +13,7 @@
 
         android:layout_marginLeft="50dp"
         android:layout_marginTop="130dp"
-
+        android:fontFamily="@font/pretendardregular"
 
         android:text="세종인 끼리\n간편한 중고책 거래"
         android:textColor="#000000"
@@ -25,6 +25,7 @@
         android:id="@+id/tv_title_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/seolleimcool"
 
         android:text="세종끼리"
         android:textColor="#000000"
@@ -34,21 +35,20 @@
         app:layout_constraintStart_toStartOf="@+id/tv_title_subname"
         app:layout_constraintTop_toBottomOf="@+id/tv_title_subname" />
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btn_next"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="30dp"
         android:layout_marginBottom="100dp"
-        android:background="@drawable/radius"
-
-        android:backgroundTint="#46515B"
+        android:background="@drawable/design_next_btn_noinput"
         android:padding="20dp"
         android:text="다음"
         android:textColor="#fff"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        tools:layout_editor_absoluteX="30dp" />
+        app:layout_constraintEnd_toEndOf="@+id/et_student_password_input"
+        app:layout_constraintStart_toStartOf="@+id/et_student_password_input"
+        />
 
     <ImageView
         android:id="@+id/iv_sejong_icon"
@@ -66,21 +66,26 @@
         android:layout_marginBottom="50dp"
         android:background="@drawable/radius_redcolor_line"
         android:ems="10"
+        android:fontFamily="@font/pretendardsemibold"
         android:inputType="number"
+        android:letterSpacing=".3"
         android:padding="10dp"
+        android:paddingStart="20dp"
+        android:textColor="#000"
+        android:textSize="15sp"
         app:layout_constraintBottom_toTopOf="@+id/et_student_password_input"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
     <TextView
         android:id="@+id/tv_duplicated_id_error_indicator"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/et_student_id_input"
         android:text="* 이미 가입된 계정입니다."
-        app:layout_constraintEnd_toEndOf="@id/et_student_id_input"
         android:textColor="#FF0000"
         android:visibility="invisible"
-        />
+        app:layout_constraintEnd_toEndOf="@id/et_student_id_input"
+        app:layout_constraintTop_toBottomOf="@id/et_student_id_input" />
 
 
     <EditText
@@ -92,7 +97,11 @@
         android:background="@drawable/radius_redcolor_line"
         android:ems="10"
         android:inputType="textPassword"
+        android:letterSpacing=".3"
         android:padding="10dp"
+        android:paddingStart="20dp"
+        android:textSize="15sp"
+
         app:layout_constraintBottom_toTopOf="@+id/btn_next"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -103,7 +112,10 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:layout_marginBottom="10dp"
+        android:fontFamily="@font/pretendardmedium"
         android:text="학번"
+        android:textColor="#000"
+        android:textSize="15sp"
         app:layout_constraintBottom_toTopOf="@+id/et_student_id_input"
         app:layout_constraintStart_toStartOf="@+id/et_student_id_input" />
 
@@ -113,7 +125,10 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:layout_marginBottom="10dp"
+        android:fontFamily="@font/pretendardmedium"
+
         android:text="비밀번호"
+        android:textColor="#000"
         app:layout_constraintBottom_toTopOf="@+id/et_student_password_input"
         app:layout_constraintStart_toStartOf="@+id/et_student_password_input" />
 

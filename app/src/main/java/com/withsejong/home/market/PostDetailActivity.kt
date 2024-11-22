@@ -1,22 +1,30 @@
 package com.withsejong.home.market
 
+import android.content.Intent
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.viewpager2.widget.ViewPager2
+import com.bumptech.glide.Glide
 import com.google.gson.GsonBuilder
+import com.google.gson.JsonParser
 import com.google.gson.reflect.TypeToken
+import com.withsejong.chatting.chattingRoom.ChattingRoomActivity
 import com.withsejong.databinding.ActivityPostDetailBinding
+import com.withsejong.retrofit.RetrofitClient
+import org.json.JSONObject
 import java.time.Duration
 import java.time.ZoneId
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 
 class PostDetailActivity : AppCompatActivity() {
-    private lateinit var binding : ActivityPostDetailBinding
-    private var responseTag:String ?= null
+    private lateinit var binding: ActivityPostDetailBinding
+    private var responseTag: String? = null
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,26 +42,34 @@ class PostDetailActivity : AppCompatActivity() {
         val productPrice = intent.getStringExtra("productPrice")
         val uploadTime = intent.getStringExtra("createAt")
         Log.d("PostDetailActivity_TAG", uploadTime.toString())
+        val boardId = intent.getIntExtra("boardId", -1)
+        val postId = intent.getStringExtra("postId")
+        val boardTitle = intent.getStringExtra("boardTitle")
+
+
+        val tokenSharedPreferences = getSharedPreferences("token", MODE_PRIVATE)
+        val userInfoSharedPreferences = getSharedPreferences("userInfo", MODE_PRIVATE)
+        val accessToken = tokenSharedPreferences.getString("accessToken", "")
+        val studentId = userInfoSharedPreferences.getString("studentId", "")
 
         //val tag = intent.getStringArrayListExtra("tag")
         val tag = intent.getStringExtra("tag")
-        val tagJsonToList = GsonBuilder().create().fromJson<ArrayList<String>>(tag,itemType)
+        val tagJsonToList = GsonBuilder().create().fromJson<ArrayList<String>>(tag, itemType)
 
 
         tagJsonToList?.forEach {
-            if(responseTag==null){
-                responseTag="#$it"
-            }
-            else{
+            if (responseTag == null) {
+                responseTag = "#$it"
+            } else {
                 responseTag = "$responseTag #$it "
 
             }
         }
 
 
-        val productContent =  intent.getStringExtra("productContent")
+        val productContent = intent.getStringExtra("productContent")
 
-        //val img1 = intent.getStringExtra("img1")
+        val img1 = intent.getStringExtra("img1")
         val imgArray = intent.getStringArrayListExtra("imgArray")
 
 
@@ -61,7 +77,7 @@ class PostDetailActivity : AppCompatActivity() {
         binding.vpBookimg.adapter = imgArray?.let { PostDetailViewpagerAdapter(it) }
         binding.vpBookimg.orientation = ViewPager2.ORIENTATION_HORIZONTAL
 
-                //해당하는 것에 맞게 컴포넌트 요소들 settext하기
+        //해당하는 것에 맞게 컴포넌트 요소들 settext하기
         binding.tvUpperBooknameIndicator.text = productName
         binding.tvUpperPriceIndicator.text = productPrice
         binding.tvNicknameIndicator.text = nickname
@@ -110,10 +126,7 @@ class PostDetailActivity : AppCompatActivity() {
             else -> "방금 전"
         }
 
-        binding.tvUploadtime.text=elapsedTime
-
-
-
+        binding.tvUploadtime.text = elapsedTime
 
 
 //        Glide.with(this@PostDetailActivity)
@@ -148,6 +161,74 @@ class PostDetailActivity : AppCompatActivity() {
         binding.ibtnBack.setOnClickListener {
             finish()
         }
+
+        //ismine
+        if (studentId != postId) {
+            binding.btnChatting.setOnClickListener {
+                val jsonObject = JSONObject()
+                jsonObject.put("publisher", studentId)
+                jsonObject.put("subscriber", postId)
+                jsonObject.put("boardId", boardId)
+
+                Log.d("PostDetailActivity_TAG", jsonObject.toString())
+
+                val makeChattingRoomThread = Thread {
+                    val response = RetrofitClient.instance.makeChattingRoom(
+                        "Bearer $accessToken",
+                        JsonParser.parseString(jsonObject.toString())
+                    ).execute()
+
+                    if (response.code() == 403) {
+
+                    } else if (response.isSuccessful) {
+                        Log.d("PostDetailActivity_TAG", response.body().toString())
+                        //TODO roomID에 해당하는 채팅방으로 이동
+                        val intentChattingRoom = Intent(this, ChattingRoomActivity::class.java)
+                        intentChattingRoom.putExtra("roomId", response.body()?.id)
+                        intentChattingRoom.putExtra("boardTitle", boardTitle)
+                        startActivity(intentChattingRoom)
+                        finish()
+                    }
+                }
+
+                makeChattingRoomThread.join()
+                makeChattingRoomThread.start()
+
+
+            }
+        } else {
+            binding.btnChatting.apply {
+                text = "삭제하기"
+                setOnClickListener {
+                    val deleteThread = Thread {
+                        val response =
+                            RetrofitClient.instance.deletePost("Bearer ${accessToken}", boardId)
+                                .execute()
+                        if (response.code() == 403) {
+
+                        } else if (response.isSuccessful) {
+                            Log.d(
+                                "MyPostDetailBottomsheetDialogFragment_TAG",
+                                response.body().toString()
+                            )
+                            runOnUiThread {
+                                Toast.makeText(
+                                    this@PostDetailActivity,
+                                    "게시글이 삭제되었습니다.",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                            finish()
+                        }
+
+                    }
+                    deleteThread.join()
+                    deleteThread.start()
+                }
+            }
+        }
     }
+
 }
+
 

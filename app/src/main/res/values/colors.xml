@@ -7,9 +7,15 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-<!--    컬러들 지정-->
+
+    <!--    컬러들 지정-->
     <color name="mainColor">#B93234</color>
     <color name="bottomNavNoAnimation">#fff</color>
+    <color name="tp">#ffff</color>
+
+    <color name="category_select">#46515B</color>
+    <color name="category_unselect">#0000</color>
+
 
 
 </resources>

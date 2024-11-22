@@ -4,18 +4,26 @@
     <value>
       <entry key="app">
         <State>
-          <targetSelectedWithDropDown>
+          <runningDeviceTargetsSelectedWithDialog>
             <Target>
-              <type value="QUICK_BOOT_TARGET" />
+              <type value="RUNNING_DEVICE_TARGET" />
               <deviceKey>
                 <Key>
-                  <type value="VIRTUAL_DEVICE_PATH" />
-                  <value value="C:\Users\MisterJerry\.android\avd\Medium_Phone_API_TiramisuPrivacySandbox.avd" />
+                  <type value="SERIAL_NUMBER" />
+                  <value value="R39M300H7BX" />
                 </Key>
               </deviceKey>
             </Target>
-          </targetSelectedWithDropDown>
-          <timeTargetWasSelectedWithDropDown value="2024-05-11T15:03:08.654209500Z" />
+            <Target>
+              <type value="RUNNING_DEVICE_TARGET" />
+              <deviceKey>
+                <Key>
+                  <type value="SERIAL_NUMBER" />
+                  <value value="R3CW206BHMZ" />
+                </Key>
+              </deviceKey>
+            </Target>
+          </runningDeviceTargetsSelectedWithDialog>
         </State>
       </entry>
     </value>

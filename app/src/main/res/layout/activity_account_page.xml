@@ -13,18 +13,22 @@
 
         android:layout_marginLeft="50dp"
         android:layout_marginTop="150dp"
+        android:fontFamily="@font/pretendardregular"
 
 
         android:text="세종인 끼리\n간편한 중고책 거래"
         android:textColor="#000000"
         android:textSize="20sp"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/tv_title_name"/>
 
     <TextView
         android:id="@+id/tv_title_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:fontFamily="@font/seolleimcool"
 
         android:text="세종끼리"
 
@@ -36,21 +40,20 @@
         app:layout_constraintStart_toStartOf="@+id/tv_title_subname"
         app:layout_constraintTop_toBottomOf="@+id/tv_title_subname" />
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btn_auth"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="30dp"
         android:layout_marginBottom="160dp"
-        android:background="@drawable/radius"
-
-        android:backgroundTint="#FE0000"
+        android:background="@drawable/design_next_btn_input"
+        android:fontFamily="@font/pretendardbold"
         android:padding="20dp"
         android:text="세종인 인증"
         android:textColor="#fff"
-        android:textSize="20sp"
+        android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        tools:layout_editor_absoluteX="30dp" />
+     />
 
     <ImageView
         android:id="@+id/iv_sejong_icon"
@@ -67,6 +70,8 @@
         android:background="@android:color/transparent"
         android:backgroundTint="@android:color/transparent"
         android:text="@string/underline_text_what_is_sejong"
+        android:fontFamily="@font/pretendardregular"
+        android:textSize="10sp"
         app:layout_constraintEnd_toEndOf="@+id/btn_auth"
         app:layout_constraintStart_toStartOf="@+id/btn_auth"
         app:layout_constraintTop_toBottomOf="@+id/btn_auth" />

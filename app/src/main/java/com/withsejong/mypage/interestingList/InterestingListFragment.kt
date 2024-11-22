@@ -1,17 +1,25 @@
 package com.withsejong.mypage.interestingList
 
+import android.content.Context.MODE_PRIVATE
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.gson.GsonBuilder
+import com.google.gson.reflect.TypeToken
 import com.withsejong.R
 import com.withsejong.databinding.FragmentInterestingListBinding
+import com.withsejong.home.HomeAdapter
 import com.withsejong.mypage.MypageMainFragment
+import com.withsejong.retrofit.BoardFindResponseDtoList
 
 class InterestingListFragment : Fragment() {
     private lateinit var binding:FragmentInterestingListBinding
+    lateinit var interestingListAdapter: InterestingListAdapter
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         binding = FragmentInterestingListBinding.inflate(layoutInflater,container,false)
@@ -35,10 +43,24 @@ class InterestingListFragment : Fragment() {
         }
 
         requireActivity().onBackPressedDispatcher.addCallback(requireActivity(),backActionCallback)
+
+        //쉐프에서 데이터 받아오기
+        val interestingListSharedPreferences = requireActivity().getSharedPreferences("interesting",MODE_PRIVATE)
+        val interestingListJson=interestingListSharedPreferences.getString("list","[]")
+        val itemType2 = object : TypeToken<ArrayList<BoardFindResponseDtoList>>() {}.type //json to list 할때 type
+
+        val jsonToPostList = GsonBuilder().create().fromJson<ArrayList<BoardFindResponseDtoList>>(interestingListJson,itemType2)
+        val interestingArrayList = ArrayList<BoardFindResponseDtoList>()
+        interestingArrayList.addAll(jsonToPostList)
+
+
+        interestingListAdapter = InterestingListAdapter(interestingArrayList)
+        binding.rcvInterestingList.adapter = interestingListAdapter
+        binding.rcvInterestingList.layoutManager = LinearLayoutManager(requireContext(),LinearLayoutManager.VERTICAL,false)
+
     }
 
-    //TODO 나중에 관심목록에 들어가는 것들을 리사이클러뷰로 구현할 것
-    //TODO 뒤로가기 구현 - 휴대폰 뒤로가기 말하는거임
+
 
 
 }

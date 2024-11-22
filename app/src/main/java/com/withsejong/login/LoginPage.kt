@@ -131,7 +131,8 @@ class LoginPage : AppCompatActivity() {
                             tokenEditor.putString("accessToken", response.body()?.authToken?.accessToken.toString())
                             tokenEditor.putString("refreshToken", response.body()?.authToken?.refreshToken.toString())
                             tokenEditor.apply()
-
+                            Log.d("LoginPage_TAG", response.body().toString())
+                            Log.d("LoginPage_TAG", tokenSharedPreferences.getString("accessToken", "def").toString())
                             //학생정보들 쉐프에 저장
                             userInfoEditor.putString("studentId",response.body()?.studentId)
                             userInfoEditor.putString("nickname", response.body()?.nickname)

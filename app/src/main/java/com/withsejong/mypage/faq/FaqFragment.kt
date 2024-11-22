@@ -89,10 +89,10 @@ class FaqFragment : Fragment() {
                             if(response.isSuccessful){
                                 Log.d("FaqFragment_TAG,갱신 전", saveAccessToken.toString())
                                 val accessToken = response.body()?.accessToken
-                                val refreshToken = response.body()?.refreshToken
+                                //val refreshToken = response.body()?.refreshToken
                                 val tokenSharedPreferencesEditor = requireContext().getSharedPreferences("token",Context.MODE_PRIVATE).edit()
                                 tokenSharedPreferencesEditor.putString("accessToken",accessToken)
-                                tokenSharedPreferencesEditor.putString("refreshToken", refreshToken)
+                                //tokenSharedPreferencesEditor.putString("refreshToken", refreshToken)
                                 tokenSharedPreferencesEditor.apply()
                                 Log.d("FaqFragment_TAG,갱신 후", accessToken.toString())
 

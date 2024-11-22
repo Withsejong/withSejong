@@ -46,6 +46,8 @@
         <activity
             android:name=".login.AccountPage"
             android:exported="false" />
+        <activity android:name=".chatting.chattingRoom.ChattingRoomActivity"
+            android:exported="false"/>
         <activity
             android:name=".login.MakeNicknamePage"
             android:exported="false" />

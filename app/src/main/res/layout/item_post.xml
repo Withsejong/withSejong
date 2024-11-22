@@ -24,14 +24,24 @@
             android:src="@drawable/icon_post_detail"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+        <ImageButton
+            android:id="@+id/ibtn_post_pick"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="#0000"
+            android:padding="10dp"
+            android:src="@drawable/icon_post_unpick"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@id/ibtn_post_detail"
+            />
 
         <ImageView
-            android:id="@+id/iv_bookimg"
+            android:id="@+id/vp_bookimg"
             android:layout_width="100dp"
             android:layout_height="0dp"
             android:src="@mipmap/ic_launcher"
             app:layout_constraintDimensionRatio="1:1"
-            app:layout_constraintEnd_toStartOf="@id/tv_booktag"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -42,62 +52,70 @@
             android:layout_marginStart="20dp"
             android:fontFamily="@font/pretendardsemibold"
             android:text="컴퓨터 네트워크"
-            android:maxLines="3"
-            android:textSize="25sp"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:textSize="18sp"
             android:singleLine="false"
+
             app:layout_constraintBottom_toBottomOf="parent"
 
             app:layout_constraintEnd_toStartOf="@+id/ibtn_post_detail"
             app:layout_constraintHorizontal_bias="0"
             app:layout_constraintVertical_bias="0"
-            app:layout_constraintStart_toEndOf="@id/iv_bookimg"
+            app:layout_constraintStart_toEndOf="@id/vp_bookimg"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/tv_booktag"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="25dp"
+            android:fontFamily="@font/pretendardlight"
             android:text="#지기전"
             android:gravity="center"
-            android:textSize="10sp"
-            app:layout_constraintBottom_toTopOf="@id/tv_bookprice"
-            app:layout_constraintStart_toEndOf="@id/iv_bookimg"
+            android:textSize="12sp"
+            app:layout_constraintVertical_bias="0"
+            android:layout_marginTop="5dp"
+
+            app:layout_constraintStart_toStartOf="@id/tv_bookname"
             app:layout_constraintTop_toBottomOf="@id/tv_bookname" />
 
         <TextView
             android:id="@+id/tv_divider"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
-            android:layout_marginStart="10dp"
+            android:layout_marginStart="5dp"
+            android:fontFamily="@font/pretendardregular"
             android:text=" | "
+
             android:gravity="center"
-            android:textSize="10sp"
-            app:layout_constraintBottom_toTopOf="@id/tv_bookprice"
+            android:textSize="12sp"
+
             app:layout_constraintStart_toEndOf="@id/tv_booktag"
-            app:layout_constraintTop_toBottomOf="@id/tv_bookname" />
+            app:layout_constraintTop_toTopOf="@id/tv_booktag"/>
 
         <TextView
             android:id="@+id/tv_uploadtime"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
-            android:layout_marginStart="10dp"
+            android:layout_marginStart="5dp"
             android:text="5분 전"
             android:fontFamily="@font/pretendardregular"
             android:gravity="center"
-            android:textSize="10sp"
-            app:layout_constraintBottom_toTopOf="@id/tv_bookprice"
+            android:textSize="12sp"
+
             app:layout_constraintStart_toEndOf="@id/tv_divider"
-            app:layout_constraintTop_toBottomOf="@id/tv_bookname" />
+            app:layout_constraintTop_toTopOf="@id/tv_booktag" />
 
         <TextView
             android:id="@+id/tv_bookprice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
+            android:textSize="16sp"
+            android:layout_marginTop="5dp"
+            android:fontFamily="@font/pretendardmedium"
             android:text="20,000원"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@id/iv_bookimg" />
+            app:layout_constraintStart_toStartOf="@id/tv_booktag"
+            app:layout_constraintTop_toBottomOf="@id/tv_booktag"/>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

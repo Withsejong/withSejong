@@ -173,7 +173,6 @@ class AccountInPage : AppCompatActivity() {
 
             } else {//닉네임이 존재하지 않는 경우
                 checkNicknameResponse = 0
-
             }
         }
         checkSignupThread.start()
