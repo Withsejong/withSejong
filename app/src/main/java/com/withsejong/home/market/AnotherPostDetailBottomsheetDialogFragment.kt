@@ -29,7 +29,6 @@ class AnotherPostDetailBottomsheetDialogFragment : BottomSheetDialogFragment() {
         val binding = FragmentAnotherPostDetailBottomsheetdialogBinding.inflate(layoutInflater,container,false)
         val userReportDialogFragment = UserReportDialogFragment()
 
-
         val bottomSheetDialog = dialog as BottomSheetDialog?
         val bottomSheet = bottomSheetDialog?.findViewById<View>(com.google.android.material.R.id.design_bottom_sheet)
         bottomSheet?.setBackgroundResource(R.drawable.design_another_post_detail_clo)

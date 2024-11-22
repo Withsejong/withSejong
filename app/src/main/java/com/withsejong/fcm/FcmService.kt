@@ -20,6 +20,16 @@ class FcmService : FirebaseMessagingService() {
 
     override fun onNewToken(token: String) {
         super.onNewToken(token)
+
+        val tokenSharedPreferences = getSharedPreferences("token",
+            MODE_PRIVATE
+        )
+        val editor = tokenSharedPreferences.edit()
+        editor.putString("fcmToken", token)
+        editor.apply()
+
+
+
         sendRegistrationToServer(token)
     }
 
@@ -48,6 +58,7 @@ class FcmService : FirebaseMessagingService() {
 
     // 타사 서버에 토큰을 유지해주는 메서드이다.
     private fun sendRegistrationToServer(token: String?) {
+        //TODO 아마 백에 토큰을 저장해야 하는 건가?
         Log.d(TAG, "sendRegistrationTokenToServer($token)")
     }
 
