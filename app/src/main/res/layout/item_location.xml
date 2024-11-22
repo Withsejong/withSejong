@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="100dp"
+    android:layout_height="100dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/clo"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="10dp"
+        android:background="#000"
+
+        android:padding="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/tv_location_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="군자관"
+            android:fontFamily="@font/pretendardsemibold"
+            android:textSize="15sp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:textColor="#fff"
+            />
+        <TextView
+            android:id="@+id/tv_detail1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/tv_location_name"
+            app:layout_constraintStart_toStartOf="parent"
+            android:text="#돌계단을 올라가야 해요"
+            android:fontFamily="@font/pretendardregular"
+            android:textSize="6sp"
+            android:layout_marginTop="10dp"
+            android:textColor="#fff"
+
+            />
+        <TextView
+            android:id="@+id/tv_detail2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/tv_detail1"
+            app:layout_constraintStart_toStartOf="parent"
+            android:text="#돌계단을 올라가야 해요"
+            android:fontFamily="@font/pretendardregular"
+            android:textSize="6sp"
+            android:textColor="#fff"
+
+            />
+        <TextView
+            android:id="@+id/tv_detail3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/tv_detail2"
+            app:layout_constraintStart_toStartOf="parent"
+            android:text="#돌계단을 올라가야 해요"
+            android:fontFamily="@font/pretendardregular"
+            android:textSize="6sp"
+            android:textColor="#fff"
+
+            />
+
+        <View
+            android:id="@+id/v_divider"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            app:layout_constraintStart_toStartOf="parent"
+            android:background="#fff"
+            app:layout_constraintTop_toBottomOf="@id/tv_detail3"
+            android:layout_marginTop="5dp"
+
+            />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_suggestion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="장소 제안하기"
+            android:textColor="#fff"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/v_divider"
+            app:layout_constraintBottom_toBottomOf="parent"
+            />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

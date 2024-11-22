@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/clo"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="10dp"
+
+        android:padding="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        >
+
+        <ImageView
+            android:id="@+id/vp_bookimg"
+            android:layout_width="50dp"
+            android:layout_height="0dp"
+            android:src="@mipmap/ic_launcher"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_sender_nickname"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:ellipsize="end"
+
+            android:fontFamily="@font/pretendardbold"
+            android:maxLines="1"
+            android:singleLine="false"
+            android:text="MisterJerry"
+
+            android:textSize="11sp"
+
+            app:layout_constraintBottom_toTopOf="@+id/tv_message"
+            app:layout_constraintStart_toEndOf="@id/vp_bookimg"
+            app:layout_constraintTop_toTopOf="@+id/vp_bookimg" />
+
+        <TextView
+            android:id="@+id/tv_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/pretendardmedium"
+            android:text="네! 3시에 봬요"
+            android:textSize="13sp"
+            app:layout_constraintBottom_toBottomOf="@+id/vp_bookimg"
+            app:layout_constraintStart_toStartOf="@+id/tv_sender_nickname"
+            app:layout_constraintTop_toBottomOf="@id/tv_sender_nickname"
+
+            />
+
+        <TextView
+            android:id="@+id/tv_unread_chatting_cnt_indicator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:background="@drawable/design_chatting_cnt_indicator_red"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:text="3"
+            android:textColor="#fff"
+            android:paddingHorizontal="10dp"
+            android:fontFamily="@font/pretendardsemibold"
+            android:textSize="12sp"
+
+            />
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

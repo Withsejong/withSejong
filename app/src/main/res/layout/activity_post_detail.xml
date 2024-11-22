@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".home.market.PostDetailActivity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/clo_fragment_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@id/v_title_divider"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageButton
+            android:id="@+id/ibtn_back"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="15dp"
+            android:background="#00000000"
+            android:src="@drawable/icon_back"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <TextView
+            android:id="@+id/tv_upper_bookname_indicator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/pretendardsemibold"
+            android:paddingVertical="3dp"
+            android:text="나의 정보"
+            android:textColor="#000"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toTopOf="@id/tv_upper_bookname_indicator"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_upper_price_indicator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:fontFamily="@font/pretendardsemibold"
+            android:text="10,000원"
+            android:textColor="#6E7882"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/tv_upper_bookname_indicator"
+            app:layout_constraintStart_toStartOf="@id/tv_upper_bookname_indicator"
+            app:layout_constraintTop_toBottomOf="@id/tv_upper_bookname_indicator" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <View
+        android:id="@+id/v_title_divider"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="#EDEDED"
+        app:layout_constraintBottom_toTopOf="@id/vp_bookimg"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/clo_fragment_title"
+
+        />
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/vp_bookimg"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+
+        android:layout_margin="20dp"
+        app:layout_constraintBottom_toTopOf="@id/clo_nickname_indicator"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/v_title_divider" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/clo_nickname_indicator"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/design_post_detail_nickname_indicator_red"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/vp_bookimg">
+
+        <ImageView
+            android:id="@+id/iv_profile_img"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:src="@drawable/icon_seller"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_nickname_indicator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:fontFamily="@font/pretendardsemibold"
+            android:text="닉네임"
+            android:textColor="#fff"
+            android:textSize="15sp"
+            android:layout_marginBottom="5dp"
+
+            app:layout_constraintStart_toEndOf="@id/iv_profile_img"
+            app:layout_constraintTop_toTopOf="@id/iv_profile_img"
+            app:layout_constraintBottom_toTopOf="@id/tv_major_indicator"
+            />
+
+
+
+        <TextView
+            android:id="@+id/tv_major_indicator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:fontFamily="@font/pretendardregular"
+            android:text="지능기전공학부"
+            android:textColor="#fff"
+            android:textSize="8sp"
+            app:layout_constraintTop_toBottomOf="@id/tv_nickname_indicator"
+            app:layout_constraintBottom_toBottomOf="@id/iv_profile_img"
+            app:layout_constraintStart_toEndOf="@id/iv_profile_img" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/clo_product_indicator"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="30dp"
+        android:background="@drawable/design_post_detail_product_information_indicator_gray"
+        app:layout_constraintBottom_toBottomOf="parent"
+
+        app:layout_constraintTop_toBottomOf="@id/clo_nickname_indicator">
+
+        <TextView
+
+            android:id="@+id/tv_product_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:fontFamily="@font/pretendardbold"
+            android:text="컴퓨터 네트워크"
+            android:textColor="#fff"
+            android:textSize="15sp"
+            app:layout_constraintEnd_toStartOf="@id/tv_product_price"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+
+            />
+
+        <TextView
+            android:id="@+id/tv_product_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="20dp"
+            android:fontFamily="@font/pretendardregular"
+            android:text="20,000원"
+            android:textSize="17sp"
+            android:textColor="#fff"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <View
+            android:id="@+id/v_product_name_divider"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginVertical="5dp"
+
+            android:background="#A6A6A6"
+            app:layout_constraintTop_toBottomOf="@id/tv_product_name"
+            app:layout_constraintBottom_toTopOf="@id/tv_tag_indicator"
+            />
+
+        <TextView
+            android:id="@+id/tv_tag_indicator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginStart="20dp"
+            android:text="#지기전"
+            android:fontFamily="@font/pretendardlight"
+            android:textColor="#fff"
+            android:textSize="8sp"
+            app:layout_constraintBottom_toTopOf="@id/tv_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/v_product_name_divider"
+            />
+        <TextView
+            android:id="@+id/tv_tag_time_divider"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=" | "
+            android:fontFamily="@font/pretendardregular"
+            android:layout_marginStart="5dp"
+            app:layout_constraintStart_toEndOf="@id/tv_tag_indicator"
+            app:layout_constraintTop_toTopOf="@id/tv_tag_indicator"
+            app:layout_constraintBottom_toBottomOf="@id/tv_tag_indicator"
+            android:textColor="#fff"
+            android:textSize="8sp"
+            />
+        <TextView
+            android:id="@+id/tv_uploadtime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="5 분전"
+            android:fontFamily="@font/pretendardregular"
+            android:textColor="#fff"
+            android:textSize="8sp"
+            app:layout_constraintStart_toEndOf="@id/tv_tag_time_divider"
+            app:layout_constraintTop_toTopOf="@+id/tv_tag_time_divider"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_tag_time_divider"
+            android:layout_marginStart="5dp"
+            />
+
+        <TextView
+            android:id="@+id/tv_content"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:fontFamily="@font/pretendardlight"
+            android:lines="4"
+            android:paddingBottom="10dp"
+            android:layout_marginTop="10dp"
+
+
+            android:text="1\n2\n3\n4"
+            android:textColor="#fff"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_tag_indicator" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_chatting"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="#0000"
+            android:fontFamily="@font/pretendardmedium"
+            android:text="채팅하기"
+            android:textColor="#fff"
+            app:layout_constraintEnd_toStartOf="@id/btn_interesting"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_content" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_interesting"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="#0000"
+            android:fontFamily="@font/pretendardmedium"
+            android:text="찜하기"
+            android:textColor="#fff"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/btn_chatting"
+            app:layout_constraintTop_toBottomOf="@id/tv_content" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
