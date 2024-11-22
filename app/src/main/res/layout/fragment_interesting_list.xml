@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".mypage.interestingList.InterestingListFragment">
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/clo_fragment_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        >
+        <ImageButton
+            android:id="@+id/ibtn_back"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            app:layout_constraintDimensionRatio="1:1"
+            android:layout_marginStart="15dp"
+            android:src="@drawable/icon_back"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:background="#00000000"
+            />
+        <ImageView
+            android:id="@+id/iv_icon_profile"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintDimensionRatio="1:1"
+            android:src="@drawable/profile_basic_icon"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="15dp"
+
+
+            app:layout_constraintTop_toTopOf="@id/tv_interesting_list_title"
+            app:layout_constraintBottom_toBottomOf="@id/tv_interesting_list_title"
+            />
+
+
+    <TextView
+        android:id="@+id/tv_interesting_list_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="관심목록"
+        android:fontFamily="@font/pretendardmedium"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:textSize="20sp"
+        android:paddingVertical="3dp"
+        />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    <View
+        android:id="@+id/v_title_divider"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+
+        app:layout_constraintTop_toBottomOf="@id/clo_fragment_title"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:background="#EDEDED"
+
+        />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rcv_interesting_list"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/v_title_divider"
+        />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

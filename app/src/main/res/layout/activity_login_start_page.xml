@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".start.LoginStartPage">
+
+
+    <TextView
+        android:id="@+id/tv_subTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="30dp"
+        android:fontFamily="@font/pretendardregular"
+        android:text="세종인 끼리\n간편한 중고책 거래"
+        android:lineSpacingExtra="5dp"
+        android:textColor="#000000"
+        android:textSize="20sp"
+
+        app:layout_constraintBottom_toTopOf="@id/tv_mainTitle"
+        app:layout_constraintLeft_toLeftOf="@id/tv_mainTitle" />
+
+
+    <TextView
+        android:id="@+id/tv_mainTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="40dp"
+        android:fontFamily="@font/seolleimcool"
+
+        android:text="세종끼리"
+        android:textColor="#000000"
+        android:textSize="40sp"
+        app:layout_constraintBottom_toTopOf="@id/iv_mainIcon"
+
+        app:layout_constraintHorizontal_bias=".2"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
+    <ImageView
+        android:id="@+id/iv_mainIcon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/home_icon"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btn_start"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="30dp"
+        android:layout_marginTop="100dp"
+
+        android:background="@drawable/radius"
+        android:backgroundTint="#FF0000"
+        android:fontFamily="@font/pretendardsemibold"
+        android:padding="20dp"
+        android:text="시작하기"
+        android:textColor="#fff"
+        android:textSize="20sp"
+
+
+        app:layout_constraintLeft_toLeftOf="@id/iv_mainIcon"
+        app:layout_constraintRight_toRightOf="@id/iv_mainIcon"
+        app:layout_constraintTop_toBottomOf="@+id/iv_mainIcon" />
+
+    <TextView
+        android:id="@+id/tv_welcome_name_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/pretendardregular"
+        android:text="환영합니다 ___님!\n세종인끼리와 간편한 책거래를 시작해 보아요 :)"
+        android:layout_marginBottom="20dp"
+        android:lineSpacingExtra="5dp"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toTopOf="@+id/btn_start"
+        app:layout_constraintEnd_toEndOf="@+id/btn_start"
+        app:layout_constraintStart_toStartOf="@+id/btn_start" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

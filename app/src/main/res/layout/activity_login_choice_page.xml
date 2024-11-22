@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".start.LoginChoicePage">
+
+    <ImageView
+        android:id="@+id/im_tmp2_background"
+        android:layout_width="588dp"
+        android:layout_height="1074dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/tmp2_background" />
+
+    <TextView
+        android:id="@+id/tv_title_subname"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:fontFamily="@font/pretendardregular"
+
+        android:text="세종인 끼리 중고책 거래"
+        android:textColor="#000000"
+        android:textSize="20sp"
+
+
+        app:layout_constraintBottom_toTopOf="@+id/tv_title_name"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_title_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:layout_marginBottom="30dp"
+        android:text="세종끼리"
+        android:fontFamily="@font/seolleimcool"
+        android:textColor="#000000"
+        android:textSize="40sp"
+        app:layout_constraintBottom_toTopOf="@+id/btn_login"
+
+
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
+
+    <Button
+        android:id="@+id/btn_signup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="30dp"
+        android:layout_marginBottom="100dp"
+        android:background="@drawable/radius"
+        android:backgroundTint="#46515B"
+        android:padding="15dp"
+        android:text="회원가입"
+        android:fontFamily="@font/pretendardbold"
+        android:textColor="#fff"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        />
+
+    <Button
+        android:id="@+id/btn_login"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="30dp"
+        android:layout_marginBottom="30dp"
+        android:background="@drawable/radius"
+        android:backgroundTint="#FE0000"
+        android:padding="15dp"
+        android:text="로그인"
+        android:fontFamily="@font/pretendardbold"
+        android:textColor="#fff"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@id/btn_signup"
+        tools:layout_editor_absoluteX="30dp" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
