@@ -15,6 +15,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.content.ContextCompat.getSystemService
+import com.withsejong.BuildConfig
 import com.withsejong.R
 import com.withsejong.databinding.FragmentMypageMainBinding
 import com.withsejong.mypage.buyList.BuyListFragment
@@ -54,6 +55,8 @@ class MypageMainFragment : Fragment() {
         val myInformationFragment = MyInformationFragment()
         val settingFragment = SettingFragment()
         val faqFragment = FaqFragment()
+
+        binding.tvVersion.text = "앱 버전 : ${BuildConfig.APPVERSION}"
 
         //TODO 토큰 카피 코드는 반드시 지울 것
         binding.tvTokencopy.setOnClickListener {
