@@ -104,6 +104,9 @@ class MyInformationFragment : Fragment() {
         }
             val intentLogout = Intent(requireActivity(),LoginChoicePage::class.java)
         binding.btnLogout.setOnClickListener {
+
+
+
             val saveId = userInfoSharedPreferences.getString("studentId","error").toString()
             val accessToken = tokenSharedPreferences.getString("accessToken","error").toString()
             RetrofitClient.instance.logout(accessToken = "Bearer $accessToken",studentId = saveId).enqueue(object : Callback<LogoutResponse>{
