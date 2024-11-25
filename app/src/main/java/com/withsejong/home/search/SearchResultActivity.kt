@@ -313,6 +313,12 @@ class SearchResultActivity : AppCompatActivity() {
         })
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        loadData.clear()
+
+    }
+
     private fun loadMoreData(accessToken: String, keyWord: String, page: Int): Int {
 
         //일단 무지성으로 동기통신
@@ -339,7 +345,6 @@ class SearchResultActivity : AppCompatActivity() {
     }
 
     fun loadSearchPost(accessToken:String){//초기 데이터 로딩용
-
         val loadSearchPostThread = Thread{
             val response = RetrofitClient.instance.loadSearchPost(
                 accessToken = "Bearer $accessToken",
