@@ -32,6 +32,8 @@ android {
         }
         buildConfigField("String", "BASEURL", properties.getProperty("BASEURL"))
         buildConfigField("String", "SEJONGAUTHBASEURL", properties.getProperty("BASEURL"))
+        buildConfigField("String", "APPVERSION", properties.getProperty("APPVERSION"))
+
 
     }
 
