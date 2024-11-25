@@ -19,19 +19,22 @@
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/botnav_menu"
         android:layout_width="match_parent"
-        android:layout_height="70dp"
+        android:layout_height="wrap_content"
         android:background="#46515B"
         android:theme="@style/Theme.WithSejong"
         app:itemBackground="@color/bottomNavNoAnimation"
         app:itemIconTint="@color/bottomnav_icon_selector"
         app:itemTextColor="@color/bottomnav_icon_selector"
+
         app:labelVisibilityMode="labeled"
 
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/fcv_all_fragment"
-
+        app:itemIconSize="20dp"
+        app:itemTextAppearanceActive="@style/bottomNavFontSize"
+        app:itemTextAppearanceInactive="@style/bottomNavFontSize"
         app:menu="@menu/bottom_nav" />
 
 
