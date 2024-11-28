@@ -153,3 +153,8 @@ data class LoadLastChatResponse(
 
 )
 
+data class FcmResponse(
+    val redirectBoolean: Boolean,
+    val successful:Boolean
+)
+

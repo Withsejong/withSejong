@@ -155,5 +155,12 @@ interface Api {
         @Path("roomId") roomId:Int
     ):Call<LoadLastChatResponse>
 
+    @POST("/user/fcm/send")
+    fun sendFcmNotification(
+        @Header("Authorization") accessToken: String,
+        @Body jsonParams: JsonElement
+
+    ):Call<FcmResponse>
+
 
 }
