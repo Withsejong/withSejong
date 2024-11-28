@@ -20,8 +20,13 @@ import org.json.JSONObject
 class UserReportDialogFragment : DialogFragment() {
 
     lateinit var binding : FragmentUserReportDialogBinding
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        isCancelable = false
+    }
+
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        // Inflate the layout for this fragment
         binding = FragmentUserReportDialogBinding.inflate(layoutInflater,container,false)
         return binding.root
     }
@@ -69,24 +74,16 @@ class UserReportDialogFragment : DialogFragment() {
                             Toast.makeText(requireContext(), "신고가 완료되었습니다!", Toast.LENGTH_SHORT).show()
                         }
                         dismiss()
-
-
                     }
                     else{
 
                     }
                 }
-                reportTherad.join()
                 reportTherad.start()
+                reportTherad.join()
+
             }
         }
-
-
-
-
-
-
-
     }
 
 }
