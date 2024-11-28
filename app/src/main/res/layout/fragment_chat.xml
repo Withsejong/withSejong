@@ -14,17 +14,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <ImageButton
-            android:id="@+id/ibtn_back"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_marginStart="15dp"
-            android:background="#00000000"
-            android:src="@drawable/icon_back"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintDimensionRatio="1:1"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
 
 
         <TextView
