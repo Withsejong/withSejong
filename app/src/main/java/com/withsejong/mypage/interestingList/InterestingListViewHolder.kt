@@ -1,9 +1,10 @@
 package com.withsejong.mypage.interestingList
 
 import androidx.recyclerview.widget.RecyclerView
+import com.withsejong.databinding.ItemInterestingListBinding
 import com.withsejong.databinding.ItemPostBinding
 
-class InterestingListViewHolder(val binding:ItemPostBinding):RecyclerView.ViewHolder(binding.root) {
+class InterestingListViewHolder(val binding:ItemInterestingListBinding):RecyclerView.ViewHolder(binding.root) {
 
     val name = binding.tvBookname
     val price = binding.tvBookprice

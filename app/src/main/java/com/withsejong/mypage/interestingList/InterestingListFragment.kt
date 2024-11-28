@@ -1,18 +1,21 @@
 package com.withsejong.mypage.interestingList
 
+import android.app.Dialog
 import android.content.Context.MODE_PRIVATE
+import android.content.DialogInterface
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
+import androidx.appcompat.app.AlertDialog
+import androidx.fragment.app.DialogFragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import com.withsejong.R
 import com.withsejong.databinding.FragmentInterestingListBinding
-import com.withsejong.home.HomeAdapter
 import com.withsejong.mypage.MypageMainFragment
 import com.withsejong.retrofit.BoardFindResponseDtoList
 
@@ -21,11 +24,9 @@ class InterestingListFragment : Fragment() {
     lateinit var interestingListAdapter: InterestingListAdapter
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        // Inflate the layout for this fragment
         binding = FragmentInterestingListBinding.inflate(layoutInflater,container,false)
         return binding.root
     }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val mypageMainFragment = MypageMainFragment()
@@ -57,6 +58,39 @@ class InterestingListFragment : Fragment() {
         interestingListAdapter = InterestingListAdapter(interestingArrayList)
         binding.rcvInterestingList.adapter = interestingListAdapter
         binding.rcvInterestingList.layoutManager = LinearLayoutManager(requireContext(),LinearLayoutManager.VERTICAL,false)
+
+
+        interestingListAdapter.setItemPickClickListener(object : InterestingListAdapter.OnItemClickListener{
+            override fun onClick(v: View, position: Int) {
+
+                AlertDialog.Builder(requireActivity())
+                    .setTitle("관심목록 제거")
+                    .setMessage("관심목록에서 제거하시겠습니까?")
+                    .setPositiveButton("제거",object :DialogInterface.OnClickListener{
+                        override fun onClick(dialog: DialogInterface?, which: Int) {
+                            interestingArrayList.removeAt(position)
+                            interestingListAdapter.notifyItemRemoved(position)
+
+                            val postListtoJson = GsonBuilder().create().toJson(interestingArrayList,itemType2)
+
+
+                            val editor = interestingListSharedPreferences.edit()
+                            editor.putString("list",postListtoJson)
+                            editor.apply()
+
+                        }
+
+                    })
+                    .setNegativeButton("취소"
+                    ) { dialog, which ->
+
+                        dialog.dismiss()
+                    }.show()
+
+
+            }
+
+        })
 
     }
 

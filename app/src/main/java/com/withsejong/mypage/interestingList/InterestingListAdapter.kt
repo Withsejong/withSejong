@@ -3,11 +3,14 @@ package com.withsejong.mypage.interestingList
 import android.os.Build
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.withsejong.databinding.ItemInterestingListBinding
 import com.withsejong.databinding.ItemPostBinding
+import com.withsejong.home.HomeAdapter.OnItemClickListener
 import com.withsejong.home.HomeViewHolder
 import com.withsejong.home.addCommas
 import com.withsejong.retrofit.BoardFindResponseDtoList
@@ -17,8 +20,17 @@ import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 
 class InterestingListAdapter(val pickedList:ArrayList<BoardFindResponseDtoList>):RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+    private lateinit var itemClickListener : OnItemClickListener //장터에 올라온 책 리스트
+    private lateinit var itemDetailClickListener: OnItemClickListener //점3개 클릭
+    private lateinit var itemPickClickListener: OnItemClickListener //찜하기 클릭
+
+    interface OnItemClickListener {
+        fun onClick(v: View, position:Int)
+    }
+
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        val binding = ItemPostBinding.inflate(LayoutInflater.from(parent.context),parent,false)
+        val binding = ItemInterestingListBinding.inflate(LayoutInflater.from(parent.context),parent,false)
         return InterestingListViewHolder(binding)
     }
 
@@ -105,9 +117,19 @@ class InterestingListAdapter(val pickedList:ArrayList<BoardFindResponseDtoList>)
 //            holder.postDetail.setOnClickListener {
 //                itemDetailClickListener.onClick(it,position)
 //            }
-//            holder.pick.setOnClickListener {
-//                itemPickClickListener.onClick(it,position)
-//            }
+            holder.pick.setOnClickListener {
+                itemPickClickListener.onClick(it,position)
+            }
         }
+    }
+    fun setItemClickListener(onItemClickListener: OnItemClickListener){
+        this.itemClickListener = onItemClickListener
+    }
+
+    fun setItemDetailClickListener(onItemDetailClickListener: OnItemClickListener){
+        this.itemDetailClickListener = onItemDetailClickListener
+    }
+    fun setItemPickClickListener(onItemPickClickListener: OnItemClickListener){
+        this.itemPickClickListener = onItemPickClickListener
     }
 }
