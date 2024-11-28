@@ -105,10 +105,14 @@ class LoginPage : AppCompatActivity() {
         })
 
         binding.btnNext.setOnClickListener {
+            val tokenSharedPreferences = getSharedPreferences("token", MODE_PRIVATE)
+            val fcmToken = tokenSharedPreferences.getString("fcmToken",null)
 
             val jsonObject=JSONObject()
             jsonObject.put("studentId",binding.etStudentIdInput.text)
             jsonObject.put("password",binding.etStudentPasswordInput.text)
+            jsonObject.put("fcmToken", fcmToken)
+            Toast.makeText(this, "$fcmToken", Toast.LENGTH_SHORT).show()
 
             RetrofitClient.instance.login(JsonParser.parseString(jsonObject.toString()))
                 .enqueue(object :Callback<LoginResponse>{
