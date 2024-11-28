@@ -110,10 +110,10 @@ class InterestingListAdapter(val pickedList:ArrayList<BoardFindResponseDtoList>)
 
             holder.uploadTime.text = elapsedTime
 
-//            //클릭 리스너를 달기 위한 코드
-//            holder.itemView.setOnClickListener{
-//                itemClickListener.onClick(it,position)
-//            }
+            //클릭 리스너를 달기 위한 코드
+            holder.itemView.setOnClickListener{
+                itemClickListener.onClick(it,position)
+            }
 //            holder.postDetail.setOnClickListener {
 //                itemDetailClickListener.onClick(it,position)
 //            }

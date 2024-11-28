@@ -3,7 +3,9 @@ package com.withsejong.mypage.interestingList
 import android.app.Dialog
 import android.content.Context.MODE_PRIVATE
 import android.content.DialogInterface
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -16,6 +18,8 @@ import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import com.withsejong.R
 import com.withsejong.databinding.FragmentInterestingListBinding
+import com.withsejong.home.addCommas
+import com.withsejong.home.market.PostDetailActivity
 import com.withsejong.mypage.MypageMainFragment
 import com.withsejong.retrofit.BoardFindResponseDtoList
 
@@ -59,7 +63,56 @@ class InterestingListFragment : Fragment() {
         binding.rcvInterestingList.adapter = interestingListAdapter
         binding.rcvInterestingList.layoutManager = LinearLayoutManager(requireContext(),LinearLayoutManager.VERTICAL,false)
 
+        val intentPost = Intent(requireContext(), PostDetailActivity::class.java)
 
+        interestingListAdapter.setItemClickListener(object :InterestingListAdapter.OnItemClickListener{
+            override fun onClick(v: View, position: Int) {
+                //Toast.makeText(requireContext(),loadData[position].title,Toast.LENGTH_SHORT).show()
+                //TODO 닉네임도 api에 추가되면 넣을 것
+                intentPost.putExtra("nickname", interestingArrayList[position].nickname)
+                intentPost.putExtra("major", interestingArrayList[position].major)
+                intentPost.putExtra("productName", interestingArrayList[position].title)
+                //시간 전송
+                intentPost.putExtra("createAt", interestingArrayList[position].createdAt)
+                intentPost.putExtra("boardId", interestingArrayList[position].id)
+                intentPost.putExtra("postId", interestingArrayList[position].studentId)
+                intentPost.putExtra("boardTitle", interestingArrayList[position].title)
+
+
+                //intentPost.putExtra("img1", loadData[position].image[0].url)
+                val imageUriList = ArrayList<String>()
+                for(i:Int in 0 until interestingArrayList[position].image.size){
+                    imageUriList.add(interestingArrayList[position].image[0].url)
+                }
+
+
+                intentPost.putStringArrayListExtra("imgArray", imageUriList)
+
+
+                val priceAddComma = interestingArrayList[position].price.addCommas()//콤마 붙이는 코드
+                intentPost.putExtra("productPrice", priceAddComma+"원")
+                intentPost.putExtra("productContent", interestingArrayList[position].content)
+                //TODO 태그 배열을 보내야하는데 흠...
+                //intentPost.putStringArrayListExtra("tag", loadData[position].tag)
+
+                val tagArrayList = ArrayList<String>()
+                interestingArrayList[position].tag.forEach{
+                    tagArrayList.add(it.category)
+                }
+                val itemType = object : TypeToken<ArrayList<String>>() {}.type //json to list 할때 type
+
+                val tagListtoJson = GsonBuilder().create().toJson(tagArrayList,itemType)
+
+                Log.d("HomeFragment_TAG",tagListtoJson)
+
+                intentPost.putExtra("tag",tagListtoJson)
+                startActivity(intentPost)
+            }
+
+        })
+
+
+        //관심목록 하트 아이콘 클릭
         interestingListAdapter.setItemPickClickListener(object : InterestingListAdapter.OnItemClickListener{
             override fun onClick(v: View, position: Int) {
 
