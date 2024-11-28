@@ -146,6 +146,8 @@ class ChatFragment : Fragment() {
             override fun onClick(v: View, position: Int) {
                 intentChattingRoom.putExtra("roomId", chattingRoom[position].roomId)
                 intentChattingRoom.putExtra("boardTitle", chattingRoom[position].boardTitle)
+                intentChattingRoom.putExtra("subscriber",chattingRoom[position].subscriber) //fcm 알림 전송 용 상대 학번
+                intentChattingRoom.putExtra("publisher",chattingRoom[position].publisher)
                 startActivity(intentChattingRoom)
             }
         })
@@ -158,6 +160,7 @@ class ChatFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
 
 
 
