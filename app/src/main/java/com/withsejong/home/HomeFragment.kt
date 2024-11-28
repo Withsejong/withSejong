@@ -10,7 +10,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
+import android.widget.Toast
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.FragmentResultListener
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.GsonBuilder
@@ -32,6 +34,9 @@ class HomeFragment : Fragment(),MyPostDetailBottomsheetDialogFragment.BottomShee
     lateinit var categoryAdapter: CategoryAdapter
     private var loadedPageCnt = 0
     private var totalPageCnt = 0
+
+    private var deletePostId : Int=-1
+
 
     private var searchTag="전체"
 
@@ -358,6 +363,11 @@ class HomeFragment : Fragment(),MyPostDetailBottomsheetDialogFragment.BottomShee
         val studentId = userInfoSharedPreferences.getString("studentId","")
         //어댑터의 점3개를 클릭했을 겨우
         //TODO 여기에 분기 추가해서 자기글일때와 아닐때 구분
+
+
+
+
+
         homeAdapter.setItemDetailClickListener(object :HomeAdapter.OnItemClickListener{
             override fun onClick(v: View, position: Int) {
 
@@ -369,8 +379,20 @@ class HomeFragment : Fragment(),MyPostDetailBottomsheetDialogFragment.BottomShee
 
                     myPostDetailBottomsheetDialogFragment.arguments = myPostBundle
 
-
                     myPostDetailBottomsheetDialogFragment.show(parentFragmentManager,myPostDetailBottomsheetDialogFragment.tag)
+
+                    parentFragmentManager.setFragmentResultListener("isDeleted",this@HomeFragment,object:FragmentResultListener{
+                        override fun onFragmentResult(requestKey: String, result: Bundle) {
+                            val deleteCode = result.getBoolean("isDeleted",false)
+                            if(deleteCode){
+                                requireActivity().runOnUiThread {
+                                    loadData.removeAt(position)
+                                    homeAdapter.notifyItemRemoved(position)
+                                }
+
+                            }
+                        }
+                    })
                 }
                 else{
                     val anotherBundle = Bundle()
@@ -381,6 +403,12 @@ class HomeFragment : Fragment(),MyPostDetailBottomsheetDialogFragment.BottomShee
                     anotherPostDetailBottomsheetDialogFragment.show(parentFragmentManager,anotherPostDetailBottomsheetDialogFragment.tag)
 
                 }
+
+
+
+
+
+
             }
         }
         )

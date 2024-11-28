@@ -57,6 +57,13 @@ class MyPostDetailBottomsheetDialogFragment : BottomSheetDialogFragment() {
                         Toast.makeText(requireContext(), "게시글이 삭제되었습니다.", Toast.LENGTH_SHORT).show()
                     }
                     listener?.onBottomSheetResult(true,position-1)
+
+                    parentFragmentManager.setFragmentResult("isDeleted",
+                        Bundle().apply { putBoolean("isDeleted", true) }
+
+
+
+                    )
                     dismiss()
                 }
 
@@ -71,7 +78,6 @@ class MyPostDetailBottomsheetDialogFragment : BottomSheetDialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         val bottomSheetDialog = dialog as BottomSheetDialog?
         val bottomSheet = bottomSheetDialog?.findViewById<View>(com.google.android.material.R.id.design_bottom_sheet)
         bottomSheet?.setBackgroundResource(R.drawable.design_another_post_detail_clo)
