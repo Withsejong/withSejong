@@ -30,7 +30,7 @@
             android:layout_height="wrap_content"
             android:background="#0000"
             android:padding="10dp"
-            android:src="@drawable/icon_post_unpick"
+            android:src="@drawable/icon_post_picked"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="@id/ibtn_post_detail"
