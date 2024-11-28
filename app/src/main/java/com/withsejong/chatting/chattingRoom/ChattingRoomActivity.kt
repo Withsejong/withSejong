@@ -3,14 +3,20 @@ package com.withsejong.chatting.chattingRoom
 import android.content.ContentValues.TAG
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.ui.input.key.Key.Companion.G
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.gson.JsonParser
 import com.withsejong.databinding.ActivityChattingRoomBinding
+import com.withsejong.retrofit.FcmResponse
 import com.withsejong.retrofit.LoadingChattingResponse
 import com.withsejong.retrofit.RetrofitClient
 import io.reactivex.disposables.Disposable
 import org.json.JSONObject
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import ua.naiksoftware.stomp.Stomp
 import ua.naiksoftware.stomp.StompClient
 import ua.naiksoftware.stomp.dto.LifecycleEvent
@@ -47,6 +53,16 @@ class ChattingRoomActivity : AppCompatActivity() {
 
         val userInfoSharedPreferences = getSharedPreferences("userInfo", MODE_PRIVATE)
         val studentId = userInfoSharedPreferences.getString("studentId", "").toString()
+        val subscriber = intent.getStringExtra("subscriber")
+        val publisher = intent.getStringExtra("publisher")
+        val targetId =
+            if(subscriber==studentId){
+            publisher
+        }
+        else{
+            subscriber
+            }
+
         Log.d("ChattingRoomActivity_TAG", studentId.toString())
 
 
@@ -107,8 +123,14 @@ class ChattingRoomActivity : AppCompatActivity() {
 
 
         binding.ivSendMsg.setOnClickListener {
+
+            val msg = binding.etMessageInput.text.toString()
             //TODO 서버로 메시지 전송 후
-            sendStomp(binding.etMessageInput.text.toString(), roomId, studentId.toString())
+
+            sendStomp(msg, roomId, studentId.toString())
+
+
+            sendFcm(targetId.toString(),msg)
 
         }
 
@@ -119,9 +141,29 @@ class ChattingRoomActivity : AppCompatActivity() {
         //TODO 소켓 disconnect
         super.onDestroy()
         disposeStomp()
-
-
     }
+    private fun sendFcm(targetId:String, msg: String){
+        val jsonObject = JSONObject()
+        jsonObject.put("studentId", targetId)
+        jsonObject.put("title","세종끼리")
+        jsonObject.put("body",msg)
+
+        RetrofitClient.instance.sendFcmNotification(accessToken = "Bearer $accessToken",JsonParser.parseString(jsonObject.toString())).enqueue(
+            object : Callback<FcmResponse> {
+                override fun onResponse(call: Call<FcmResponse>, response: Response<FcmResponse>) {
+                    if(response.isSuccessful){
+                        Toast.makeText(this@ChattingRoomActivity, "알림발송 성공", Toast.LENGTH_SHORT).show()
+                    }
+                }
+
+                override fun onFailure(call: Call<FcmResponse>, t: Throwable) {
+                    Toast.makeText(this@ChattingRoomActivity, "알림발송 살패", Toast.LENGTH_SHORT).show()
+
+                }
+
+            })
+    }
+
 
 
     private fun initStomp(roomId: Int, studentId: String) {
@@ -190,8 +232,6 @@ class ChattingRoomActivity : AppCompatActivity() {
         binding.rcvChattingList.adapter?.notifyItemInserted(pastChatting.size-1)
         scrollToBottom()
         binding.etMessageInput.setText("")
-
-
 
     }
 
