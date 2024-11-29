@@ -80,4 +80,40 @@
         app:layout_constraintTop_toBottomOf="@id/v_title_divider"
         />
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/clo_empty_item_notification"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/v_title_divider">
+
+        <ImageView
+            android:id="@+id/iv_icon_no_item"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/icon_no_item"
+
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            />
+        <TextView
+            android:id="@+id/tv_no_item"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="관심목록에 담긴 상품이 없습니다."
+            app:layout_constraintTop_toBottomOf="@id/iv_icon_no_item"
+            app:layout_constraintStart_toStartOf="@id/iv_icon_no_item"
+            app:layout_constraintEnd_toEndOf="@id/iv_icon_no_item"
+            android:layout_marginTop="20dp"
+            android:fontFamily="@font/pretendardsemibold"
+            android:textSize="16sp"
+            />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

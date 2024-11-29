@@ -58,6 +58,10 @@ class InterestingListFragment : Fragment() {
         val interestingArrayList = ArrayList<BoardFindResponseDtoList>()
         interestingArrayList.addAll(jsonToPostList)
 
+        if(interestingArrayList.size==0){
+            binding.cloEmptyItemNotification.visibility = View.VISIBLE
+        }
+
 
         interestingListAdapter = InterestingListAdapter(interestingArrayList)
         binding.rcvInterestingList.adapter = interestingListAdapter
@@ -123,6 +127,10 @@ class InterestingListFragment : Fragment() {
                         override fun onClick(dialog: DialogInterface?, which: Int) {
                             interestingArrayList.removeAt(position)
                             interestingListAdapter.notifyItemRemoved(position)
+                            if(interestingArrayList.size==0){
+                                binding.cloEmptyItemNotification.visibility = View.VISIBLE
+                            }
+
 
                             val postListtoJson = GsonBuilder().create().toJson(interestingArrayList,itemType2)
 
