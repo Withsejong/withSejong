@@ -65,9 +65,9 @@ class PostActivity : AppCompatActivity() {
             binding.cbClassification3,
             binding.cbClassification4,
             binding.cbClassification5,
-            binding.cbClassification6,
-            binding.cbClassification7,
-            binding.cbClassification8,
+//            binding.cbClassification6,
+//            binding.cbClassification7,
+//            binding.cbClassification8,
 
             )
 
@@ -92,7 +92,7 @@ class PostActivity : AppCompatActivity() {
                 Toast.makeText(this,"이미지를 최소 1개는 등록해주세요!", Toast.LENGTH_SHORT).show()
             }
             else if(!checkBoxList.any{it.isChecked}){
-                Toast.makeText(this,"이수구분 태그를 선택해주세요!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this,"게시글 분류 태그를 선택해주세요!", Toast.LENGTH_SHORT).show()
 
             }
             else{
