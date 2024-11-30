@@ -1,5 +1,6 @@
 package com.withsejong.home.market
 
+import android.content.DialogInterface
 import android.content.Intent
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
@@ -7,6 +8,7 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
@@ -199,31 +201,50 @@ class PostDetailActivity : AppCompatActivity() {
         } else {
             binding.btnChatting.apply {
                 text = "삭제하기"
+
                 setOnClickListener {
-                    val deleteThread = Thread {
-                        val response =
-                            RetrofitClient.instance.deletePost("Bearer ${accessToken}", boardId)
-                                .execute()
-                        if (response.code() == 403) {
 
-                        } else if (response.isSuccessful) {
-                            Log.d(
-                                "MyPostDetailBottomsheetDialogFragment_TAG",
-                                response.body().toString()
-                            )
-                            runOnUiThread {
-                                Toast.makeText(
-                                    this@PostDetailActivity,
-                                    "게시글이 삭제되었습니다.",
-                                    Toast.LENGTH_SHORT
-                                ).show()
+                    AlertDialog.Builder(this@PostDetailActivity)
+                        .setTitle("게시글 삭제")
+                        .setMessage("게시글을 삭제하시겠습니까?")
+                        .setPositiveButton("확인", object:DialogInterface.OnClickListener{
+                            override fun onClick(dialog: DialogInterface?, which: Int) {
+                                val deleteThread = Thread {
+                                    val response =
+                                        RetrofitClient.instance.deletePost("Bearer ${accessToken}", boardId)
+                                            .execute()
+                                    if (response.code() == 403) {
+
+                                    } else if (response.isSuccessful) {
+                                        Log.d(
+                                            "MyPostDetailBottomsheetDialogFragment_TAG",
+                                            response.body().toString()
+                                        )
+                                        runOnUiThread {
+                                            Toast.makeText(
+                                                this@PostDetailActivity,
+                                                "게시글이 삭제되었습니다.",
+                                                Toast.LENGTH_SHORT
+                                            ).show()
+                                        }
+                                        finish()
+                                    }
+
+                                }
+                                deleteThread.join()
+                                deleteThread.start()
                             }
-                            finish()
-                        }
 
-                    }
-                    deleteThread.join()
-                    deleteThread.start()
+                        })
+
+                        .setNegativeButton("취소"
+                        ) { dialog, which ->
+
+                            dialog.dismiss()
+
+                        }.show()
+
+
                 }
             }
         }
