@@ -121,15 +121,23 @@ class HomeFragment : Fragment(),MyPostDetailBottomsheetDialogFragment.BottomShee
         //카테고리에 들어갈 리스트 작성
         val categoryList = arrayListOf<String>(
             "전체",
-            "전공",
-            "전선",
-            "전필",
-            "공필",
-            "교양",
-            "교선",
-            "교필",
-            //"공필",
+            "도서",
+            "의류",
+            "가구",
+            "전자제품",
             "기타"
+
+
+
+//            "전공",
+//            "전선",
+//            "전필",
+//            "공필",
+//            "교양",
+//            "교선",
+//            "교필",
+//            //"공필",
+//            "기타"
         )
         categoryAdapter = CategoryAdapter(categoryList)
         binding.rcvCategory.adapter=categoryAdapter
@@ -148,26 +156,26 @@ class HomeFragment : Fragment(),MyPostDetailBottomsheetDialogFragment.BottomShee
                         searchTag = "전체"
                     }
                     1->{
-                        searchTag = "전공"
+                        searchTag = "도서"
                     }
                     2->{
-                        searchTag = "전선"
+                        searchTag = "의류"
                     }
                     3->{
-                        searchTag = "전필"
+                        searchTag = "가구"
                     }
                     4->{
-                        searchTag = "공필"
+                        searchTag = "전자제품"
                     }
-                    5->{
-                        searchTag = "교양"
-                    }
-                    6->{
-                        searchTag = "교선"
-                    }
-                    7->{
-                        searchTag = "교필"
-                    }
+//                    5->{
+//                        searchTag = "교양"
+//                    }
+//                    6->{
+//                        searchTag = "교선"
+//                    }
+//                    7->{
+//                        searchTag = "교필"
+//                    }
                     else->{
                         searchTag = "기타"
                     }
@@ -176,7 +184,7 @@ class HomeFragment : Fragment(),MyPostDetailBottomsheetDialogFragment.BottomShee
                 loadData.clear()
                 var searchTagArray = arrayListOf(searchTag)
                 Log.d("HomeFragment_TAG", searchTagArray.toString())
-                val tokenSharedPreferences = requireActivity().getSharedPreferences("token", Context.MODE_PRIVATE)
+                val tokenSharedPreferences = requireActivity().getSharedPreferences("token", MODE_PRIVATE)
                 val accessToken:String = tokenSharedPreferences.getString("accessToken","").toString()
                 loadedPageCnt=0
                 totalPageCnt=0
