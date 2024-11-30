@@ -45,10 +45,9 @@ class PostActivity : AppCompatActivity() {
     private var urlList = ArrayList<Uri>()
     private val TAG = "PostActivity_TAG"
 
-    lateinit var testUri :Uri
+    lateinit var testUri: Uri
     private var multipartList = ArrayList<MultipartBody.Part>()
-    lateinit var jsonBody:RequestBody
-
+    lateinit var jsonBody: RequestBody
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -56,7 +55,8 @@ class PostActivity : AppCompatActivity() {
         binding = ActivityPostBinding.inflate(layoutInflater)
         setContentView(binding.root)
         val tokenSharedPreferences = this.getSharedPreferences("token", Context.MODE_PRIVATE)
-        val userInfoSharedPreferences = this.getSharedPreferences("userInfo",
+        val userInfoSharedPreferences = this.getSharedPreferences(
+            "userInfo",
             Context.MODE_PRIVATE
         )
         val checkBoxList = arrayListOf(
@@ -69,12 +69,12 @@ class PostActivity : AppCompatActivity() {
 //            binding.cbClassification7,
 //            binding.cbClassification8,
 
-            )
+        )
 
         val tagList = ArrayList<String>()
 
         val saveID = userInfoSharedPreferences.getString("studentId", "Error")
-        val saveAccessToken = tokenSharedPreferences.getString("accessToken","Error")
+        val saveAccessToken = tokenSharedPreferences.getString("accessToken", "Error")
         val saveRefreshToken = tokenSharedPreferences.getString("refreshToken", "Error")
         binding.tvImgCnt.text = "${imgCnt}/3"
 
@@ -88,14 +88,12 @@ class PostActivity : AppCompatActivity() {
         }
         binding.tvSave.setOnClickListener {
             val totalTag = JSONArray()
-            if(imgCnt==0){
-                Toast.makeText(this,"이미지를 최소 1개는 등록해주세요!", Toast.LENGTH_SHORT).show()
-            }
-            else if(!checkBoxList.any{it.isChecked}){
-                Toast.makeText(this,"게시글 분류 태그를 선택해주세요!", Toast.LENGTH_SHORT).show()
+            if (imgCnt == 0) {
+                Toast.makeText(this, "이미지를 최소 1개는 등록해주세요!", Toast.LENGTH_SHORT).show()
+            } else if (!checkBoxList.any { it.isChecked }) {
+                Toast.makeText(this, "게시글 분류 태그를 선택해주세요!", Toast.LENGTH_SHORT).show()
 
-            }
-            else{
+            } else {
 
 //                val saveFilePaths = ArrayList<String>()
 //                for(i:Int in 0 until urlList.size){
@@ -125,7 +123,8 @@ class PostActivity : AppCompatActivity() {
                     val compressedFile = compressImageFile(originalFile)  // 파일 압축
 
                     val requestFile = compressedFile.asRequestBody("image/*".toMediaTypeOrNull())
-                    val body = MultipartBody.Part.createFormData("file", compressedFile.name, requestFile)
+                    val body =
+                        MultipartBody.Part.createFormData("file", compressedFile.name, requestFile)
                     multipartList.add(body)
                 }
 
@@ -133,13 +132,13 @@ class PostActivity : AppCompatActivity() {
 
                 //
 
-                val accessToken = "Bearer " + tokenSharedPreferences.getString("accessToken","")
+                val accessToken = "Bearer " + tokenSharedPreferences.getString("accessToken", "")
                 val studentId = userInfoSharedPreferences.getString("studentId", "")
                 val nickname = userInfoSharedPreferences.getString("nickname", "")
 
 
                 val jsonObject = JSONObject()
-                jsonObject.put("content",binding.etPostDescription.text.toString())
+                jsonObject.put("content", binding.etPostDescription.text.toString())
                 jsonObject.put("title", binding.etPostTitle.text.toString())
                 jsonObject.put("studentId", studentId)
                 jsonObject.put("price", binding.etPostPrice.text.toString())
@@ -148,54 +147,66 @@ class PostActivity : AppCompatActivity() {
 
                 //이수구분 태그 array에 추가
                 checkBoxList.forEach {
-                    if(it.isChecked){
+                    if (it.isChecked) {
                         totalTag.put(it.text.toString())
                     }
                 }
 
                 //사용자 추가 태그 array에 추가
-                tagList.forEach{
+                tagList.forEach {
                     totalTag.put(it)
                 }
-                jsonObject.put("tags",totalTag)
+                jsonObject.put("tags", totalTag)
 
 
-                Log.d("PostActivity",totalTag.toString())
+                Log.d("PostActivity", totalTag.toString())
                 //TODO 동기통신으로 가보자구
-                val uploadPostThread = Thread{
+                val uploadPostThread = Thread {
                     //val jsonBody = RequestBody.create(parse("application/json"),jsonObject)
                     jsonBody =
                         jsonObject.toString().toRequestBody("application/json".toMediaTypeOrNull())
                     Log.d(TAG, "access token = $accessToken")
-                    val response = RetrofitClient.instance.makePost(accessToken = accessToken,
-                        request = jsonBody, file = multipartList).execute()
+                    val response = RetrofitClient.instance.makePost(
+                        accessToken = accessToken,
+                        request = jsonBody, file = multipartList
+                    ).execute()
                     Log.d(TAG, response.toString())
 
                     //403일 때 코드
-                    if(response.code().toString()=="403"){
+                    if (response.code().toString() == "403") {
 
-                        val tokenRefreshThread = Thread{
+                        val tokenRefreshThread = Thread {
                             val jsonObjectInfo = JSONObject()
                             jsonObjectInfo.put("studentId", saveID)
                             jsonObjectInfo.put("accessToken", saveAccessToken)
                             jsonObjectInfo.put("refreshToken", saveRefreshToken)
-                            val response2 = RetrofitClient.instance.refreshToken(accessToken = "Bearer $saveAccessToken",JsonParser.parseString(jsonObjectInfo.toString())).execute()
-                            val tokenSharedPreferencesEditor = this.getSharedPreferences("token",Context.MODE_PRIVATE).edit()
+                            val response2 = RetrofitClient.instance.refreshToken(
+                                accessToken = "Bearer $saveAccessToken",
+                                JsonParser.parseString(jsonObjectInfo.toString())
+                            ).execute()
+                            val tokenSharedPreferencesEditor =
+                                this.getSharedPreferences("token", Context.MODE_PRIVATE).edit()
                             val accessToken2 = response2.body()?.accessToken
                             val refreshToken2 = response2.body()?.refreshToken
                             Log.d(TAG, "access token = " + accessToken2)
                             Log.d(TAG, "refresh token = " + refreshToken2)
-                            tokenSharedPreferencesEditor.putString("accessToken",accessToken2)
+                            tokenSharedPreferencesEditor.putString("accessToken", accessToken2)
                             tokenSharedPreferencesEditor.putString("refreshToken", refreshToken2)
                             tokenSharedPreferencesEditor.apply()
-                            Log.d(TAG,response2.toString())
-                            if(response2.isSuccessful){
-                                val response3 = RetrofitClient.instance.makePost(accessToken = "Bearer $accessToken2",
-                                    request = jsonBody, file = multipartList).execute()
-                                if(response3.isSuccessful){
-                                    Log.d(TAG,response3.toString())
+                            Log.d(TAG, response2.toString())
+                            if (response2.isSuccessful) {
+                                val response3 = RetrofitClient.instance.makePost(
+                                    accessToken = "Bearer $accessToken2",
+                                    request = jsonBody, file = multipartList
+                                ).execute()
+                                if (response3.isSuccessful) {
+                                    Log.d(TAG, response3.toString())
                                     runOnUiThread {
-                                        Toast.makeText(this@PostActivity,"게시물 저장 성공,임시코드2", Toast.LENGTH_SHORT).show()
+                                        Toast.makeText(
+                                            this@PostActivity,
+                                            "게시물 저장 성공,임시코드2",
+                                            Toast.LENGTH_SHORT
+                                        ).show()
                                         finish()
                                     }
                                     Log.d(TAG, response3.toString())
@@ -235,20 +246,19 @@ class PostActivity : AppCompatActivity() {
 //                                }
 //
 //                            })
-                    }
-                    else if(response.isSuccessful){
+                    } else if (response.isSuccessful) {
                         //잘 받아온 경우
-                        Log.d("PostActivity",response.toString())
+                        Log.d("PostActivity", response.toString())
 
                         runOnUiThread {
-                            Toast.makeText(this@PostActivity,"게시물 저장 성공,임시코드1", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(this@PostActivity, "게시물 저장 성공,임시코드1", Toast.LENGTH_SHORT)
+                                .show()
                             finish()
 
                         }
                         Log.d(TAG, response.toString())
 
-                    }
-                    else{//통신 안된경우
+                    } else {//통신 안된경우
                         Log.d(TAG, response.toString())
                     }
                 }
@@ -259,9 +269,9 @@ class PostActivity : AppCompatActivity() {
 
         //체크박스 관련 코드
 
-        for (checkBox in checkBoxList){
+        for (checkBox in checkBoxList) {
             checkBox.setOnCheckedChangeListener { buttonView, isChecked ->
-                if(isChecked){
+                if (isChecked) {
                     checkBoxList.filter { it != buttonView }.forEach { it.isChecked = false }
                 }
             }
@@ -270,47 +280,51 @@ class PostActivity : AppCompatActivity() {
         //태그 관련 코드
         binding.etTagInput.setOnEditorActionListener { v, actionId, event ->
 
-            if(actionId == EditorInfo.IME_ACTION_DONE){
-                if(tagList.size>5){
-                    Toast.makeText(this,"5개 태그를 넘길 수 없습니다!",Toast.LENGTH_SHORT).show()
-                }
-                else{
-                    tagList.add(binding.etTagInput.text.toString())
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                if (tagList.size > 5) {
+                    Toast.makeText(this, "5개 태그를 넘길 수 없습니다!", Toast.LENGTH_SHORT).show()
+                } else {
+                    if (binding.etTagInput.text.length > 0) {
+                        tagList.add(binding.etTagInput.text.toString())
 
-                    when(tagList.size){
-                        1->{
-                            binding.tvTag01.text=tagList[tagList.size-1]
-                            binding.etTagInput.setText("")
-                            binding.tvTag01.visibility = View.VISIBLE
-                        }
-                        2->{
-                            binding.tvTag02.text=tagList[tagList.size-1]
-                            binding.etTagInput.setText("")
-                            binding.tvTag02.visibility = View.VISIBLE
-                        }
-                        3->{
-                            binding.tvTag03.text=tagList[tagList.size-1]
-                            binding.etTagInput.setText("")
-                            binding.tvTag03.visibility = View.VISIBLE
-                        }
-                        4->{
-                            binding.tvTag04.text=tagList[tagList.size-1]
-                            binding.etTagInput.setText("")
-                            binding.tvTag04.visibility = View.VISIBLE
-                        }
-                        5->{
-                            binding.tvTag05.text=tagList[tagList.size-1]
-                            binding.etTagInput.setText("")
-                            binding.tvTag05.visibility = View.VISIBLE
+                        when (tagList.size) {
+                            1 -> {
+                                binding.tvTag01.text = tagList[tagList.size - 1]
+                                binding.etTagInput.setText("")
+                                binding.tvTag01.visibility = View.VISIBLE
+                            }
+
+                            2 -> {
+                                binding.tvTag02.text = tagList[tagList.size - 1]
+                                binding.etTagInput.setText("")
+                                binding.tvTag02.visibility = View.VISIBLE
+                            }
+
+                            3 -> {
+                                binding.tvTag03.text = tagList[tagList.size - 1]
+                                binding.etTagInput.setText("")
+                                binding.tvTag03.visibility = View.VISIBLE
+                            }
+
+                            4 -> {
+                                binding.tvTag04.text = tagList[tagList.size - 1]
+                                binding.etTagInput.setText("")
+                                binding.tvTag04.visibility = View.VISIBLE
+                            }
+
+                            5 -> {
+                                binding.tvTag05.text = tagList[tagList.size - 1]
+                                binding.etTagInput.setText("")
+                                binding.tvTag05.visibility = View.VISIBLE
+                            }
                         }
                     }
+
 
                 }
                 Log.d("PostActivity_TAG", tagList.toString())
                 true
-            }
-
-            else{
+            } else {
                 false
             }
 
@@ -318,8 +332,9 @@ class PostActivity : AppCompatActivity() {
         }
 
     }
+
     //파일의 경로를 절대경로로 변환하는 코드
-    fun absolutelyPath(path: Uri?, context : Context): String {
+    fun absolutelyPath(path: Uri?, context: Context): String {
         var proj: Array<String> = arrayOf(MediaStore.Images.Media.DATA)
         var c: Cursor? = context.contentResolver.query(path!!, proj, null, null, null)
         var index = c?.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
@@ -330,13 +345,14 @@ class PostActivity : AppCompatActivity() {
         return result!!
     }
 
-    private val activityResult : ActivityResultLauncher<Intent> = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
-        if(it.resultCode== RESULT_OK && it.data!=null){
-            val url: Uri? = it.data!!.data
-            testUri = it.data!!.data!!
-            urlList.add(url!!)
-            //TODO 이미지 반영 함수 작성
-            setImage()
+    private val activityResult: ActivityResultLauncher<Intent> =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            if (it.resultCode == RESULT_OK && it.data != null) {
+                val url: Uri? = it.data!!.data
+                testUri = it.data!!.data!!
+                urlList.add(url!!)
+                //TODO 이미지 반영 함수 작성
+                setImage()
 
 //            if(imgCnt==0){
 //                Glide.with(this)
@@ -368,12 +384,12 @@ class PostActivity : AppCompatActivity() {
 //            }
 
 
+            }
         }
-    }
 
-    fun setImage(){
-        when(imgCnt){
-            0->{
+    fun setImage() {
+        when (imgCnt) {
+            0 -> {
                 Glide.with(this)
                     .load(urlList[0])
                     .into(binding.ivMainImage)
@@ -381,7 +397,8 @@ class PostActivity : AppCompatActivity() {
                 binding.tvImgCnt.text = "${imgCnt}/3"
 
             }
-            1->{
+
+            1 -> {
                 Glide.with(this)
                     .load(urlList[0])
                     .into(binding.ivMainImage)
@@ -394,7 +411,8 @@ class PostActivity : AppCompatActivity() {
 
 
             }
-            2->{
+
+            2 -> {
                 Glide.with(this)
                     .load(urlList[0])
                     .into(binding.ivMainImage)
@@ -414,16 +432,18 @@ class PostActivity : AppCompatActivity() {
     }
 
     //TODO resavePost 함수도 복수개의 이미자가 전송되게 설정할 것!
-    private fun resavePost(accessToken:String,jsonObject:JSONObject){
-        RetrofitClient.instance.makePost(accessToken = "Bearer $accessToken",
-            request = jsonBody, file = multipartList).enqueue(object :Callback<MakePostResponse>{
+    private fun resavePost(accessToken: String, jsonObject: JSONObject) {
+        RetrofitClient.instance.makePost(
+            accessToken = "Bearer $accessToken",
+            request = jsonBody, file = multipartList
+        ).enqueue(object : Callback<MakePostResponse> {
             override fun onResponse(
                 call: Call<MakePostResponse>,
                 response: Response<MakePostResponse>
             ) {
                 Log.d(TAG, response.toString())
                 runOnUiThread {
-                    Toast.makeText(this@PostActivity,"게시물 저장 성공,임시코드", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@PostActivity, "게시물 저장 성공,임시코드", Toast.LENGTH_SHORT).show()
                     finish()
 
                 }
@@ -439,6 +459,7 @@ class PostActivity : AppCompatActivity() {
 
 
     }
+
     // 이미지 파일 압축 함수
     fun compressImageFile(imageFile: File): File {
         if (imageFile.length() <= 1_000_000) {
