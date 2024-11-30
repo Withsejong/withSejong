@@ -197,7 +197,6 @@
                 android:background="#F8F8F8"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-
                 app:layout_constraintTop_toBottomOf="@id/ibtn_third_image" />
 
             <EditText
@@ -207,8 +206,11 @@
                 android:background="@drawable/design_post_edittext"
                 android:fontFamily="@font/pretendardsemibold"
                 android:hint="제목"
+                android:inputType="text"
+                android:maxLines="1"
                 android:paddingVertical="15dp"
                 android:paddingStart="20dp"
+                android:singleLine="true"
                 android:textSize="12sp"
                 app:layout_constraintBottom_toTopOf="@id/et_post_price"
                 app:layout_constraintEnd_toEndOf="@id/ibtn_third_image"
@@ -263,9 +265,9 @@
                 android:background="@drawable/design_post_edittext"
                 android:fontFamily="@font/pretendardsemibold"
                 android:hint="태그"
-                android:maxLines="1"
                 android:imeOptions="actionDone"
                 android:inputType="text"
+                android:maxLines="1"
 
                 android:paddingVertical="15dp"
                 android:paddingStart="20dp"
@@ -298,8 +300,7 @@
                     android:text="tagtagta1231231"
                     android:textColor="#fff"
                     android:textSize="12sp"
-                    android:visibility="gone"
-                    />
+                    android:visibility="gone" />
 
                 <TextView
                     android:id="@+id/tv_tag_02"
@@ -381,7 +382,7 @@
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginTop="20dp"
                 android:fontFamily="@font/pretendardsemibold"
-                android:text="이수구분"
+                android:text="게시글 분류 태그"
                 android:textColor="#ACACAC"
                 android:textSize="12sp"
                 app:layout_constraintStart_toStartOf="parent"
@@ -395,10 +396,10 @@
 
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
-                android:layout_marginTop="10dp"
+
                 android:buttonTint="@color/checkbox_selector_color"
                 android:fontFamily="@font/pretendardmedium"
-                android:text="전공"
+                android:text="도서"
                 android:textSize="15sp"
 
 
@@ -414,11 +415,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
 
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="10dp"
+
                 android:buttonTint="@color/checkbox_selector_color"
                 android:fontFamily="@font/pretendardmedium"
-                android:text="전선"
+                android:text="의류"
                 android:textSize="15sp"
                 app:layout_constraintEnd_toStartOf="@id/cb_classification3"
 
@@ -432,11 +432,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
 
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="10dp"
+
                 android:buttonTint="@color/checkbox_selector_color"
                 android:fontFamily="@font/pretendardmedium"
-                android:text="전필"
+                android:text="가구"
                 android:textSize="15sp"
                 app:layout_constraintEnd_toStartOf="@id/cb_classification4"
                 app:layout_constraintStart_toEndOf="@id/cb_classification2"
@@ -449,17 +448,31 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
 
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="20dp"
                 android:buttonTint="@color/checkbox_selector_color"
                 android:fontFamily="@font/pretendardmedium"
-                android:text="공필"
+                android:text="전자제품"
                 android:textSize="15sp"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/cb_classification5"
                 app:layout_constraintStart_toEndOf="@id/cb_classification3"
                 app:layout_constraintTop_toBottomOf="@id/tv_classification" />
-            <!--            -->
+
+            <CheckBox
+
+                android:id="@+id/cb_classification5"
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="20dp"
+
+
+                android:buttonTint="@color/checkbox_selector_color"
+                android:fontFamily="@font/pretendardmedium"
+                android:text="기타"
+                android:textSize="15sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/cb_classification4"
+                app:layout_constraintTop_toBottomOf="@id/tv_classification" />
+            <!--
             <CheckBox
 
                 android:id="@+id/cb_classification5"
@@ -539,7 +552,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/cb_classification5" />
-
+-->
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
