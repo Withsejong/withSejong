@@ -307,26 +307,42 @@ class HomeFragment : Fragment(),MyPostDetailBottomsheetDialogFragment.BottomShee
 
         homeAdapter.setItemPickClickListener(object:HomeAdapter.OnItemClickListener{
             override fun onClick(v: View, position: Int) {
-               // var currentImageId = v.tag as? Int
+                val interestingListSharedPreferences =requireActivity().getSharedPreferences("interesting",
+                    MODE_PRIVATE)
+                val interstingPostJson = interestingListSharedPreferences.getString("list","[]")
+
+                val jsonToPostList = GsonBuilder().create().fromJson<ArrayList<BoardFindResponseDtoList>>(interstingPostJson,itemType2)
+                val interestingArrayList = ArrayList<BoardFindResponseDtoList>()
+                interestingArrayList.addAll(jsonToPostList)
                 if (v is ImageButton) {
-                    v.setImageResource(R.drawable.icon_post_picked)
-                    val interestingListSharedPreferences =requireActivity().getSharedPreferences("interesting",
-                        MODE_PRIVATE)
-                    val interstingPostJson = interestingListSharedPreferences.getString("list","[]")
+                    if(v.tag.equals("unpicked")){
+                        v.setImageResource(R.drawable.icon_post_picked)
+                        v.tag = "picked"
+                        interestingArrayList.add(loadData[position])
+                        Log.d("HomeFragment_TAG_interestingList", interestingArrayList.toString())
 
-                    val jsonToPostList = GsonBuilder().create().fromJson<ArrayList<BoardFindResponseDtoList>>(interstingPostJson,itemType2)
-                    val interestingArrayList = ArrayList<BoardFindResponseDtoList>()
-                    interestingArrayList.addAll(jsonToPostList)
-
-                    interestingArrayList.add(loadData[position])
-                    Log.d("HomeFragment_TAG_interestingList", interestingArrayList.toString())
-
-                    val postListtoJson = GsonBuilder().create().toJson(interestingArrayList,itemType2)
+                        val postListtoJson = GsonBuilder().create().toJson(interestingArrayList,itemType2)
 
 
-                    val editor = interestingListSharedPreferences.edit()
-                    editor.putString("list",postListtoJson)
-                    editor.apply()
+                        val editor = interestingListSharedPreferences.edit()
+                        editor.putString("list",postListtoJson)
+                        editor.apply()
+                    }
+                    else{
+                        v.tag = "unpicked"
+                        v.setImageResource(R.drawable.icon_post_unpick)
+                        interestingArrayList.remove(loadData[position])
+                        Log.d("HomeFragment_TAG_interestingList", interestingArrayList.toString())
+
+                        val postListtoJson = GsonBuilder().create().toJson(interestingArrayList,itemType2)
+                        val editor = interestingListSharedPreferences.edit()
+                        editor.putString("list",postListtoJson)
+                        editor.apply()
+
+                    }
+
+
+
 
 
 
@@ -393,8 +409,11 @@ class HomeFragment : Fragment(),MyPostDetailBottomsheetDialogFragment.BottomShee
                             val pullUpCode = result.getBoolean("isPullUp",false)
                             if(deleteCode){
                                 requireActivity().runOnUiThread {
+                                    Log.d(TAG, position.toString())
+
                                     loadData.removeAt(position)
                                     homeAdapter.notifyItemRemoved(position)
+                                    homeAdapter.notifyItemRangeChanged(position, loadData.size)
                                 }
 
                             }
