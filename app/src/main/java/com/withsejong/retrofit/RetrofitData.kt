@@ -158,3 +158,11 @@ data class FcmResponse(
     val successful:Boolean
 )
 
+data class PostPullUpResponse(
+    val id:Int,
+    val title:String,
+    val content:String,
+    val createdAt: String,
+    val studentId: String
+)
+

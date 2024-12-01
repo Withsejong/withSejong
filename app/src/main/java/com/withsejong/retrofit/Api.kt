@@ -87,80 +87,87 @@ interface Api {
     @POST("/user/board/save")
     fun makePost(
         @Header("Authorization") accessToken: String,
-        @Part("request") request : RequestBody,
-        @Part file : List<MultipartBody.Part>
-        ):Call<MakePostResponse>
+        @Part("request") request: RequestBody,
+        @Part file: List<MultipartBody.Part>
+    ): Call<MakePostResponse>
 
     @GET("/user/board")
     //계속 로드하면 서버에 무리되어서 일단 주소에 1 붙임
     fun loadPost(
         @Header("Authorization") accessToken: String,
-        @Query("page") page:Int
-        ):Call<LoadPostResponse>
+        @Query("page") page: Int
+    ): Call<LoadPostResponse>
 
     @GET("/user/board/search")
     fun loadSearchPost(
         @Header("Authorization") accessToken: String,
-        @Query("keyword") keyword:String,
-        @Query("page") page:Int,
-        ):Call<LoadPostResponse>
+        @Query("keyword") keyword: String,
+        @Query("page") page: Int,
+    ): Call<LoadPostResponse>
 
     @GET("/user/board/find-by-tag")
     fun loadSearchByTag(
         @Header("Authorization") accessToken: String,
-        @Query("tags") tags:ArrayList<String>,
-        @Query("page") page:Int,
-    ):Call<LoadPostResponse>
+        @Query("tags") tags: ArrayList<String>,
+        @Query("page") page: Int,
+    ): Call<LoadPostResponse>
 
     @GET("/user/board/history")
     fun loadSellList(
         @Header("Authorization") accessToken: String,
         @Query("studentId") studentId: String,
-        @Query("page") page:Int
-    ):Call<LoadPostResponse>
+        @Query("page") page: Int
+    ): Call<LoadPostResponse>
 
     @GET("/user/chat/rooms")
     fun loadChattingroom(
         @Header("Authorization") accessToken: String,
-        @Query("studentId") studentId:String
-    ):Call<ArrayList<LoadChattingRoomResponse>>
+        @Query("studentId") studentId: String
+    ): Call<ArrayList<LoadChattingRoomResponse>>
 
     @GET("/user/chat/{roomId}")
     fun loadChatting(
-        @Path("roomId") roomId : Int,
+        @Path("roomId") roomId: Int,
         @Header("Authorization") accessToken: String,
-    ):Call<ArrayList<LoadingChattingResponse>>
+    ): Call<ArrayList<LoadingChattingResponse>>
 
     @POST("/user/chat/room")
     fun makeChattingRoom(
         @Header("Authorization") accessToken: String,
         @Body jsonParams: JsonElement
-    ):Call<MakeChattingRoomResponse>
+    ): Call<MakeChattingRoomResponse>
 
     @POST("/user/report")
     fun postReport(
         @Header("Authorization") accessToken: String,
         @Body jsonParams: JsonElement
-    ):Call<PostReportResponse>
+    ): Call<PostReportResponse>
 
     @DELETE("/user/board/{boardId}")
     fun deletePost(
         @Header("Authorization") accessToken: String,
-        @Path ("boardId") boardId : Int
-        ):Call<DeletePostResponse>
+        @Path("boardId") boardId: Int
+    ): Call<DeletePostResponse>
 
     @GET("/user/chat/last/{roomId}")
     fun loadLastChat(
         @Header("Authorization") accessToken: String,
-        @Path("roomId") roomId:Int
-    ):Call<LoadLastChatResponse>
+        @Path("roomId") roomId: Int
+    ): Call<LoadLastChatResponse>
 
     @POST("/user/fcm/send")
     fun sendFcmNotification(
         @Header("Authorization") accessToken: String,
         @Body jsonParams: JsonElement
 
-    ):Call<FcmResponse>
+    ): Call<FcmResponse>
+
+    @PUT("/user/board/pull-up")
+    fun pullUpPost(
+        @Header("Authorization") accessToken: String,
+        @Query("boardId") boardId: Int,
+        @Query("studentId") studentId: String
+    ): Call<PostPullUpResponse>
 
 
 }

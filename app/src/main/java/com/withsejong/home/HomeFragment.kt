@@ -26,6 +26,7 @@ import com.withsejong.home.search.SearchActivity
 import com.withsejong.retrofit.BoardFindResponseDtoList
 import com.withsejong.retrofit.LoadPostResponse
 import com.withsejong.retrofit.RetrofitClient
+import com.withsejong.retrofit.Tag
 import org.json.JSONArray
 
 class HomeFragment : Fragment(),MyPostDetailBottomsheetDialogFragment.BottomSheetListener {
@@ -34,6 +35,7 @@ class HomeFragment : Fragment(),MyPostDetailBottomsheetDialogFragment.BottomShee
     lateinit var categoryAdapter: CategoryAdapter
     private var loadedPageCnt = 0
     private var totalPageCnt = 0
+    private val TAG = "HomeFragment"
 
     private var deletePostId : Int=-1
 
@@ -105,6 +107,7 @@ class HomeFragment : Fragment(),MyPostDetailBottomsheetDialogFragment.BottomShee
         homeAdapter = HomeAdapter(loadData)
         binding.rcvSellList.adapter=homeAdapter
         binding.rcvSellList.layoutManager = LinearLayoutManager(requireContext(),LinearLayoutManager.VERTICAL,false)
+        Log.d("HomeFragment_TAG", loadData.toString())
 
 
 
@@ -370,11 +373,6 @@ class HomeFragment : Fragment(),MyPostDetailBottomsheetDialogFragment.BottomShee
         val userInfoSharedPreferences = requireActivity().getSharedPreferences("userInfo", MODE_PRIVATE)
         val studentId = userInfoSharedPreferences.getString("studentId","")
         //어댑터의 점3개를 클릭했을 겨우
-        //TODO 여기에 분기 추가해서 자기글일때와 아닐때 구분
-
-
-
-
 
         homeAdapter.setItemDetailClickListener(object :HomeAdapter.OnItemClickListener{
             override fun onClick(v: View, position: Int) {
@@ -389,15 +387,27 @@ class HomeFragment : Fragment(),MyPostDetailBottomsheetDialogFragment.BottomShee
 
                     myPostDetailBottomsheetDialogFragment.show(parentFragmentManager,myPostDetailBottomsheetDialogFragment.tag)
 
-                    parentFragmentManager.setFragmentResultListener("isDeleted",this@HomeFragment,object:FragmentResultListener{
+                    parentFragmentManager.setFragmentResultListener("myPostFunc",this@HomeFragment,object:FragmentResultListener{
                         override fun onFragmentResult(requestKey: String, result: Bundle) {
                             val deleteCode = result.getBoolean("isDeleted",false)
+                            val pullUpCode = result.getBoolean("isPullUp",false)
                             if(deleteCode){
                                 requireActivity().runOnUiThread {
                                     loadData.removeAt(position)
                                     homeAdapter.notifyItemRemoved(position)
                                 }
 
+                            }
+                            else if(pullUpCode){
+                                requireActivity().runOnUiThread {
+                                    val createdAt = result.getString("createdAt","")
+                                    val tmpBoard = loadData[position].copy(createdAt = createdAt)
+                                    loadData.removeAt(position)
+                                    loadData.add(0,tmpBoard)
+                                    homeAdapter.notifyItemMoved(position,0)
+                                    homeAdapter.notifyItemRangeChanged(0,position+1)
+                                    Log.d(TAG,loadData.toString())
+                                }
                             }
                         }
                     })
