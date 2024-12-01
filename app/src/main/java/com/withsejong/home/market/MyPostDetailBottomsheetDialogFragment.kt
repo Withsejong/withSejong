@@ -15,7 +15,11 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.gson.GsonBuilder
 import com.withsejong.R
 import com.withsejong.databinding.FragmentMyPostDetailBottomsheetdialogBinding
+import com.withsejong.retrofit.PostPullUpResponse
 import com.withsejong.retrofit.RetrofitClient
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 
 class MyPostDetailBottomsheetDialogFragment : BottomSheetDialogFragment() {
@@ -40,6 +44,7 @@ class MyPostDetailBottomsheetDialogFragment : BottomSheetDialogFragment() {
         val userInfoSharedPreferences =
             requireContext().getSharedPreferences("userInfo", MODE_PRIVATE)
         val accessToken = tokenSharedPreferences.getString("accessToken", "")
+        val studentId = userInfoSharedPreferences.getString("studentId","")
         val boardId = arguments?.getString("boardId")?.toIntOrNull() ?: -1
 
         val position = arguments?.getString("position")?.toIntOrNull() ?: -1
@@ -62,6 +67,32 @@ class MyPostDetailBottomsheetDialogFragment : BottomSheetDialogFragment() {
                 .show()
         }
 
+        binding.cloPullUpPost.setOnClickListener{
+            RetrofitClient.instance.pullUpPost("Bearer ${accessToken}", boardId,studentId.toString()).enqueue(object:Callback<PostPullUpResponse>{
+                override fun onResponse(call: Call<PostPullUpResponse>, response: Response<PostPullUpResponse>) {
+
+                    Toast.makeText(requireActivity(), "게시글 올리기 성공", Toast.LENGTH_SHORT).show()
+                    parentFragmentManager.setFragmentResult("myPostFunc",
+                        Bundle().apply { putBoolean("isPullUp", true)
+
+                        putString("createdAt", response.body()?.createdAt)
+                        }
+
+
+                    )
+                    dismiss()
+
+
+                }
+
+                override fun onFailure(call: Call<PostPullUpResponse>, t: Throwable) {
+                    Toast.makeText(requireActivity(), "게시글 올리기 실패", Toast.LENGTH_SHORT).show()
+                }
+
+            })
+
+
+        }
 
         binding.cloDelete.setOnClickListener {
 
@@ -90,7 +121,7 @@ class MyPostDetailBottomsheetDialogFragment : BottomSheetDialogFragment() {
                                 }
                                 listener?.onBottomSheetResult(true, position - 1)
 
-                                parentFragmentManager.setFragmentResult("isDeleted",
+                                parentFragmentManager.setFragmentResult("myPostFunc",
                                     Bundle().apply { putBoolean("isDeleted", true) }
 
 
