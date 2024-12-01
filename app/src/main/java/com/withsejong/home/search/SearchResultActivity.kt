@@ -9,6 +9,7 @@ import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.GsonBuilder
@@ -25,8 +26,8 @@ class SearchResultActivity : AppCompatActivity() {
     private lateinit var binding: ActivityPostSearchResultBinding
     lateinit var searchResultAdapter: SearchResultAdapter
     lateinit var categoryAdapter: CategoryAdapter
-
-
+    private val loadData = ArrayList<BoardFindResponseDtoList>()
+    private var isLoaded: Boolean = false
     private var loadedPageCnt = 0
     private var totalPageCnt = 0
     private lateinit var searchWord: String
@@ -34,10 +35,6 @@ class SearchResultActivity : AppCompatActivity() {
     private var searchTag="전체"
 
 
-    companion object {
-        private val loadData = ArrayList<BoardFindResponseDtoList>()
-        private var isLoaded: Boolean = false
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -72,7 +69,7 @@ class SearchResultActivity : AppCompatActivity() {
         val accessToken = tokenSharedPreferences.getString("accessToken", "").toString()
 
         if(isLoaded==false){ //TODO 이거 불필요 한것 같긴함
-            loadSearchPost(accessToken)
+            loadSearchPost(accessToken,binding.cloEmptyItemNotification)
         }
 
         Log.d(TAG, loadData.toString())
@@ -86,7 +83,7 @@ class SearchResultActivity : AppCompatActivity() {
             searchWord=binding.etSearch.text.toString()
             loadedPageCnt=0
             isLoaded =false
-            loadSearchPost(accessToken)
+            loadSearchPost(accessToken,binding.cloEmptyItemNotification)
             searchResultAdapter.notifyDataSetChanged()
         }
         //엔터키를 누른경우도 검색어에 해당하는 rcv로 교체
@@ -96,7 +93,7 @@ class SearchResultActivity : AppCompatActivity() {
                 searchWord=binding.etSearch.text.toString()
                 loadedPageCnt=0
                 isLoaded =false
-                loadSearchPost(accessToken)
+                loadSearchPost(accessToken,binding.cloEmptyItemNotification)
                 searchResultAdapter.notifyDataSetChanged()
                 // 키보드 숨기기
                 val imm = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
@@ -107,6 +104,10 @@ class SearchResultActivity : AppCompatActivity() {
             else{
                 false
             }
+        }
+
+        binding.ibtnBack.setOnClickListener {
+            finish()
         }
 
         //페이징
@@ -136,7 +137,7 @@ class SearchResultActivity : AppCompatActivity() {
             loadData.clear()
             loadedPageCnt=0
             isLoaded =false
-            loadSearchPost(accessToken)
+            loadSearchPost(accessToken,binding.cloEmptyItemNotification)
             searchResultAdapter.notifyDataSetChanged()
             binding.srlSwiperefresh.isRefreshing=false
         }
@@ -148,15 +149,21 @@ class SearchResultActivity : AppCompatActivity() {
 
         val categoryList = arrayListOf<String>(
             "전체",
-            "전공",
-            "전선",
-            "전필",
-            "공필",
-            "교양",
-            "교선",
-            "교필",
-            //"공필",
+            "도서",
+            "의류",
+            "가구",
+            "전자제품",
             "기타"
+//            "전체",
+//            "전공",
+//            "전선",
+//            "전필",
+//            "공필",
+//            "교양",
+//            "교선",
+//            "교필",
+//            //"공필",
+//            "기타"
         )
         categoryAdapter = CategoryAdapter(categoryList)
         binding.rcvCategory.adapter = categoryAdapter
@@ -170,105 +177,146 @@ class SearchResultActivity : AppCompatActivity() {
                         searchTag = "전체"
                     }
                     1->{
-                        searchTag = "전공"
+                        searchTag = "도서"
                     }
                     2->{
-                        searchTag = "전선"
+                        searchTag = "의류"
                     }
                     3->{
-                        searchTag = "전필"
+                        searchTag = "가구"
                     }
                     4->{
-                        searchTag = "공필"
+                        searchTag = "전자제품"
                     }
-                    5->{
-                        searchTag = "교양"
-                    }
-                    6->{
-                        searchTag = "교선"
-                    }
-                    7->{
-                        searchTag = "교필"
-                    }
+//                    5->{
+//                        searchTag = "교양"
+//                    }
+//                    6->{
+//                        searchTag = "교선"
+//                    }
+//                    7->{
+//                        searchTag = "교필"
+//                    }
                     else->{
                         searchTag = "기타"
                     }
                 }
-                Log.d("HomeFragment_TAG", searchTag)
+                Log.d(TAG, searchTag)
                 loadData.clear()
+                searchResultAdapter.notifyDataSetChanged()
                 var searchTagArray = arrayListOf(searchTag)
-                Log.d("HomeFragment_TAG", searchTagArray.toString())
+                Log.d(TAG, searchTagArray.toString())
                 val tokenSharedPreferences = this@SearchResultActivity.getSharedPreferences("token", Context.MODE_PRIVATE)
                 val accessToken:String = tokenSharedPreferences.getString("accessToken","").toString()
                 loadedPageCnt=0
                 totalPageCnt=0
+                Log.d(TAG, (searchTag=="전체").toString())
                 if(searchTag=="전체"){
                     val loadPostThread = Thread{
                         loadData.clear()
+
                         loadedPageCnt=0
                         totalPageCnt=0
-                        val response = RetrofitClient.instance.loadPost(accessToken = "Bearer $accessToken", page = loadedPageCnt)
+                        val response = RetrofitClient.instance.loadSearchPost(accessToken = "Bearer $accessToken", page = loadedPageCnt, keyword = searchWord)
                             .execute()
                         if(response.code()==403){
                             //토큰 만료
                             loadedPageCnt++
                             isLoaded =true
-//                    totalPageCnt = response.body()?.totalPages ?: -1
-                        }
-                        else if(response.isSuccessful){
-                            response.body()?.let { loadData.addAll(response.body()!!.boardFindResponseDtoList) }
-                            loadedPageCnt++
-                            isLoaded =true
-                            totalPageCnt = response.body()?.totalPages ?: -1
-                        }
-                        else{
-                            Log.d("HomeFragment",response.toString())
-                        }
-                        runOnUiThread{
-                            //binding.rcvSellList.adapter=homeAdapter(loadDat a)
-                            searchResultAdapter.notifyDataSetChanged()
-                        }
-                    }
-                    loadPostThread.join()
-                    loadPostThread.start()
-                    Log.d("HomeFragment_TAG", loadData.toString())
-                }
-                else{
-                    val searchByTagThread = Thread{
-                        val response = RetrofitClient.instance.loadSearchByTag("Bearer $accessToken",searchTagArray,loadedPageCnt).execute()
-                        Log.d("HomeFragment_TAG_",response.code().toString())
-                        if(response.code()==403){
-                            //토큰 만료
-                            loadedPageCnt++
-                            isLoaded =true
+//                            runOnUiThread {
+//                                Toast.makeText(this@SearchResultActivity, "error code: ${response.code()}", Toast.LENGTH_SHORT).show()
+//
+//                            }
+
 //                    totalPageCnt = response.body()?.totalPages ?: -1
                         }
                         else if(response.body()!!.totalElements==0){
+                            loadData.clear()
+
                             Log.d("SearchResultActivity_TAG_", response.body()!!.totalElements.toString())
-                            Toast.makeText(this@SearchResultActivity, "검색결과가 없습니다.", Toast.LENGTH_SHORT).show()
+
+                            //Toast.makeText(this@SearchResultActivity, "검색결과가 없습니다.", Toast.LENGTH_SHORT).show()
                         }
                         else if(response.isSuccessful){
+
                             loadData.clear()
                             response.body()?.let { loadData.addAll(response.body()!!.boardFindResponseDtoList) }
                             loadedPageCnt++
                             isLoaded =true
                             totalPageCnt = response.body()?.totalPages ?: -1
-                            Log.d("HomeFragment_TAG_",response.toString())
-                            Log.d("HomeFragment_TAG_",response.body().toString())
-                            Log.d("HomeFragment_TAG_", loadData.toString())
+
                         }
                         else{
-                            Log.d("HomeFragment_TAG",response.toString())
+                            Log.d(TAG,response.toString())
                         }
-                        Log.d("HomeFragment_TAG", loadData.toString())
                         runOnUiThread{
-                            //binding.rcvSellList.adapter=homeAdapter(loadDat a)
+                            binding.cloEmptyItemNotification.visibility=View.INVISIBLE
+                            Log.d(TAG, loadData.toString())
+
                             searchResultAdapter.notifyDataSetChanged()
                         }
+
+                    }
+                    loadPostThread.join()
+                    loadPostThread.start()
+                    Log.d(TAG, loadData.toString())
+                }
+                else{
+                    Log.d(TAG, "입장")
+                    searchTagArray.add(searchWord)
+
+                    val searchByTagThread = Thread{
+                        val response = RetrofitClient.instance.loadSearchByTag("Bearer $accessToken",searchTagArray,loadedPageCnt).execute()
+                        Log.d(TAG,response.code().toString())
+                        if(response.code()==403){
+                            //토큰 만료
+                            loadedPageCnt++
+                            isLoaded =true
+                            runOnUiThread {
+                                Toast.makeText(this@SearchResultActivity, "error code: ${response.code()}", Toast.LENGTH_SHORT).show()
+                            }
+//                    totalPageCnt = response.body()?.totalPages ?: -1
+                        }
+                        else if(response.body()!!.totalElements==0){
+                            loadData.clear()
+                            Log.d("SearchResultActivity_TAG_", response.body()!!.totalElements.toString())
+
+                            //Toast.makeText(this@SearchResultActivity, "검색결과가 없습니다.", Toast.LENGTH_SHORT).show()
+                        }
+                        else if(response.isSuccessful){
+
+
+                            Log.d(TAG, searchTagArray.toString())
+
+                            loadData.clear()
+                            Log.d(TAG+"clear", loadData.toString())
+
+                            response.body()?.let { loadData.addAll(response.body()!!.boardFindResponseDtoList) }
+                            loadedPageCnt++
+                            isLoaded =true
+                            totalPageCnt = response.body()?.totalPages ?: -1
+                            Log.d(TAG,response.toString())
+                            Log.d(TAG,response.body().toString())
+                            Log.d(TAG, loadData.toString())
+                            runOnUiThread{
+                                binding.cloEmptyItemNotification.visibility = View.INVISIBLE
+                                searchResultAdapter.notifyItemInserted(response.body()!!.totalElements)
+                            }
+                        }
+                        else{
+                            Log.d(TAG,response.toString())
+                        }
+                        Log.d(TAG, loadData.toString())
+
                     }
                     searchByTagThread.join()
                     searchByTagThread.start()
                 }
+                runOnUiThread{
+                    //binding.cloEmptyItemNotification.visibility = View.VISIBLE
+                    searchResultAdapter.notifyDataSetChanged()
+                }
+
             }
         })
 
@@ -331,8 +379,11 @@ class SearchResultActivity : AppCompatActivity() {
                 page
             ).execute()
             if (response.code() == 403) {
-                //TODO 리프레시 후 재 로드, return으로 추가한 개수
-            } else if (response.isSuccessful) {
+                runOnUiThread {
+                    Toast.makeText(this, "error code: ${response.code()}", Toast.LENGTH_SHORT).show()
+
+                }            }
+            else if (response.isSuccessful) {
                 response.body()?.let { loadData.addAll(response.body()!!.boardFindResponseDtoList) }
                 aftersize = loadData.size
                 loadedPageCnt++
@@ -344,7 +395,7 @@ class SearchResultActivity : AppCompatActivity() {
         return aftersize - beforesize
     }
 
-    fun loadSearchPost(accessToken:String){//초기 데이터 로딩용
+    fun loadSearchPost(accessToken:String,constraintLayout: ConstraintLayout){//초기 데이터 로딩용
         val loadSearchPostThread = Thread{
             val response = RetrofitClient.instance.loadSearchPost(
                 accessToken = "Bearer $accessToken",
@@ -355,15 +406,24 @@ class SearchResultActivity : AppCompatActivity() {
             Log.d(TAG+"after", response.toString())
 
             if(response.code()==403){
+                runOnUiThread {
+                    Toast.makeText(this, "error code: ${response.code()}", Toast.LENGTH_SHORT).show()
+
+                }
+
 
             }
             else if(response.body()?.totalElements==0){
                 runOnUiThread {
                     Toast.makeText(this@SearchResultActivity, "검색결과가 없습니다.", Toast.LENGTH_SHORT).show()
-
+                    constraintLayout.visibility = View.VISIBLE
                 }
             }
             else if(response.isSuccessful){
+
+                if(constraintLayout.visibility==View.VISIBLE){
+                    constraintLayout.visibility = View.INVISIBLE
+                }
                 loadData.clear()
                 response.body()
                     ?.let { loadData.addAll(response.body()!!.boardFindResponseDtoList) }
@@ -379,6 +439,7 @@ class SearchResultActivity : AppCompatActivity() {
         }
         loadSearchPostThread.start()
         loadSearchPostThread.join()
+
 
     }
 }
