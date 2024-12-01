@@ -21,21 +21,26 @@ import java.time.format.DateTimeFormatter
 fun Int.addCommas(): String {//10000을 10,000으로 바꿔주는 확장함수
     return "%,d".format(this)
 }
-//class HomeAdapter(val postData:ArrayList<PostData>):RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-class HomeAdapter(val postData: ArrayList<BoardFindResponseDtoList>):RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    private lateinit var itemClickListener : OnItemClickListener //장터에 올라온 책 리스트
+//class HomeAdapter(val postData:ArrayList<PostData>):RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class HomeAdapter(
+    val postData: ArrayList<BoardFindResponseDtoList>,
+    val interestingList: ArrayList<BoardFindResponseDtoList>
+) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+
+    private lateinit var itemClickListener: OnItemClickListener //장터에 올라온 책 리스트
     private lateinit var itemDetailClickListener: OnItemClickListener //점3개 클릭
     private lateinit var itemPickClickListener: OnItemClickListener //찜하기 클릭
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        val binding: ItemPostBinding = ItemPostBinding.inflate(LayoutInflater.from(parent.context),parent,false)
+        val binding: ItemPostBinding =
+            ItemPostBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return HomeViewHolder(binding)
     }
 
     interface OnItemClickListener {
-        fun onClick(v: View, position:Int)
+        fun onClick(v: View, position: Int)
     }
 
 
@@ -47,12 +52,26 @@ class HomeAdapter(val postData: ArrayList<BoardFindResponseDtoList>):RecyclerVie
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
 
-        if(holder is HomeViewHolder){
+        if (holder is HomeViewHolder) {
             holder.name.text = postData[position].title
             //원래 가격에 콤마 삽입
             holder.price.text = "${postData[position].price.addCommas()}원"
 
-            if(postData[position].image.isNotEmpty()) {
+            var flag = 0
+            for (i in 0..interestingList.size - 1) {
+                if (postData[position].id == interestingList[i].id) {
+                    holder.pick.tag = "picked"
+                    flag = 1
+                    holder.pick.setImageResource(R.drawable.icon_post_picked)
+                    break
+                }
+            }
+            if (flag == 0) {
+                holder.pick.tag = "unpicked"
+            }
+
+
+            if (postData[position].image.isNotEmpty()) {
                 Log.d("HomeAdapter_TAG1", postData[position].image[0].url)
                 Glide.with(holder.itemView.context)
                     .load(postData[position].image[0].url)
@@ -62,18 +81,16 @@ class HomeAdapter(val postData: ArrayList<BoardFindResponseDtoList>):RecyclerVie
 
             //holder.uploadTime.text = "${postData[position].postTime}분 전"
 
-            if(postData[position].tag.isNotEmpty()){
-                for(i:Int in 0 until (postData[position].tag.size) ) {
+            if (postData[position].tag.isNotEmpty()) {
+                for (i: Int in 0 until (postData[position].tag.size)) {
                     if (i == 0) {
-                        holder.booktag.text = "#"+postData[position].tag[0].category
+                        holder.booktag.text = "#" + postData[position].tag[0].category
                     } else {
                         holder.booktag.text =
-                            "${holder.booktag.text}" + " " + "#"+postData[position].tag[i].category.toString()
+                            "${holder.booktag.text}" + " " + "#" + postData[position].tag[i].category.toString()
                     }
                 }
             }
-
-
 
 
             //게시글 작성 시간 관련 코드
@@ -117,27 +134,28 @@ class HomeAdapter(val postData: ArrayList<BoardFindResponseDtoList>):RecyclerVie
             holder.uploadTime.text = elapsedTime
 
             //클릭 리스너를 달기 위한 코드
-            holder.itemView.setOnClickListener{
-                itemClickListener.onClick(it,position)
+            holder.itemView.setOnClickListener {
+                itemClickListener.onClick(it, position)
             }
             holder.postDetail.setOnClickListener {
-                itemDetailClickListener.onClick(it,position)
+                itemDetailClickListener.onClick(it, position)
             }
             holder.pick.setOnClickListener {
-                itemPickClickListener.onClick(it,position)
+                itemPickClickListener.onClick(it, position)
             }
         }
     }
 
 
-    fun setItemClickListener(onItemClickListener: OnItemClickListener){
+    fun setItemClickListener(onItemClickListener: OnItemClickListener) {
         this.itemClickListener = onItemClickListener
     }
 
-    fun setItemDetailClickListener(onItemDetailClickListener: OnItemClickListener){
+    fun setItemDetailClickListener(onItemDetailClickListener: OnItemClickListener) {
         this.itemDetailClickListener = onItemDetailClickListener
     }
-    fun setItemPickClickListener(onItemPickClickListener: OnItemClickListener){
+
+    fun setItemPickClickListener(onItemPickClickListener: OnItemClickListener) {
         this.itemPickClickListener = onItemPickClickListener
     }
 }
