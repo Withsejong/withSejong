@@ -188,6 +188,9 @@ class PostDetailActivity : AppCompatActivity() {
                         val intentChattingRoom = Intent(this, ChattingRoomActivity::class.java)
                         intentChattingRoom.putExtra("roomId", response.body()?.id)
                         intentChattingRoom.putExtra("boardTitle", boardTitle)
+                        intentChattingRoom.putExtra("publisher", studentId)
+                        intentChattingRoom.putExtra("subscriber", postId)
+
                         startActivity(intentChattingRoom)
                         finish()
                     }
@@ -207,11 +210,14 @@ class PostDetailActivity : AppCompatActivity() {
                     AlertDialog.Builder(this@PostDetailActivity)
                         .setTitle("게시글 삭제")
                         .setMessage("게시글을 삭제하시겠습니까?")
-                        .setPositiveButton("확인", object:DialogInterface.OnClickListener{
+                        .setPositiveButton("확인", object : DialogInterface.OnClickListener {
                             override fun onClick(dialog: DialogInterface?, which: Int) {
                                 val deleteThread = Thread {
                                     val response =
-                                        RetrofitClient.instance.deletePost("Bearer ${accessToken}", boardId)
+                                        RetrofitClient.instance.deletePost(
+                                            "Bearer ${accessToken}",
+                                            boardId
+                                        )
                                             .execute()
                                     if (response.code() == 403) {
 
@@ -237,7 +243,8 @@ class PostDetailActivity : AppCompatActivity() {
 
                         })
 
-                        .setNegativeButton("취소"
+                        .setNegativeButton(
+                            "취소"
                         ) { dialog, which ->
 
                             dialog.dismiss()
