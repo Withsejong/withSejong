@@ -120,11 +120,11 @@ class PostActivity : AppCompatActivity() {
                 val multipartList = mutableListOf<MultipartBody.Part>()
                 saveFilePaths.forEach { path ->
                     val originalFile = File(path)
-                    val compressedFile = compressImageFile(originalFile)  // 파일 압축
-
-                    val requestFile = compressedFile.asRequestBody("image/*".toMediaTypeOrNull())
+                    //val compressedFile = compressImageFile(originalFile)  // 파일 압축
+                    val resizedFile = resizeImageToUnder1MB(originalFile)
+                    val requestFile = resizedFile.asRequestBody("image/*".toMediaTypeOrNull())
                     val body =
-                        MultipartBody.Part.createFormData("file", compressedFile.name, requestFile)
+                        MultipartBody.Part.createFormData("file", resizedFile.name, requestFile)
                     multipartList.add(body)
                 }
 
@@ -483,4 +483,57 @@ class PostActivity : AppCompatActivity() {
 
         return compressedFile
     }
+
+    fun resizeImageToUnder1MB(imageFile: File, maxSizeMB: Int = 1): File {
+        val maxSizeBytes = maxSizeMB * 1_000_000  // MB를 바이트로 변환
+
+        // 초기 이미지 디코딩
+        var options = BitmapFactory.Options()
+        var bitmap = BitmapFactory.decodeFile(imageFile.absolutePath)
+
+        var currentWidth = bitmap.width
+        var currentHeight = bitmap.height
+        var scaleFactor = 1
+
+        while (imageFile.length() > maxSizeBytes) {
+            // 비율 계산 (크기를 90%로 줄이기)
+            scaleFactor += 1
+            currentWidth = bitmap.width / scaleFactor
+            currentHeight = bitmap.height / scaleFactor
+
+            // Bitmap 축소
+            val resizedBitmap = Bitmap.createScaledBitmap(bitmap, currentWidth, currentHeight, true)
+
+            // 압축된 Bitmap을 메모리로 저장
+            val outputStream = ByteArrayOutputStream()
+            resizedBitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream)
+
+            // 기존 bitmap 메모리 해제
+            bitmap.recycle()
+            bitmap = resizedBitmap
+
+            // 파일 크기 확인
+            if (outputStream.size() <= maxSizeBytes) {
+                val resizedFile = File(imageFile.parent, "resized_${imageFile.name}")
+                FileOutputStream(resizedFile).use { fos ->
+                    fos.write(outputStream.toByteArray())
+                    fos.flush()
+                }
+                outputStream.close()
+                return resizedFile
+            }
+        }
+
+        // 최종 파일 생성
+        val resizedFile = File(imageFile.parent, "resized_${imageFile.name}")
+        FileOutputStream(resizedFile).use { fos ->
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos)
+            fos.flush()
+        }
+
+        bitmap.recycle()
+        return resizedFile
+    }
+
+
 }
