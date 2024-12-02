@@ -37,30 +37,13 @@ class HomeFragment : Fragment(), MyPostDetailBottomsheetDialogFragment.BottomShe
     private var loadedPageCnt = 0
     private var totalPageCnt = 0
     private val TAG = "HomeFragment"
-
-    private var deletePostId: Int = -1
-
-
     private var searchTag = "전체"
-
-    /*
-    0=전체
-    1=전공
-    2=교양
-    3=균필
-    4=공필
-    5=기타
-
-
-    */
-
 
     companion object {
         val loadData = ArrayList<BoardFindResponseDtoList>()
         var isLoaded: Boolean = false
         var searchNo = "전체"
     }
-
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -77,7 +60,7 @@ class HomeFragment : Fragment(), MyPostDetailBottomsheetDialogFragment.BottomShe
         //동기통신으로 변경
         if (isLoaded == false) {
             val loadPostThread = Thread {
-                if(searchNo=="전체"){
+                if (searchNo == "전체") {
                     val response = RetrofitClient.instance.loadPost(
                         accessToken = "Bearer $accessToken",
                         page = loadedPageCnt
@@ -104,15 +87,14 @@ class HomeFragment : Fragment(), MyPostDetailBottomsheetDialogFragment.BottomShe
                     } else {
                         Log.d("HomeFragment", response.toString())
                     }
-                }
-                else{//카테고리가 전체가 아닌경우
+                } else {//카테고리가 전체가 아닌경우
                     var searchTagArray = arrayListOf(searchTag)
 
                     val response = RetrofitClient.instance.loadSearchByTag(
-                            "Bearer $accessToken",
-                            searchTagArray,
-                            loadedPageCnt
-                        ).execute()
+                        "Bearer $accessToken",
+                        searchTagArray,
+                        loadedPageCnt
+                    ).execute()
 
                     if (response.code() == 403) {
                         //토큰 만료
@@ -135,7 +117,6 @@ class HomeFragment : Fragment(), MyPostDetailBottomsheetDialogFragment.BottomShe
                         Log.d("HomeFragment", response.toString())
                     }
                 }
-
 
 
             }
@@ -162,9 +143,6 @@ class HomeFragment : Fragment(), MyPostDetailBottomsheetDialogFragment.BottomShe
         binding.rcvSellList.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         Log.d("HomeFragment_TAG", loadData.toString())
-
-
-
         binding.srlSwiperefresh.setOnRefreshListener {
             // 데이터 초기화
             loadData.clear()
@@ -172,12 +150,10 @@ class HomeFragment : Fragment(), MyPostDetailBottomsheetDialogFragment.BottomShe
             totalPageCnt = 0
             isLoaded = false
             homeAdapter.notifyDataSetChanged()
-
             // 액세스 토큰 가져오기
             val tokenSharedPreferences =
                 requireActivity().getSharedPreferences("token", MODE_PRIVATE)
             val accessToken: String = tokenSharedPreferences.getString("accessToken", "").toString()
-
             // `searchTag` 값에 따라 데이터를 로드
             val refreshThread = Thread {
                 if (searchTag == "전체") {
@@ -186,7 +162,6 @@ class HomeFragment : Fragment(), MyPostDetailBottomsheetDialogFragment.BottomShe
                         accessToken = "Bearer $accessToken",
                         page = loadedPageCnt
                     ).execute()
-
                     if (response.isSuccessful) {
                         response.body()?.boardFindResponseDtoList?.let {
                             loadData.addAll(it)
@@ -215,19 +190,14 @@ class HomeFragment : Fragment(), MyPostDetailBottomsheetDialogFragment.BottomShe
                         Log.e(TAG, "카테고리 데이터 로드 실패: ${response.code()}")
                     }
                 }
-
                 // UI 업데이트
                 requireActivity().runOnUiThread {
                     homeAdapter.notifyDataSetChanged()
                     binding.srlSwiperefresh.isRefreshing = false
                 }
             }
-
             refreshThread.start()
         }
-
-
-
         //카테고리에 들어갈 리스트 작성
         val categoryList = arrayListOf<String>(
             "전체",
@@ -236,17 +206,6 @@ class HomeFragment : Fragment(), MyPostDetailBottomsheetDialogFragment.BottomShe
             "가구",
             "전자제품",
             "기타"
-
-
-//            "전공",
-//            "전선",
-//            "전필",
-//            "공필",
-//            "교양",
-//            "교선",
-//            "교필",
-//            //"공필",
-//            "기타"
         )
         categoryAdapter = CategoryAdapter(categoryList)
         binding.rcvCategory.adapter = categoryAdapter
@@ -262,46 +221,30 @@ class HomeFragment : Fragment(), MyPostDetailBottomsheetDialogFragment.BottomShe
         categoryAdapter.setCategoryClickListener(object : CategoryAdapter.OnItemClickListener {
             override fun onClick(v: View, position: Int) {
                 var selectedPosition: Int? = null
-
-
-
                 when (position) {
                     0 -> {
                         searchTag = "전체"
                         searchNo = "전체"
-                        v.setBackgroundColor(Color.parseColor("#000000"))
                     }
 
                     1 -> {
                         searchTag = "도서"
                         searchNo = "도서"
-
-                        v.setBackgroundColor(Color.parseColor("#000000"))
-
                     }
 
                     2 -> {
                         searchTag = "의류"
                         searchNo = "의류"
-
-                        v.setBackgroundColor(Color.parseColor("#000000"))
-
                     }
 
                     3 -> {
                         searchTag = "가구"
                         searchNo = "가구"
-
-                        v.setBackgroundColor(Color.parseColor("#000000"))
-
                     }
 
                     4 -> {
                         searchTag = "전자제품"
                         searchNo = "전자제품"
-
-                        v.setBackgroundColor(Color.parseColor("#000000"))
-
                     }
 //                    5->{
 //                        searchTag = "교양"
@@ -315,9 +258,6 @@ class HomeFragment : Fragment(), MyPostDetailBottomsheetDialogFragment.BottomShe
                     else -> {
                         searchTag = "기타"
                         searchNo = "기타"
-
-                        v.setBackgroundColor(Color.parseColor("#000000"))
-
                     }
                 }
                 Log.d("HomeFragment_TAG", searchTag)
@@ -357,6 +297,7 @@ class HomeFragment : Fragment(), MyPostDetailBottomsheetDialogFragment.BottomShe
                         requireActivity().runOnUiThread {
                             //binding.rcvSellList.adapter=homeAdapter(loadDat a)
                             homeAdapter.notifyDataSetChanged()
+                            binding.rcvSellList.scrollToPosition(0)
                         }
                     }
                     loadPostThread.join()
@@ -392,6 +333,7 @@ class HomeFragment : Fragment(), MyPostDetailBottomsheetDialogFragment.BottomShe
                         requireActivity().runOnUiThread {
                             //binding.rcvSellList.adapter=homeAdapter(loadDat a)
                             homeAdapter.notifyDataSetChanged()
+                            binding.rcvSellList.scrollToPosition(0)
                         }
                     }
                     searchByTagThread.join()
@@ -399,7 +341,6 @@ class HomeFragment : Fragment(), MyPostDetailBottomsheetDialogFragment.BottomShe
                 }
             }
         })
-
         //어댑터의 요소들 클릭했을 경우
         val intentPost = Intent(requireContext(), PostDetailActivity::class.java)
         homeAdapter.setItemClickListener(object : HomeAdapter.OnItemClickListener {
@@ -414,24 +355,16 @@ class HomeFragment : Fragment(), MyPostDetailBottomsheetDialogFragment.BottomShe
                 intentPost.putExtra("boardId", loadData[position].id)
                 intentPost.putExtra("postId", loadData[position].studentId)
                 intentPost.putExtra("boardTitle", loadData[position].title)
-
-
-                //intentPost.putExtra("img1", loadData[position].image[0].url)
                 val imageUriList = ArrayList<String>()
                 for (i: Int in 0 until loadData[position].image.size) {
                     imageUriList.add(loadData[position].image[0].url)
                 }
-
-
                 intentPost.putStringArrayListExtra("imgArray", imageUriList)
-
-
                 val priceAddComma = loadData[position].price.addCommas()//콤마 붙이는 코드
                 intentPost.putExtra("productPrice", priceAddComma + "원")
                 intentPost.putExtra("productContent", loadData[position].content)
                 //TODO 태그 배열을 보내야하는데 흠...
                 //intentPost.putStringArrayListExtra("tag", loadData[position].tag)
-
                 val tagArrayList = ArrayList<String>()
                 loadData[position].tag.forEach {
                     tagArrayList.add(it.category)
@@ -488,8 +421,6 @@ class HomeFragment : Fragment(), MyPostDetailBottomsheetDialogFragment.BottomShe
                         val editor = interestingListSharedPreferences.edit()
                         editor.putString("list", postListtoJson)
                         editor.apply()
-
-
                         interstingPostJson =
                             interestingListSharedPreferences.getString("list", "[]")
 
@@ -501,41 +432,25 @@ class HomeFragment : Fragment(), MyPostDetailBottomsheetDialogFragment.BottomShe
                         interestingArrayList.clear()
                         interestingArrayList.addAll(jsonToPostList)
                     }
-//                    if (currentImageId == R.drawable.icon_post_unpick) {
-//                        v.setImageResource(R.drawable.icon_post_picked)
-//                        v.tag = R.drawable.icon_post_picked
-//                    }
-//                    //TODO 잠깐 주석처리 pick일때 클릭시 unpick으로 변경
-//                    else {
-//                        v.setImageResource(R.drawable.icon_post_unpick)
-//                        v.tag = R.drawable.icon_post_unpick
-//                    }
                 }
             }
         })
-
         //페이징을 위한
         binding.rcvSellList.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
-
                 val rvPosition =
                     (recyclerView.layoutManager as LinearLayoutManager?)!!.findLastCompletelyVisibleItemPosition()
                 val totalCount =
                     recyclerView.adapter?.itemCount?.minus(1)
-
                 if (rvPosition == totalCount && loadedPageCnt < totalPageCnt) {
                     Log.d("HomeFragment_TAG", "page자료형구현성공")
-
                     val tokenSharedPreferences =
                         requireActivity().getSharedPreferences("token", Context.MODE_PRIVATE)
                     val accessToken: String =
                         tokenSharedPreferences.getString("accessToken", "").toString()
-
                     val beforeListCnt = loadData.size
                     val addListCnt = loadMoreData(accessToken = accessToken, page = loadedPageCnt)
-
                     // RecyclerView.post를 사용해 notifyItemRangeInserted 호출을 안전하게 처리
                     recyclerView.post {
                         homeAdapter.notifyItemRangeInserted(beforeListCnt, addListCnt)
@@ -543,34 +458,25 @@ class HomeFragment : Fragment(), MyPostDetailBottomsheetDialogFragment.BottomShe
                 }
             }
         })
-
-
         //점3개 클릭했을 때
         val anotherPostDetailBottomsheetDialogFragment =
             AnotherPostDetailBottomsheetDialogFragment()
         val myPostDetailBottomsheetDialogFragment = MyPostDetailBottomsheetDialogFragment()
-
         val userInfoSharedPreferences =
             requireActivity().getSharedPreferences("userInfo", MODE_PRIVATE)
         val studentId = userInfoSharedPreferences.getString("studentId", "")
         //어댑터의 점3개를 클릭했을 겨우
-
         homeAdapter.setItemDetailClickListener(object : HomeAdapter.OnItemClickListener {
             override fun onClick(v: View, position: Int) {
-
                 if (loadData[position].studentId == studentId) {//내가 작성한 글인경우
-
                     val myPostBundle = Bundle()
                     myPostBundle.putString("boardId", loadData[position].id.toString())
                     myPostBundle.putString("position", position.toString())
-
                     myPostDetailBottomsheetDialogFragment.arguments = myPostBundle
-
                     myPostDetailBottomsheetDialogFragment.show(
                         parentFragmentManager,
                         myPostDetailBottomsheetDialogFragment.tag
                     )
-
                     parentFragmentManager.setFragmentResultListener(
                         "myPostFunc",
                         this@HomeFragment,
@@ -611,14 +517,10 @@ class HomeFragment : Fragment(), MyPostDetailBottomsheetDialogFragment.BottomShe
                         parentFragmentManager,
                         anotherPostDetailBottomsheetDialogFragment.tag
                     )
-
                 }
-
-
             }
         }
         )
-
         //검색버튼 클릭시
         val intentSearch = Intent(requireContext(), SearchActivity::class.java)
         binding.ibtnSearchIcon.setOnClickListener {
@@ -644,13 +546,10 @@ class HomeFragment : Fragment(), MyPostDetailBottomsheetDialogFragment.BottomShe
                 aftersize = loadData.size
                 loadedPageCnt++
             }
-
         }
         loadMoreDataThread.start()
         loadMoreDataThread.join()
         return aftersize - beforesize
-
-
     }
 
     override fun onBottomSheetResult(success: Boolean, position: Int) {
@@ -661,6 +560,4 @@ class HomeFragment : Fragment(), MyPostDetailBottomsheetDialogFragment.BottomShe
             homeAdapter.notifyItemRemoved(position)
         }
     }
-
-
 }
