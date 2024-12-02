@@ -3,11 +3,17 @@ package com.withsejong.chatting.chattingRoom
 import android.content.ContentValues.TAG
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
+import android.view.MenuInflater
+import android.widget.PopupMenu
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.ui.input.key.Key.Companion.G
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.gson.JsonParser
+import com.withsejong.R
 import com.withsejong.databinding.ActivityChattingRoomBinding
 import com.withsejong.retrofit.FcmResponse
 import com.withsejong.retrofit.LoadingChattingResponse
@@ -64,7 +70,9 @@ class ChattingRoomActivity : AppCompatActivity() {
             }
 
         Log.d("ChattingRoomActivity_TAG", studentId.toString())
-
+        binding.ibtnAdditionalFunction.setOnClickListener {
+            showBottomSheetMenu(targetId!!,roomId,studentId)
+        }
 
         val loadPastChattingThread = Thread {
             val response =
@@ -126,15 +134,11 @@ class ChattingRoomActivity : AppCompatActivity() {
 
             val msg = binding.etMessageInput.text.toString()
             //TODO 서버로 메시지 전송 후
-
-            sendStomp(msg, roomId, studentId.toString())
-
-
-            sendFcm(targetId.toString(),msg)
-
+            if(msg.length>0){
+                sendStomp(msg, roomId, studentId.toString())
+                sendFcm(targetId.toString(),msg)
+            }
         }
-
-
     }
 
     override fun onDestroy() {
@@ -152,7 +156,7 @@ class ChattingRoomActivity : AppCompatActivity() {
             object : Callback<FcmResponse> {
                 override fun onResponse(call: Call<FcmResponse>, response: Response<FcmResponse>) {
                     if(response.isSuccessful){
-                        Toast.makeText(this@ChattingRoomActivity, "알림발송 성공", Toast.LENGTH_SHORT).show()
+                        //Toast.makeText(this@ChattingRoomActivity, "알림발송 성공", Toast.LENGTH_SHORT).show()
                     }
                 }
 
@@ -247,7 +251,52 @@ class ChattingRoomActivity : AppCompatActivity() {
             }
         }
     }
+    // BottomSheetDialog 표시 메서드
+    private fun showBottomSheetMenu(targetId:String,roomId:Int,studentId:String) {
+        // BottomSheetDialog 생성
+        val bottomSheetDialog = BottomSheetDialog(this)
+        val bottomSheetView = LayoutInflater.from(this).inflate(R.layout.chatting_room_add_func_menu_bottomsheet_dialog_fragment, null)
 
+        // 레이아웃에서 각 항목 연결 및 클릭 리스너 설정
+        val menuLocation = bottomSheetView.findViewById<TextView>(R.id.menu_location)
+        val menuDate = bottomSheetView.findViewById<TextView>(R.id.menu_date)
 
+        menuLocation.setOnClickListener {
+            // "장소 제안하기" 클릭 처리
+            handleLocationSuggestion(targetId,roomId,studentId)
+            bottomSheetDialog.dismiss() // 다이얼로그 닫기
+        }
+
+        menuDate.setOnClickListener {
+            // "거래 날짜 정하기" 클릭 처리
+            handleDateSetting(targetId,roomId,studentId)
+            bottomSheetDialog.dismiss() // 다이얼로그 닫기
+        }
+
+        // BottomSheetDialog 설정 및 표시
+        bottomSheetDialog.setContentView(bottomSheetView)
+        bottomSheetDialog.show()
+    }
+    // "장소 제안하기" 처리 메서드
+    private fun handleLocationSuggestion(targetId:String,roomId: Int,studentId:String) { //targetId는 fcm알림 용
+
+        val placeBottomSheet = ChattingRoomPlaceBottomSheetDialogFragment { selectedPlace ->
+            // 장소 선택 시 sendFcm 호출
+            //sendFcm(targetId = targetId, msg = "선택된 장소: ${selectedPlace.name}")
+            sendStomp(msg = "장소추천: ${selectedPlace.name}",roomId,studentId)
+        }
+        placeBottomSheet.show(supportFragmentManager, "ChattingRoomPlaceBottomSheetDialogFragment")
+
+    }
+
+    // "거래 날짜 정하기" 처리 메서드
+    private fun handleDateSetting(targetId:String,roomId: Int,studentId:String) {//targetId는 fcm알림 용
+        val tradeDatePicker = ChattingRoomTimeBottomSheetDialogFragment { selectedDate, selectedTime ->
+            // 선택된 날짜와 시간을 처리
+            //Toast.makeText(this, "시간추천: ${selectedDate}, ${selectedTime}", Toast.LENGTH_SHORT).show()
+            sendStomp(msg = "시간추천: ${selectedDate}, ${selectedTime}",roomId,studentId)
+        }
+        tradeDatePicker.show(supportFragmentManager, "TradeDatePickerBottomSheet")
+    }
 
 }
