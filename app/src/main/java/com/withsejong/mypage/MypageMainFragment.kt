@@ -56,23 +56,7 @@ class MypageMainFragment : Fragment() {
         val settingFragment = SettingFragment()
         val faqFragment = FaqFragment()
 
-        binding.tvVersion.text = "앱 버전 : ${BuildConfig.APPVERSION}"
 
-        //TODO 토큰 카피 코드는 반드시 지울 것
-        binding.tvTokencopy.setOnClickListener {
-            val token = requireActivity().getSharedPreferences("token", MODE_PRIVATE).getString("fcmToken","error")
-            Log.d(TAG,token.toString())
-            // ContextCompat를 사용하여 ClipboardManager 가져오기
-            val clipboard = ContextCompat.getSystemService(requireActivity(), ClipboardManager::class.java)
-
-            if (clipboard != null) {
-                val clip = ClipData.newPlainText("Copied Text", token)
-                clipboard.setPrimaryClip(clip)
-                Toast.makeText(requireActivity(), "복사되었습니다!", Toast.LENGTH_SHORT).show()
-            } else {
-                Toast.makeText(requireActivity(), "클립보드를 사용할 수 없습니다.", Toast.LENGTH_SHORT).show()
-            }
-        }
 
 
 
