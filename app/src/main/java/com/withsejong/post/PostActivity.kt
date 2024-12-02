@@ -5,6 +5,8 @@ import android.content.Intent
 import android.database.Cursor
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.Matrix
+import androidx.exifinterface.media.ExifInterface
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -204,7 +206,7 @@ class PostActivity : AppCompatActivity() {
                                     runOnUiThread {
                                         Toast.makeText(
                                             this@PostActivity,
-                                            "게시물 저장 성공,임시코드2",
+                                            "게시물 저장 성공, 임시코드2",
                                             Toast.LENGTH_SHORT
                                         ).show()
                                         finish()
@@ -250,7 +252,7 @@ class PostActivity : AppCompatActivity() {
                         Log.d("PostActivity", response.toString())
 
                         runOnUiThread {
-                            Toast.makeText(this@PostActivity, "게시물 저장 성공,임시코드1", Toast.LENGTH_SHORT)
+                            Toast.makeText(this@PostActivity, "게시글 업로드 성공했습니다.\n아래로 당겨 게시글 새로고침 해주세요.", Toast.LENGTH_SHORT)
                                 .show()
                             finish()
 
@@ -465,7 +467,21 @@ class PostActivity : AppCompatActivity() {
             return imageFile  // 1MB 이하면 압축하지 않음
         }
 
+        // 이미지 디코딩
         var bitmap = BitmapFactory.decodeFile(imageFile.absolutePath)
+
+        // EXIF 데이터 읽기
+        val exif = ExifInterface(imageFile.absolutePath)
+        val orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL)
+
+        // EXIF 데이터에 따라 이미지 회전
+        bitmap = when (orientation) {
+            ExifInterface.ORIENTATION_ROTATE_90 -> rotateBitmap(bitmap, 90)
+            ExifInterface.ORIENTATION_ROTATE_180 -> rotateBitmap(bitmap, 180)
+            ExifInterface.ORIENTATION_ROTATE_270 -> rotateBitmap(bitmap, 270)
+            else -> bitmap
+        }
+
         var quality = 100
         val outputStream = ByteArrayOutputStream()
         do {
@@ -481,6 +497,13 @@ class PostActivity : AppCompatActivity() {
         fos.close()
 
         return compressedFile
+    }
+
+    // 비트맵 회전 함수
+    fun rotateBitmap(bitmap: Bitmap, degrees: Int): Bitmap {
+        val matrix = Matrix()
+        matrix.postRotate(degrees.toFloat())
+        return Bitmap.createBitmap(bitmap, 0, 0, bitmap.width, bitmap.height, matrix, true)
     }
 
     fun resizeImageToUnder1MB(imageFile: File, maxSizeMB: Int = 1): File {
