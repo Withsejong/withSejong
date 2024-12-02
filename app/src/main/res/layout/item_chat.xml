@@ -20,7 +20,7 @@
             android:id="@+id/vp_bookimg"
             android:layout_width="50dp"
             android:layout_height="0dp"
-            android:src="@mipmap/ic_launcher"
+            android:src="@drawable/profile_basic_icon"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintStart_toStartOf="parent"
@@ -59,6 +59,7 @@
 
         <TextView
             android:id="@+id/tv_unread_chatting_cnt_indicator"
+            android:visibility="invisible"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
