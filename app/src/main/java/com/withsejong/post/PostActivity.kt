@@ -120,11 +120,11 @@ class PostActivity : AppCompatActivity() {
                 val multipartList = mutableListOf<MultipartBody.Part>()
                 saveFilePaths.forEach { path ->
                     val originalFile = File(path)
-                    //val compressedFile = compressImageFile(originalFile)  // 파일 압축
-                    val resizedFile = resizeImageToUnder1MB(originalFile)
-                    val requestFile = resizedFile.asRequestBody("image/*".toMediaTypeOrNull())
+                    val compressedFile = compressImageFile(originalFile)  // 파일 압축
+                    //val resizedFile = resizeImageToUnder1MB(originalFile)
+                    val requestFile = compressedFile.asRequestBody("image/*".toMediaTypeOrNull())
                     val body =
-                        MultipartBody.Part.createFormData("file", resizedFile.name, requestFile)
+                        MultipartBody.Part.createFormData("file", compressedFile.name, requestFile)
                     multipartList.add(body)
                 }
 
@@ -211,7 +211,6 @@ class PostActivity : AppCompatActivity() {
                                     }
                                     Log.d(TAG, response3.toString())
                                 }
-
                             }
                         }
                         tokenRefreshThread.join()
