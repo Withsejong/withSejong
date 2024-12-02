@@ -3,6 +3,7 @@ package com.withsejong.home
 import android.content.Context
 import android.content.Context.MODE_PRIVATE
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -57,6 +58,7 @@ class HomeFragment : Fragment(), MyPostDetailBottomsheetDialogFragment.BottomShe
     companion object {
         val loadData = ArrayList<BoardFindResponseDtoList>()
         var isLoaded: Boolean = false
+        var searchNo = "전체"
     }
 
 
@@ -71,36 +73,69 @@ class HomeFragment : Fragment(), MyPostDetailBottomsheetDialogFragment.BottomShe
         val tokenSharedPreferences =
             requireActivity().getSharedPreferences("token", Context.MODE_PRIVATE)
         val accessToken: String = tokenSharedPreferences.getString("accessToken", "").toString()
-
+        Log.d(TAG, searchNo)
         //동기통신으로 변경
         if (isLoaded == false) {
             val loadPostThread = Thread {
-                val response = RetrofitClient.instance.loadPost(
-                    accessToken = "Bearer $accessToken",
-                    page = loadedPageCnt
-                )
-                    .execute()
+                if(searchNo=="전체"){
+                    val response = RetrofitClient.instance.loadPost(
+                        accessToken = "Bearer $accessToken",
+                        page = loadedPageCnt
+                    )
+                        .execute()
 
-                if (response.code() == 403) {
-                    //토큰 만료
-                    loadedPageCnt++
-                    isLoaded = true
+                    if (response.code() == 403) {
+                        //토큰 만료
+                        loadedPageCnt++
+                        isLoaded = true
 //                    totalPageCnt = response.body()?.totalPages ?: -1
 
-                } else if (response.isSuccessful) {
-                    response.body()
-                        ?.let { loadData.addAll(response.body()!!.boardFindResponseDtoList) }
-                    loadedPageCnt++
-                    isLoaded = true
-                    totalPageCnt = response.body()?.totalPages ?: -1
-                    //TODO 로그인 이후 바로 안뜨는 문제
-                    requireActivity().runOnUiThread {
-                        homeAdapter.notifyDataSetChanged()
+                    } else if (response.isSuccessful) {
+                        response.body()
+                            ?.let { loadData.addAll(response.body()!!.boardFindResponseDtoList) }
+                        loadedPageCnt++
+                        isLoaded = true
+                        totalPageCnt = response.body()?.totalPages ?: -1
+                        //TODO 로그인 이후 바로 안뜨는 문제
+                        requireActivity().runOnUiThread {
+                            homeAdapter.notifyDataSetChanged()
 
+                        }
+                    } else {
+                        Log.d("HomeFragment", response.toString())
                     }
-                } else {
-                    Log.d("HomeFragment", response.toString())
                 }
+                else{//카테고리가 전체가 아닌경우
+                    var searchTagArray = arrayListOf(searchTag)
+
+                    val response = RetrofitClient.instance.loadSearchByTag(
+                            "Bearer $accessToken",
+                            searchTagArray,
+                            loadedPageCnt
+                        ).execute()
+
+                    if (response.code() == 403) {
+                        //토큰 만료
+                        loadedPageCnt++
+                        isLoaded = true
+//                    totalPageCnt = response.body()?.totalPages ?: -1
+
+                    } else if (response.isSuccessful) {
+                        response.body()
+                            ?.let { loadData.addAll(response.body()!!.boardFindResponseDtoList) }
+                        loadedPageCnt++
+                        isLoaded = true
+                        totalPageCnt = response.body()?.totalPages ?: -1
+                        //TODO 로그인 이후 바로 안뜨는 문제
+                        requireActivity().runOnUiThread {
+                            homeAdapter.notifyDataSetChanged()
+
+                        }
+                    } else {
+                        Log.d("HomeFragment", response.toString())
+                    }
+                }
+
 
 
             }
@@ -131,12 +166,66 @@ class HomeFragment : Fragment(), MyPostDetailBottomsheetDialogFragment.BottomShe
 
 
         binding.srlSwiperefresh.setOnRefreshListener {
+            // 데이터 초기화
             loadData.clear()
             loadedPageCnt = 0
+            totalPageCnt = 0
             isLoaded = false
             homeAdapter.notifyDataSetChanged()
-            binding.srlSwiperefresh.isRefreshing = false
+
+            // 액세스 토큰 가져오기
+            val tokenSharedPreferences =
+                requireActivity().getSharedPreferences("token", MODE_PRIVATE)
+            val accessToken: String = tokenSharedPreferences.getString("accessToken", "").toString()
+
+            // `searchTag` 값에 따라 데이터를 로드
+            val refreshThread = Thread {
+                if (searchTag == "전체") {
+                    // 전체 데이터 로드
+                    val response = RetrofitClient.instance.loadPost(
+                        accessToken = "Bearer $accessToken",
+                        page = loadedPageCnt
+                    ).execute()
+
+                    if (response.isSuccessful) {
+                        response.body()?.boardFindResponseDtoList?.let {
+                            loadData.addAll(it)
+                        }
+                        loadedPageCnt++
+                        totalPageCnt = response.body()?.totalPages ?: 0
+                    } else {
+                        Log.e(TAG, "전체 데이터 로드 실패: ${response.code()}")
+                    }
+                } else {
+                    // 선택된 카테고리 데이터 로드
+                    val searchTagArray = arrayListOf(searchTag)
+                    val response = RetrofitClient.instance.loadSearchByTag(
+                        "Bearer $accessToken",
+                        searchTagArray,
+                        loadedPageCnt
+                    ).execute()
+
+                    if (response.isSuccessful) {
+                        response.body()?.boardFindResponseDtoList?.let {
+                            loadData.addAll(it)
+                        }
+                        loadedPageCnt++
+                        totalPageCnt = response.body()?.totalPages ?: 0
+                    } else {
+                        Log.e(TAG, "카테고리 데이터 로드 실패: ${response.code()}")
+                    }
+                }
+
+                // UI 업데이트
+                requireActivity().runOnUiThread {
+                    homeAdapter.notifyDataSetChanged()
+                    binding.srlSwiperefresh.isRefreshing = false
+                }
+            }
+
+            refreshThread.start()
         }
+
 
 
         //카테고리에 들어갈 리스트 작성
@@ -172,25 +261,47 @@ class HomeFragment : Fragment(), MyPostDetailBottomsheetDialogFragment.BottomShe
         val itemType = object : TypeToken<ArrayList<String>>() {}.type //json to list 할때 type
         categoryAdapter.setCategoryClickListener(object : CategoryAdapter.OnItemClickListener {
             override fun onClick(v: View, position: Int) {
+                var selectedPosition: Int? = null
+
+
+
                 when (position) {
                     0 -> {
                         searchTag = "전체"
+                        searchNo = "전체"
+                        v.setBackgroundColor(Color.parseColor("#000000"))
                     }
 
                     1 -> {
                         searchTag = "도서"
+                        searchNo = "도서"
+
+                        v.setBackgroundColor(Color.parseColor("#000000"))
+
                     }
 
                     2 -> {
                         searchTag = "의류"
+                        searchNo = "의류"
+
+                        v.setBackgroundColor(Color.parseColor("#000000"))
+
                     }
 
                     3 -> {
                         searchTag = "가구"
+                        searchNo = "가구"
+
+                        v.setBackgroundColor(Color.parseColor("#000000"))
+
                     }
 
                     4 -> {
                         searchTag = "전자제품"
+                        searchNo = "전자제품"
+
+                        v.setBackgroundColor(Color.parseColor("#000000"))
+
                     }
 //                    5->{
 //                        searchTag = "교양"
@@ -203,6 +314,10 @@ class HomeFragment : Fragment(), MyPostDetailBottomsheetDialogFragment.BottomShe
 //                    }
                     else -> {
                         searchTag = "기타"
+                        searchNo = "기타"
+
+                        v.setBackgroundColor(Color.parseColor("#000000"))
+
                     }
                 }
                 Log.d("HomeFragment_TAG", searchTag)
@@ -412,17 +527,23 @@ class HomeFragment : Fragment(), MyPostDetailBottomsheetDialogFragment.BottomShe
 
                 if (rvPosition == totalCount && loadedPageCnt < totalPageCnt) {
                     Log.d("HomeFragment_TAG", "page자료형구현성공")
+
                     val tokenSharedPreferences =
                         requireActivity().getSharedPreferences("token", Context.MODE_PRIVATE)
                     val accessToken: String =
                         tokenSharedPreferences.getString("accessToken", "").toString()
+
                     val beforeListCnt = loadData.size
                     val addListCnt = loadMoreData(accessToken = accessToken, page = loadedPageCnt)
 
-                    homeAdapter.notifyItemRangeInserted(beforeListCnt, addListCnt)
+                    // RecyclerView.post를 사용해 notifyItemRangeInserted 호출을 안전하게 처리
+                    recyclerView.post {
+                        homeAdapter.notifyItemRangeInserted(beforeListCnt, addListCnt)
+                    }
                 }
             }
         })
+
 
         //점3개 클릭했을 때
         val anotherPostDetailBottomsheetDialogFragment =
