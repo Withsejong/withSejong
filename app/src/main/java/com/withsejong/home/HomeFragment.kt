@@ -450,7 +450,7 @@ class HomeFragment : Fragment(), MyPostDetailBottomsheetDialogFragment.BottomShe
                     val accessToken: String =
                         tokenSharedPreferences.getString("accessToken", "").toString()
                     val beforeListCnt = loadData.size
-                    val addListCnt = loadMoreData(accessToken = accessToken, page = loadedPageCnt)
+                    val addListCnt = loadMoreData(accessToken = accessToken, page = loadedPageCnt,searchTag)
                     // RecyclerView.post를 사용해 notifyItemRangeInserted 호출을 안전하게 처리
                     recyclerView.post {
                         homeAdapter.notifyItemRangeInserted(beforeListCnt, addListCnt)
@@ -528,24 +528,59 @@ class HomeFragment : Fragment(), MyPostDetailBottomsheetDialogFragment.BottomShe
         }
     }
 
-    private fun loadMoreData(accessToken: String, page: Int): Int {
+    private fun loadMoreData(accessToken: String, page: Int,searchTag:String): Int {
 
         val moreData = ArrayList<LoadPostResponse>()
         //일단 무지성으로 동기통신
         val beforesize = loadData.size
         var aftersize = loadData.size
         val loadMoreDataThread = Thread {
-            val response =
-                RetrofitClient.instance.loadPost(accessToken = "Bearer $accessToken", page)
-                    .execute()
-            if (response.code() == 403) {
-                //TODO 리프레시 후 재 로드, return으로 추가한 개수
-            } else if (response.isSuccessful) {
 
-                response.body()?.let { loadData.addAll(response.body()!!.boardFindResponseDtoList) }
-                aftersize = loadData.size
-                loadedPageCnt++
+            //
+
+            if (searchTag == "전체") {
+                // 전체 데이터 로드
+                val response = RetrofitClient.instance.loadPost(
+                    accessToken = "Bearer $accessToken",
+                    page = loadedPageCnt
+                ).execute()
+                if (response.isSuccessful) {
+                    response.body()?.let { loadData.addAll(response.body()!!.boardFindResponseDtoList) }
+                    aftersize = loadData.size
+                    loadedPageCnt++
+                } else {
+                    Log.e(TAG, "전체 데이터 로드 실패: ${response.code()}")
+                }
             }
+            else{
+                var searchTagArray = arrayListOf(searchTag)
+
+                val response = RetrofitClient.instance.loadSearchByTag(
+                    "Bearer $accessToken",
+                    searchTagArray,
+                    loadedPageCnt
+                ).execute()
+                Log.d("HomeFragment_TAG_", response.code().toString())
+                if (response.code() == 403) {
+                    //토큰 만료
+                    loadedPageCnt++
+                    isLoaded = true
+//                    totalPageCnt = response.body()?.totalPages ?: -1
+                } else if (response.isSuccessful) {
+                    //
+                    response.body()?.let { loadData.addAll(response.body()!!.boardFindResponseDtoList) }
+                    aftersize = loadData.size
+                    loadedPageCnt++
+                    //
+
+
+                } else {
+                    Log.d("HomeFragment_TAG", response.toString())
+                }
+            }
+
+            //
+
         }
         loadMoreDataThread.start()
         loadMoreDataThread.join()
