@@ -27,7 +27,8 @@ class ChattingAdapter(val chatList: ArrayList<LoadChattingRoomResponse>) :
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         if (holder is ChattingViewHolder) {
             holder.message.text = chatList[position].lastmsg
-            holder.nickname.text = "${chatList[position].subscriber} - ${chatList[position].boardTitle}"
+            holder.nickname.text = "${chatList[position].subscriber}"// - ${chatList[position].boardTitle}"
+
 //            holder.nickname.text = chatList[position].subscriber
 //            holder.message.text = chatList[position].
 
